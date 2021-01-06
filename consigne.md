@@ -13,7 +13,7 @@ Permettre au client :
 
 la page d'accueil comportera :
 
-* Une carte composée des positions des "exploitation", cette carte sera interactive pour permettre le l'affichage des fiches descriptive avec un lien vers la fiche complète
+* Une carte composée des positions des "exploitation", cette carte sera interactive pour permettre l'affichage des fiches descriptive avec un lien vers la fiche complète
 * les meilleurs vente encore en stock
 
 Les producteurs pourront :
@@ -26,7 +26,7 @@ Les producteurs pourront :
 
 l'administrateur du site pourra :
 
-* gérer les compte utilisateur du site : modifier le mail, changer le role, suspendre un compte
+* gérer les comptes utilisateurs du site : modifier le mail, changer le role, suspendre un compte
 
 Aucune solution technique n'est privilégié. Le client souhaiterai une solution dynamique.
 
