@@ -42,4 +42,28 @@ class User extends Authenticatable
     public function role() {
         return $this->belongsTo('App\Models\Role', 'role_id', 'id');
     }
+
+    public function isAdmin() 
+    {
+        if($this->role->label == 'admin'){
+            return true;
+        }
+        return false;
+    }
+
+    public function isClient()
+    {
+        if ($this->role->label == 'client') {
+            return true;
+        }
+        return false;
+    }
+
+    public function isProducer()
+    {
+        if ($this->role->label == 'producteur') {
+            return true;
+        }
+        return false;
+    }
 }

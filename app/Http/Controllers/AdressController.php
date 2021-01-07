@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\AdressResource;
 use App\Models\Adress;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class AdressController extends Controller
 {
@@ -14,7 +17,8 @@ class AdressController extends Controller
      */
     public function index()
     {
-        //
+        $adresses = Adress::all();
+        return AdressResource::collection($adresses);
     }
 
     /**

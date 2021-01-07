@@ -15,6 +15,7 @@ class Adress extends Model
      * @var array
      */
     protected $fillable = [
+        'id',
         'delivery',
         'billing'
     ];

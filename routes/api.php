@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,9 +41,12 @@ Route::middleware('auth:api')->group(function () {
 |--------------------------------------------------------------------------
 */
 
-
-
-
+Route::middleware('auth:api')->prefix('gestion')->group(function () {
+    Route::get('/users', [UserController::class, "index"])->name("api.gestion.users");
+    Route::put('/user/mail/{id}', [UserController::class, "updateMail"])->name("api.gestion.user.mail");
+    Route::put('/user/role/{id}', [UserController::class, "changeRole"])->name("api.gestion.user.role");
+    Route::post('/user/suspend', [UserController::class, "suspend"])->name("api.gestion.user.suspend");
+});
 
 /*
 |--------------------------------------------------------------------------
