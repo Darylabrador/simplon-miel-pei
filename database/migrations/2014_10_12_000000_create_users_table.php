@@ -13,12 +13,26 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
+        Schema::create('adresses', function (Blueprint $table) {
+            $table->id();
+            $table->string('delivery');
+            $table->string('billing');
+            $table->timestamps();
+        });
+
+        Schema::create('roles', function (Blueprint $table) {
+            $table->id();
+            $table->string('label');
+        });
+
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('identity');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->boolean('suspended')->default(false);
+            $table->foreignId('adress_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('role_id')->nullable()->constrained()->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });
@@ -31,6 +45,8 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('adresses');
+        Schema::dropIfExists('roles');
         Schema::dropIfExists('users');
     }
 }
