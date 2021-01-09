@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $now = now()->toDateString();
         $faker = \Faker\Factory::create("fr_FR");
 
+        // Add roles data
         $rolesArray = ['admin', 'client', 'producteur'];
         for ($i = 0; $i < count($rolesArray); $i++) {
             DB::table('roles')->insert([
@@ -25,8 +26,10 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
+        // Add adresses data
         \App\Models\Adress::factory(5)->create();
 
+        // Add Users data
         DB::table('users')->insert([
             'identity'       => "admin",
             'email'          => "admin@gmail.com",
@@ -63,5 +66,44 @@ class DatabaseSeeder extends Seeder
                 'updated_at'     => $now
             ]);
         }
+
+
+        // Add product data
+        for ($i = 1; $i < 11; $i++) {
+            DB::table('products')->insert([
+                "name"       => "Confiture {$i}",
+                "price"      => $faker->numberBetween(1, 15),
+                "quantity"   => $faker->numberBetween(1, 15),
+                "image"      => "default.png",
+                "amountSell" => $faker->numberBetween(1, 15),
+                'created_at' => $now,
+                'updated_at' => $now
+            ]);
+        }
+
+        for ($i = 1; $i < 6; $i++) {
+            DB::table('producers')->insert([
+                "user_id"    => 4,
+                "product_id" => $i,
+            ]);
+        }
+
+        for ($i = 6; $i < 11; $i++) {
+            DB::table('producers')->insert([
+                "user_id"    => 5,
+                "product_id" => $i,
+            ]);
+        }
+
+        // Exploitation data
+        DB::table('exploitations')->insert([
+            "description"    => $faker->text(),
+            "address" => $faker->address,
+            "lat" => $faker->randomFloat(4, 1, 15),
+            "long" => $faker->randomFloat(4, 1, 15),
+            "user_id" => 4,
+            'created_at' => $now,
+            'updated_at' => $now
+        ]);
     }
 }

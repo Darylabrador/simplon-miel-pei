@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class isProducer
 {
@@ -16,6 +17,12 @@ class isProducer
      */
     public function handle(Request $request, Closure $next)
     {
+        $user = Auth::user();
+        if (!$user->isProducer()) {
+            return response()->json([
+                "message" => "Cette action n'est pas autorisée"
+            ], 401);
+        }
         return $next($request);
     }
 }

@@ -43,6 +43,14 @@ class User extends Authenticatable
         return $this->belongsTo('App\Models\Role', 'role_id', 'id');
     }
 
+    public function products() {
+        return $this->hasMany('App\Models\Producer');
+    }
+
+    public function exploitations() {
+        return $this->hasMany('App\Models\Exploitation');
+    }
+
     public function isAdmin() 
     {
         if($this->role->label == 'admin'){
