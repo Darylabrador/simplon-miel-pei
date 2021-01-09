@@ -41,6 +41,17 @@ class DatabaseSeeder extends Seeder
             'updated_at'     => $now
         ]);
 
+        DB::table('users')->insert([
+            'identity'       => "user sans adresse",
+            'email'          => "noadresse@gmail.com",
+            'password'       => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'remember_token' => Str::random(10),
+            'role_id'        => 1,
+            'adress_id'      => null,
+            'created_at'     => $now,
+            'updated_at'     => $now
+        ]);
+
         for($i = 2; $i < 4; $i++){
             DB::table('users')->insert([
                 'identity'       => $faker->name,

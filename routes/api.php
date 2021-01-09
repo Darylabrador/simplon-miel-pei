@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdressController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -83,6 +84,10 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/products/best', [ProductsController::class, "bestProduct"])->name("api.products.bestProduct");
     Route::get('/producer/{id}', [ProductsController::class, "showProducer"])->name("api.producer.show");
     Route::get('/exploitations', [ExploitationController::class, "index"])->name("api.exploitations");
+    
+    Route::get('/myaddress', [AdressController::class, "index"])->name('api.client.address');
+    Route::post('/myaddress/add', [AdressController::class, "create"])->name('api.client.address.add');
+    Route::put('/myaddress/update', [AdressController::class, "update"])->name('api.client.address.update');
 });
 
 
