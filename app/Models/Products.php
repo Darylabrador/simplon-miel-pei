@@ -26,4 +26,14 @@ class Products extends Model
     {
         return $this->hasMany('App\Models\Producer');
     }
+
+    public function shoppingcartRow()
+    {
+        return $this->hasMany('App\Models\ShoppingcartProducts');
+    }
+
+    public function orderRow() 
+    {
+        return $this->hasMany('App\Models\OrderProduct');
+    }
 }

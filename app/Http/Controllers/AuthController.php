@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Shoppingcart;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -78,6 +79,7 @@ class AuthController extends Controller
             [
                 'identity'        => 'required',
                 'email'           => 'required|unique:users',
+                'role'            => 'required',
                 'password'        => 'required',
                 'passwordConfirm' => 'required',
             ],
@@ -98,6 +100,7 @@ class AuthController extends Controller
 
         $identity          = $validator->validated()['identity'];
         $email             = $validator->validated()['email'];
+        $role              = $validator->validated()['role'];
         $password          = $validator->validated()['password'];
         $passwordConfirm   = $validator->validated()['passwordConfirm'];
 
@@ -108,13 +111,20 @@ class AuthController extends Controller
             ]);
         }
 
-        $user = new User();
-        $user->identity = $identity;
-        $user->email    = $email;
-        $user->password = Hash::make($password);
-        $user->role_id  = 2;
-        $user->remember_token = Str::random(10);
-        $user->save();
+        $user = User::create([
+            "identity" => $identity,
+            "email"    => $email,
+            "password" => Hash::make($password),
+            "role_id"  => $role,
+            "remember_token" => Str::random(10)
+        ]);
+
+        if($role == 2) {
+            Shoppingcart::create([
+                "confirmed" => false,
+                "user_id"   => $user->id,
+            ]);
+        }
 
         return response()->json([
             "success" => true,

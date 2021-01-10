@@ -5,7 +5,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExploitationController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\ShoppingcartProductsController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -37,6 +39,16 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/verify', [AuthController::class, "verifyToken"])->name('api.verify');
 });
 
+/*
+|--------------------------------------------------------------------------
+| Welcome's routes
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/exploitations', [ExploitationController::class, "index"])->name("api.exploitations");
+Route::get('/products', [ProductsController::class, "showAll"])->name("api.products");
+Route::get('/products/best', [ProductsController::class, "bestProduct"])->name("api.products.bestProduct");
+Route::get('/producer/{id}', [ProductsController::class, "showProducer"])->name("api.producer.show");
 
 /*
 |--------------------------------------------------------------------------
@@ -80,14 +92,17 @@ Route::middleware(['auth:api', 'isProducer'])->group(function(){
 */
 
 Route::middleware('auth:api')->group(function () {
-    Route::get('/products', [ProductsController::class, "showAll"])->name("api.products");
-    Route::get('/products/best', [ProductsController::class, "bestProduct"])->name("api.products.bestProduct");
-    Route::get('/producer/{id}', [ProductsController::class, "showProducer"])->name("api.producer.show");
-    Route::get('/exploitations', [ExploitationController::class, "index"])->name("api.exploitations");
-    
     Route::get('/myaddress', [AdressController::class, "index"])->name('api.client.address');
     Route::post('/myaddress/add', [AdressController::class, "create"])->name('api.client.address.add');
     Route::put('/myaddress/update', [AdressController::class, "update"])->name('api.client.address.update');
+
+    Route::get('/shoppingcart', [ShoppingcartProductsController::class, 'index'])->name('api.shoppingcart');
+    Route::post('/shoppingcart/add', [ShoppingcartProductsController::class, 'addToCart'])->name('api.shoppingcart.add');
+    Route::put('/shoppingcart/{id}', [ShoppingcartProductsController::class, 'updateOne'])->name('api.shoppingcart.update');
+    Route::delete('/shoppingcart/{id}', [ShoppingcartProductsController::class, 'deleteOne'])->name('api.shoppingcart.deleteone');
+    Route::delete('/shoppingcart', [ShoppingcartProductsController::class, 'destroy'])->name('api.shoppingcart.destroy');
+    
+    Route::post('/shoppingcart/confirm', [ShoppingcartProductsController::class, 'confirmShoppingcart'])->name('api.shoppingcart.confirm');
 });
 
 

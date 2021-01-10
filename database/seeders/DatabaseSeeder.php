@@ -26,9 +26,6 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        // Add adresses data
-        \App\Models\Adress::factory(5)->create();
-
         // Add Users data
         DB::table('users')->insert([
             'identity'       => "admin",
@@ -36,7 +33,6 @@ class DatabaseSeeder extends Seeder
             'password'       => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
             'role_id'        => 1,
-            'adress_id'      => 1,
             'created_at'     => $now,
             'updated_at'     => $now
         ]);
@@ -47,7 +43,6 @@ class DatabaseSeeder extends Seeder
             'password'       => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
             'role_id'        => 1,
-            'adress_id'      => null,
             'created_at'     => $now,
             'updated_at'     => $now
         ]);
@@ -59,7 +54,6 @@ class DatabaseSeeder extends Seeder
                 'password'       => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
                 'remember_token' => Str::random(10),
                 'role_id'        => 2,
-                'adress_id'      => $i,
                 'created_at'     => $now,
                 'updated_at'     => $now
             ]);
@@ -72,7 +66,6 @@ class DatabaseSeeder extends Seeder
                 'password'       => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
                 'remember_token' => Str::random(10),
                 'role_id'        => 3,
-                'adress_id'      => $i,
                 'created_at'     => $now,
                 'updated_at'     => $now
             ]);
@@ -116,5 +109,21 @@ class DatabaseSeeder extends Seeder
             'created_at' => $now,
             'updated_at' => $now
         ]);
+
+
+        // Shopping cart for client
+        DB::table('shoppingcarts')->insert([
+            "confirmed" => false,
+            "user_id"   => 3,
+        ]);
+
+
+        for ($i = 1; $i < 6; $i++) {
+            DB::table('shoppingcart_products')->insert([
+                "quantity"          => $faker->numberBetween(1, 15),
+                "shoppingcart_id"   => 1,
+                "product_id"        => $i,
+            ]);
+        }
     }
 }

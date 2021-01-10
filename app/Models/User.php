@@ -22,7 +22,6 @@ class User extends Authenticatable
         'email',
         'password',
         'role_id',
-        'adress_id'
     ];
 
     /**
@@ -35,20 +34,35 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public function adress() {
-        return $this->belongsTo('App\Models\Adress', 'adress_id', 'id');
-    }
-
-    public function role() {
+    public function role() 
+    {
         return $this->belongsTo('App\Models\Role', 'role_id', 'id');
     }
 
-    public function products() {
+    public function products() 
+    {
         return $this->hasMany('App\Models\Producer');
     }
 
-    public function exploitations() {
+    public function exploitations() 
+    {
         return $this->hasMany('App\Models\Exploitation');
+    }
+
+    public function shoppingcart()
+     {
+        return $this->hasOne('App\Models\Shoppingcart');
+    }
+
+
+    public function clientOrders() 
+    {
+        return $this->hasMany('App\Models\UserOrder', 'user_id', 'id');
+    }
+
+    public function producerOrders()
+    {
+        return $this->hasMany('App\Models\UserOrder', 'producer_id', 'id');
     }
 
     public function isAdmin() 
