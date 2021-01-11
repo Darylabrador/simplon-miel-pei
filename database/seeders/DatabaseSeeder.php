@@ -87,14 +87,14 @@ class DatabaseSeeder extends Seeder
 
         for ($i = 1; $i < 6; $i++) {
             DB::table('producers')->insert([
-                "user_id"    => 4,
+                "user_id"    => 5,
                 "product_id" => $i,
             ]);
         }
 
         for ($i = 6; $i < 11; $i++) {
             DB::table('producers')->insert([
-                "user_id"    => 5,
+                "user_id"    => 6,
                 "product_id" => $i,
             ]);
         }
