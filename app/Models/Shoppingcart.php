@@ -17,7 +17,6 @@ class Shoppingcart extends Model
      * @var array
      */
     protected $fillable = [
-        "confirmed",
         "user_id",
     ];
 

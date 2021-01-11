@@ -16,7 +16,6 @@ class CreateUserOrdersTable extends Migration
         Schema::create('user_orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->nullable()->constrained()->onDelete('cascade');
-            $table->foreignId('producer_id')->nullable()->constrained()->onDelete('SET NULL');
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
         });
     }

@@ -2,84 +2,210 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\OrderProductResource;
+use App\Http\Resources\OrderResource;
+use App\Http\Resources\UserOrderResource;
 use App\Models\Order;
+use App\Models\UserOrder;
+use App\Models\OrderProduct;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use App\Models\Shoppingcart;
+use App\Models\ShoppingcartProducts;
 
 class OrderController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
+     * Confirm shoppingcart product and create order info with it row
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function confirmShoppingcart(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'billing'  => 'required',
+                'delivery' => 'required',
+            ],
+            [
+                'required'  => 'Le champ :attribute est requis',
+            ]
+        );
+
+        $errors = $validator->errors();
+        if (count($errors) != 0) {
+            return response()->json([
+                'success' => false,
+                'message' => $errors->first()
+            ]);
+        }
+
+        $loggedUser     = Auth::user();
+        $loggedUserId = $loggedUser->id;
+        $shoppingcart = Shoppingcart::where(['user_id' => $loggedUserId])->first();
+        if (!$shoppingcart) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Panier introuvable'
+            ]);
+        }
+
+        $billing   = $validator->validated()['billing'];
+        $delivery  = $validator->validated()['delivery'];
+
+        $newOrder = Order::create([
+            "billing"  => $billing,
+            "delivery" => $delivery,
+        ]);
+
+        $shoppingcartRow = ShoppingcartProducts::where(['shoppingcart_id' => $shoppingcart->id])->get();
+
+        foreach($shoppingcartRow as $info) {
+            OrderProduct::create([
+                "quantity"   => $info->quantity,
+                "order_id"   => $newOrder->id,
+                "product_id" => $info->product_id
+            ]);
+
+            $info->delete();
+        }
+
+        UserOrder::create([
+            "user_id"  => $loggedUserId,
+            "order_id" => $newOrder->id
+        ]);
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Panier confirmer'
+        ]);
+    }
+
+
+
+    /**
+     * Display producer order.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function producerOrders()
+    {
+        $loggedUser     = Auth::user();
+        $loggedUserId   = $loggedUser->id;
+        return $loggedUserId;
+    }
+
+
+
+    /**
+     * Display producer order details.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function producerOrderDetails($id)
     {
         //
     }
 
+
+    // /**
+    //  * Display client order.
+    //  *
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function clientOrders()
+    // {
+    //     $loggedUser     = Auth::user();
+    //     $loggedUserId = $loggedUser->id;
+    //     $loggedUserOrders = UserOrder::where(['user_id' => $loggedUserId])->get();
+    //     return UserOrderResource::collection($loggedUserOrders);
+    // }
+
+    
     /**
-     * Show the form for creating a new resource.
+     * Display client order.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function waiting()
     {
-        //
+        $loggedUser     = Auth::user();
+        $loggedUserId = $loggedUser->id;
+
+        $loggedUserOrders = UserOrder::orderBy('user_orders.id', 'desc')
+            ->where(["user_orders.user_id" => $loggedUserId])
+            ->join("orders", "user_orders.order_id", "=", "orders.id")
+            ->where("orders.state", "LIKE", "%en attente%")
+            ->select("user_orders.*")
+            ->get();
+
+        return UserOrderResource::collection($loggedUserOrders);
     }
 
+        
     /**
-     * Store a newly created resource in storage.
+     * Display client order.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function inprogress()
     {
-        //
+        $loggedUser     = Auth::user();
+        $loggedUserId = $loggedUser->id;
+
+        $loggedUserOrders = UserOrder::orderBy('user_orders.id', 'desc')
+        ->where(["user_orders.user_id" => $loggedUserId])
+            ->join("orders", "user_orders.order_id", "=", "orders.id")
+            ->where("orders.state", "LIKE", "%en cours%")
+            ->select("user_orders.*")
+            ->get();
+
+        return UserOrderResource::collection($loggedUserOrders);
     }
 
+        
     /**
-     * Display the specified resource.
+     * Display client order.
      *
-     * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function show(Order $order)
+    public function finished()
     {
-        //
+        $loggedUser     = Auth::user();
+        $loggedUserId = $loggedUser->id;
+
+        $loggedUserOrders = UserOrder::orderBy('user_orders.id', 'desc')
+        ->where(["user_orders.user_id" => $loggedUserId])
+            ->join("orders", "user_orders.order_id", "=", "orders.id")
+            ->where("orders.state", "LIKE", "%termine%")
+            ->select("user_orders.*")
+            ->get();
+
+        return UserOrderResource::collection($loggedUserOrders);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Order $order)
-    {
-        //
-    }
 
     /**
-     * Update the specified resource in storage.
+     * Display client order details.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Order $order)
+    public function clientOrderDetail($id)
     {
-        //
-    }
+        $loggedUser   = Auth::user();
+        $loggedUserId = $loggedUser->id;
+        $userOrder = UserOrder::where(['order_id' => $id, 'user_id' => $loggedUserId])->first();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Order $order)
-    {
-        //
+        if(!$userOrder) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Commande inexistante'
+            ]);
+        }
+
+        return new UserOrderResource($userOrder);
     }
 }

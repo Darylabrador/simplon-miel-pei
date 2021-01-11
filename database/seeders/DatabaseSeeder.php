@@ -113,16 +113,81 @@ class DatabaseSeeder extends Seeder
 
         // Shopping cart for client
         DB::table('shoppingcarts')->insert([
-            "confirmed" => false,
             "user_id"   => 3,
         ]);
-
 
         for ($i = 1; $i < 6; $i++) {
             DB::table('shoppingcart_products')->insert([
                 "quantity"          => $faker->numberBetween(1, 15),
                 "shoppingcart_id"   => 1,
                 "product_id"        => $i,
+            ]);
+        }
+
+        // order data
+        for ($i = 0; $i < 3; $i++) {
+            DB::table('orders')->insert([
+                "state"    => 'en attente',
+                "delivery" => $faker->address,
+                "billing"  => $faker->address,
+                'created_at' => $now,
+                'updated_at' => $now
+            ]);
+        }
+
+        for ($i = 0; $i < 3; $i++) {
+            DB::table('orders')->insert([
+                "state"    => 'en cours',
+                "delivery" => $faker->address,
+                "billing"  => $faker->address,
+                'created_at' => $now,
+                'updated_at' => $now
+            ]);
+        }
+
+        for ($i = 0; $i < 3; $i++) {
+            DB::table('orders')->insert([
+                "state"        => "termine",
+                "delivery"     => $faker->address,
+                "billing"      => $faker->address,
+                "finished_at"  => $now,
+                'created_at'   => $now,
+                'updated_at'   => $now
+            ]);
+        }
+
+        // user orders data 
+        for ($i = 1; $i < 10; $i++) {
+            DB::table('user_orders')->insert([
+                'order_id' => $i,
+                "user_id"  => 3,
+            ]);
+        }
+
+        // order product data
+        for ($i = 1; $i < 10; $i++) {
+            DB::table('order_products')->insert([
+                'quantity'    => $faker->numberBetween(1, 15),
+                'order_id'    => $i,
+                "product_id"  => 1,
+            ]);
+
+            DB::table('order_products')->insert([
+                'quantity'    => $faker->numberBetween(1, 15),
+                'order_id'    => $i,
+                "product_id"  => 2,
+            ]);
+
+            DB::table('order_products')->insert([
+                'quantity'    => $faker->numberBetween(1, 15),
+                'order_id'    => $i,
+                "product_id"  => 3,
+            ]);
+
+            DB::table('order_products')->insert([
+                'quantity'    => $faker->numberBetween(1, 15),
+                'order_id'    => $i,
+                "product_id"  => 4,
             ]);
         }
     }

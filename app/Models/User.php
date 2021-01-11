@@ -54,15 +54,9 @@ class User extends Authenticatable
         return $this->hasOne('App\Models\Shoppingcart');
     }
 
-
-    public function clientOrders() 
+    public function orders() 
     {
         return $this->hasMany('App\Models\UserOrder', 'user_id', 'id');
-    }
-
-    public function producerOrders()
-    {
-        return $this->hasMany('App\Models\UserOrder', 'producer_id', 'id');
     }
 
     public function isAdmin() 

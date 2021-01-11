@@ -15,10 +15,10 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->enum('state', ['en attente', 'en cours', 'termine']);
+            $table->enum('state', ['en attente', 'en cours', 'termine'])->default('en attente');
             $table->string('delivery');
             $table->string('billing');
-            $table->timestamp('finished_at');
+            $table->timestamp('finished_at')->nullable();
             $table->timestamps();
         });
     }

@@ -18,7 +18,6 @@ class UserOrder extends Model
      */
     protected $fillable = [
         'order_id',
-        'producer_id',
         'user_id',
     ];
 
@@ -27,13 +26,8 @@ class UserOrder extends Model
         return $this->belongsTo('App\Models\Order', 'order_id', 'id');
     }
 
-    public function clientOrder()
+    public function user()
     {
         return $this->belongsTo('App\Models\User', 'user_id', 'id');
-    }
-
-    public function producerOrder()
-    {
-        return $this->belongsTo('App\Models\User', 'producer_id', 'id');
     }
 }

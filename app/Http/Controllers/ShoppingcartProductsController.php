@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ShoppingcartProductsResource;
 use App\Models\Products;
-use App\Models\Shoppingcart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Shoppingcart;
 use App\Models\ShoppingcartProducts;
+use App\Http\Resources\ShoppingcartProductsResource;
+
 
 class ShoppingcartProductsController extends Controller
 {
@@ -181,33 +182,6 @@ class ShoppingcartProductsController extends Controller
             'message' => 'Stock épuisé'
         ]);
     }
-
-
-    /**
-     * Confirm shoppingcart product and create order info
-     *
-     * @param   $id
-     * @return \Illuminate\Http\Response
-     */
-    public function confirmShoppingcart() {
-        $loggedUser     = Auth::user();
-        $loggedUserId = $loggedUser->id;
-        $shoppingcart = Shoppingcart::where(['user_id' => $loggedUserId])->first();
-        if (!$shoppingcart) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Panier introuvable'
-            ]);
-        }
-
-        $shoppingcart->confirmed = 1;
-        $shoppingcart->save();
-        return response()->json([
-            'success' => true,
-            'message' => 'Panier confirmer'
-        ]);
-    }
-
 
 
     /**

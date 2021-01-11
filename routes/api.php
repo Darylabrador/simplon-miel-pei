@@ -83,6 +83,9 @@ Route::middleware(['auth:api', 'isProducer'])->group(function(){
     Route::post('/exploitation/owner/add', [ExploitationController::class, "create"])->name("api.exploitations.create");
     Route::put('/exploitation/owner/{id}', [ExploitationController::class, "update"])->name("api.exploitations.update");
     Route::delete('/exploitation/owner/{id}', [ExploitationController::class, "destroy"])->name("api.exploitations.destroy");
+
+    Route::get('/orders/producer', [OrderController::class, 'producerOrders'])->name('api.orders.producers');
+    Route::get('/orders/{id}/producer', [OrderController::class, 'producerOrderDetails'])->name('api.orders.producers.show');
 });
 
 /*
@@ -102,7 +105,12 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('/shoppingcart/{id}', [ShoppingcartProductsController::class, 'deleteOne'])->name('api.shoppingcart.deleteone');
     Route::delete('/shoppingcart', [ShoppingcartProductsController::class, 'destroy'])->name('api.shoppingcart.destroy');
     
-    Route::post('/shoppingcart/confirm', [ShoppingcartProductsController::class, 'confirmShoppingcart'])->name('api.shoppingcart.confirm');
+    Route::post('/shoppingcart/confirm', [OrderController::class, 'confirmShoppingcart'])->name('api.shoppingcart.confirm');
+    // Route::get('/orders', [OrderController::class, 'clientOrders'])->name('api.orders');
+    Route::get('/orders/waiting', [OrderController::class, 'waiting'])->name('api.orders.waiting');
+    Route::get('/orders/inprogress', [OrderController::class, 'inprogress'])->name('api.orders.inprogress');
+    Route::get('/orders/finished', [OrderController::class, 'finished'])->name('api.orders.finished');
+    Route::get('/order/{id}', [OrderController::class, 'clientOrderDetail'])->name('api.orders.show');
 });
 
 

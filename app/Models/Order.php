@@ -21,7 +21,7 @@ class Order extends Model
         'finished_at',
     ];
 
-    public function userOrders()
+    public function users()
     {
         return $this->hasMany('App\Models\UserOrder', 'order_id', 'id');
     }
