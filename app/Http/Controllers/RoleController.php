@@ -17,7 +17,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::all();
+        $roles = Role::where('id', '!=', '1')->get();
         return RoleRessource::collection($roles);
     }
 

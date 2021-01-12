@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExploitationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ShoppingcartProductsController;
 use App\Http\Controllers\UserController;
 
@@ -31,8 +32,9 @@ use App\Http\Controllers\UserController;
 |--------------------------------------------------------------------------
 */
 
-Route::post('/connexion', [AuthController::class, "connection"])->name('api.connexion');
-Route::post('/inscription', [AuthController::class, "register"])->name('api.inscription');
+Route::post('/login', [AuthController::class, "connection"])->name('api.connexion');
+Route::post('/register', [AuthController::class, "register"])->name('api.inscription');
+Route::get('/roles', [RoleController::class, "index"])->name('api.roles');
 
 Route::middleware('auth:api')->group(function () {
     Route::get('/logout', [AuthController::class, "logout"])->name('api.logout');

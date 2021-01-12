@@ -57,6 +57,11 @@ class AuthController extends Controller
             ]);
         }
 
+        // information about connection (security notification mail)
+        $ip  = $_SERVER['REMOTE_ADDR'];
+        $now = now()->toDateString();
+        
+
         $token = $userExist->createToken('AuthToken')->accessToken;
 
         return response()->json([

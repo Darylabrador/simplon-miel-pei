@@ -93,9 +93,20 @@ class OrderController extends Controller
      */
     public function producerOrders()
     {
-        $loggedUser     = Auth::user();
-        $loggedUserId   = $loggedUser->id;
-        return $loggedUserId;
+        $loggedUser       = Auth::user();
+        $loggedUserId     = $loggedUser->id;
+        $loggedUserProd   = $loggedUser->products;
+
+        $loggedUserOrders = UserOrder::join("orders", "user_orders.order_id", "=", "orders.id")
+        ->join("order_products", "order_products.order_id", "=", "orders.id")
+        ->join("products", "order_products.product_id", "=", "products.id")
+        ->join("producers", "producers.product_id", "=", "products.id")
+        ->where(['producers.user_id' => $loggedUserId])
+        ->get();
+
+        return UserOrderResource::collection($loggedUserOrders);
+
+        // check relation : users , producers, products, orderproduct, orders, usersOrders
     }
 
 
