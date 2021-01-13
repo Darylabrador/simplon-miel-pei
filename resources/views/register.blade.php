@@ -1,5 +1,9 @@
 @extends('layouts.guest')
 
+@section('head')
+    <script src="{{ asset("js/utils/checkRegister.js") }}"></script>
+@endsection
+
 @section('content')
    <div class="container" style="height: 80vh !important; display: flex; flex-content: center; align-items: center;">
        <form id="registerForm" class="w-50 mx-auto p-3 rounded">
@@ -7,10 +11,10 @@
             <div id="error"></div>
               <div class="row">
                 <div class="col">
-                    <input type="text" id="registerIdentity" class="form-control mt-4 mb-2" placeholder="Nom Prénom">
+                    <input type="text" id="registerIdentity" class="form-control mt-5 mb-2" placeholder="Nom Prénom">
                 </div>
                 <div class="col">
-                    <input type="email" id="registerEmail" class="form-control mt-4 mb-2" placeholder="ex: j.doe@gmail.com">
+                    <input type="email" id="registerEmail" class="form-control mt-5 mb-2" placeholder="ex: j.doe@gmail.com">
                 </div>
             </div>
             <select id="registerRole" class="form-select mb-2">

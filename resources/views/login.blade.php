@@ -1,5 +1,9 @@
 @extends('layouts.guest')
 
+@section('head')
+    <script src="{{ asset("js/utils/checkRegister.js") }}"></script>
+@endsection
+
 @section('content')
    <div class="container" style="height: 80vh !important; display: flex; flex-content: center; align-items: center;">
        <form id="loginForm" class="mx-auto p-3 rounded" style="min-width: 350px;">

@@ -17,7 +17,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
             })
             node.innerHTML = selectOptions; 
         } catch (error) {
-            console.log(error)
+            displayMessage('danger', error);
         }
     }
 
@@ -66,11 +66,11 @@ window.addEventListener("DOMContentLoaded", (event) => {
         registerForm.addEventListener('submit', evt => {
             evt.preventDefault();
             let dataSend = {
-                identity        : registerIdentity.value,
-                email           : registerEmail.value,
-                role            : registerRole.value,
-                password        : registerPassword.value,
-                passwordConfirm : registerPasswordConfirm.value
+                identity: registerIdentity.value,
+                email: registerEmail.value,
+                role: registerRole.value,
+                password: registerPassword.value,
+                passwordConfirm: registerPasswordConfirm.value
             }
             axios.post(registerUrl, dataSend)
                 .then(({data}) => {

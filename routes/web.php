@@ -17,6 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 /*
 |--------------------------------------------------------------------------
 | Login Routes
@@ -26,6 +27,7 @@ Route::get('/', function () {
 Route::get('/connexion', function () {
     return view('login');
 })->name('connexion');
+
 
 Route::get('/inscription', function () {
     return view('register');

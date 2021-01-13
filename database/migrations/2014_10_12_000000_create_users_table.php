@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('identity');
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('resetToken')->nullable();
             $table->boolean('suspended')->default(false);
             $table->foreignId('role_id')->nullable()->constrained()->onDelete('cascade');
             $table->rememberToken();
