@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdressController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +44,20 @@ Route::middleware('auth:api')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
+| Account routes
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix("reset")->group(function () {
+    Route::post("/request", [AccountController::class, "guestForgottenPassRequest"])->name("api.reset.request");
+    Route::post("/password", [AccountController::class, "resetPassword"])->name("api.reset.password");
+    Route::post("/passwordAccount", [AccountController::class, "resetPassword"])->middleware('auth:api')->name("api.reset.password2");
+    Route::post("/name", [AccountController::class, "editName"])->middleware('auth:api')->name("api.reset.name");
+});
+
+
+/*
+|--------------------------------------------------------------------------
 | Welcome's routes
 |--------------------------------------------------------------------------
 */
@@ -60,6 +75,7 @@ Route::get('/producer/{id}', [ProductsController::class, "showProducer"])->name(
 
 Route::middleware('auth:api', 'isAdmin')->prefix('gestion')->group(function () {
     Route::get('/users', [UserController::class, "index"])->name("api.gestion.users");
+    Route::post('/users', [UserController::class, "index"])->name("api.gestion.users.search");
     Route::put('/user/mail/{id}', [UserController::class, "updateMail"])->name("api.gestion.user.mail");
     Route::put('/user/role/{id}', [UserController::class, "changeRole"])->name("api.gestion.user.role");
     Route::post('/user/suspend', [UserController::class, "suspend"])->name("api.gestion.user.suspend");
@@ -74,9 +90,10 @@ Route::middleware('auth:api', 'isAdmin')->prefix('gestion')->group(function () {
 
 Route::middleware(['auth:api', 'isProducer'])->group(function(){
     Route::get('/products/gestion', [ProductsController::class, "index"])->name("api.products.gestion");
+    Route::post('/products/gestion', [ProductsController::class, "index"])->name("api.products.gestion.search");
     Route::get('/product/{id}', [ProductsController::class, "show"])->name("api.product.show");
     Route::post('/product/add', [ProductsController::class, "create"])->name("api.products.add");
-    Route::put('/product/{id}', [ProductsController::class, "update"])->name("api.products.update");
+    Route::post('/product/{id}', [ProductsController::class, "update"])->name("api.products.update");
     Route::put('/product/{id}/stock', [ProductsController::class, "stock"])->name("api.products.stock");
     Route::delete('/product/{id}', [ProductsController::class, "destroy"])->name("api.products.destroy");
 

@@ -71,12 +71,29 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $loggedUser   = Auth::user();
         $loggedUserId = (int) $loggedUser->id;
-        $products = Producer::where(['user_id' => $loggedUserId])->get();
-        return ProducerResource::collection($products);
+
+        $searchedWord  = $request->words;
+
+        // all field is empty
+        if ($searchedWord == "") {
+            $products = Producer::orderBy('id', 'desc')
+                ->where(['user_id' => $loggedUserId])->paginate(5);
+            return ProducerResource::collection($products);
+        }
+
+        // word field is not empty || suspends field is empty
+        if ($searchedWord != "") {
+            $products = Producer::orderBy('products.id', 'desc')
+                ->where(['producers.user_id' => $loggedUserId])
+                ->join("products", "products.id", "=", "producers.product_id")
+                ->where("products.name", "LIKE", "%" . $searchedWord . "%")
+                ->paginate(5);
+            return ProducerResource::collection($products);
+        }
     }
 
     /**
@@ -91,13 +108,14 @@ class ProductsController extends Controller
             [
                 'name'      => 'required',
                 'price'     => 'required',
-                'quantity'  => 'required',
+                'quantity'  => 'required|min:1',
                 'image'     => 'nullable|mimes:jpg,jpeg,png|max:5000',
             ],
             [
                 'required'  => 'Le champ :attribute est requis',
                 'mimes'     => 'Extension invalide',
-                'max'       => '5Mb maximum'
+                'max'       => '5Mb maximum',
+                'min'       => 'La quantité : inférieur ou égale à 1'
             ]
         );
 
@@ -109,8 +127,8 @@ class ProductsController extends Controller
             ]);
         }
 
-        $loggedUser   = Auth::user();
-        $loggedUserId = (int) $loggedUser->id;
+        $loggedUser     = Auth::user();
+        $loggedUserId   = (int) $loggedUser->id;
         $name           = $validator->validated()['name'];
         $price          = $validator->validated()['price'];
         $quantity       = $validator->validated()['quantity'];
@@ -139,8 +157,8 @@ class ProductsController extends Controller
             "user_id" => $loggedUserId,
             "product_id" => $product->id
         ]);
+        
         $producer->save();
-
         return response()->json([
             'success' => true,
             'message' => "Produit ajouté avec succès"
@@ -177,7 +195,6 @@ class ProductsController extends Controller
             [
                 'name'      => 'required',
                 'price'     => 'required',
-                'quantity'  => 'required',
                 'image'     => 'nullable|mimes:jpg,jpeg,png|max:5000',
             ],
             [
@@ -199,7 +216,6 @@ class ProductsController extends Controller
         $loggedUserId   = (int) $loggedUser->id;
         $name           = $validator->validated()['name'];
         $price          = $validator->validated()['price'];
-        $quantity       = $validator->validated()['quantity'];
         $imageUploaded  = $validator->validated()['image'];
 
         $producer = Producer::where(['user_id' => $loggedUserId, "product_id" => $id])->first();
@@ -220,12 +236,11 @@ class ProductsController extends Controller
 
         $product->name     = $name;
         $product->price    = $price;
-        $product->quantity = $quantity;
 
         if ($imageUploaded != null) {
             $oldImage = $product->image;
 
-            if ($oldImage != "default.png") {
+            if ($oldImage != "default.jpg") {
                 $oldFilePath = public_path('images') . '/' . $oldImage;
                 unlink($oldFilePath);
             }

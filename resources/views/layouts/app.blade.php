@@ -11,7 +11,11 @@
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://code.iconify.design/1/1.0.6/iconify.min.js"></script>
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+        <script src="{{ asset('js/utils/check.js') }}"></script>
+        <script src="{{ asset('js/account/structure.js') }}"></script>
+
         @yield('head')
     </head>
     <body>
@@ -33,5 +37,6 @@
 	</div>
     <script src="{{ asset('js/template/jquery.min.js') }}"></script>
     <script src="{{ asset('js/template/main.js') }}"></script>
+    <script src="{{ asset('js/account/logout.js') }}"></script>
 </body>
 </html>

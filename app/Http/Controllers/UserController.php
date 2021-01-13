@@ -16,10 +16,50 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::where("role_id", "NOT LIKE", "1")->get();
-        return UserResource::collection($users);
+        $searchedWord  = $request->words;
+        $searchedState = $request->suspended;
+
+        // all field is empty
+        if ($searchedWord == "" && $searchedState == "") {
+            $users = User::orderBy("identity", "asc")
+            ->where("role_id", "!=", "1")
+            ->paginate(5);
+            return UserResource::collection($users);
+        }
+
+        // word field is not empty || suspends field is empty
+        if ($searchedWord != "" && $searchedState == "") {
+            $users = User::orderBy("identity", "asc")
+            ->where("role_id", "!=", "1")
+            ->where(function($query) use ($searchedWord){
+                $query->where("identity", "LIKE", "%" . $searchedWord . "%")
+                ->orWhere("email", "LIKE", "%" . $searchedWord . "%");
+            })->paginate(5);
+            return UserResource::collection($users);
+        }
+
+        // word field is empty || suspends field is not empty
+        if ($searchedWord == "" && $searchedState != "") {
+            $users = User::orderBy("identity", "asc")
+            ->where("suspended", "=", $searchedState)
+            ->where("role_id", "!=", "1")
+            ->paginate(5);
+            return UserResource::collection($users);
+        }
+
+         // all field is not empty
+        if ($searchedWord != "" && $searchedState != "") {
+            $users = User::orderBy("identity", "asc")
+            ->where("role_id", "!=", "1")
+            ->where("suspended", "=", $searchedState)
+            ->where(function ($query) use ($searchedWord) {
+                $query->where("identity", "LIKE", "%" . $searchedWord . "%")
+                    ->orWhere("email", "LIKE", "%" . $searchedWord . "%");
+            })->paginate(5);
+            return UserResource::collection($users);
+        }
     }
 
 
@@ -131,6 +171,7 @@ class UserController extends Controller
             $request->all(),
             [
                 'userId'    => 'required',
+                'suspend'   => 'required',
             ],
             [
                 'required' => 'Le champ :attribute est requis',
@@ -146,7 +187,8 @@ class UserController extends Controller
             ]);
         }
 
-        $userId = $validator->validated()['userId'];
+        $userId  = $validator->validated()['userId'];
+        $suspend = $validator->validated()['suspend'];
         $user  = User::whereId($userId)->first();
 
         if (!$user) {
@@ -156,7 +198,7 @@ class UserController extends Controller
             ]);
         }
 
-        $user->suspended = 1;
+        $user->suspended = $suspend;
         $user->save();
 
         return response()->json([

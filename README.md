@@ -7,6 +7,11 @@ J'utilise ici :
 - FRONTEND : Blade et Javascript
 - BACKEND  : Laravel v8
 
+Une seconde version sera mise en place suivant :
+
+- FRONTEND : VueJS
+- BACKEND  : Laravel v8
+
 ## Initialisation du projet
 
 Après avoir fait un git clone de ce projet, vous devez effectué les actions suivantes : 

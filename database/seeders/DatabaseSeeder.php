@@ -75,10 +75,10 @@ class DatabaseSeeder extends Seeder
         // Add product data
         for ($i = 1; $i < 11; $i++) {
             DB::table('products')->insert([
-                "name"       => "Confiture {$i}",
+                "name"       => "Miel péi {$i}",
                 "price"      => $faker->numberBetween(1, 15),
                 "quantity"   => $faker->numberBetween(1, 15),
-                "image"      => "default.png",
+                "image"      => "default.jpg",
                 "amountSell" => $faker->numberBetween(1, 15),
                 'created_at' => $now,
                 'updated_at' => $now

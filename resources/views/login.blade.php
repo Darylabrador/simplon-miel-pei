@@ -19,8 +19,8 @@
    </div>
 
     <div class="text-center" style="margin-top: -50px">
-        <a href="#" class="btn btn-outline-dark pt-0 pb-0 outline-0 mr-2">Retourner sur le site</a>
-        <a href="#" class="btn btn-outline-secondary pt-0 pb-0 outline-0">Mot de passe oublié</a>
+        <a href="{{ route('accueil') }}" class="btn btn-outline-dark pt-0 pb-0 outline-0 mr-2">Retourner sur le site</a>
+        <a href="{{ route('resetpassword') }}" class="btn btn-outline-secondary pt-0 pb-0 outline-0">Mot de passe oublié</a>
     </div>
 
     <script src="{{ asset("js/account/loginRegister.js") }}"></script>

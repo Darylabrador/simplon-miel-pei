@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\LoginNotification;
 use App\Models\Shoppingcart;
 use App\Models\User;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -60,8 +63,10 @@ class AuthController extends Controller
         // information about connection (security notification mail)
         $ip  = $_SERVER['REMOTE_ADDR'];
         $now = now()->toDateString();
-        
+        $datenow = new DateTime($now);
+        $datenowFormat = $datenow->format('d-m-Y');
 
+        Mail::to($userExist->email)->send(new LoginNotification($userExist->identity, $ip, $datenowFormat));
         $token = $userExist->createToken('AuthToken')->accessToken;
 
         return response()->json([
