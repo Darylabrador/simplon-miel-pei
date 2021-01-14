@@ -100,15 +100,15 @@ class DatabaseSeeder extends Seeder
         }
 
         // Exploitation data
-        DB::table('exploitations')->insert([
-            "description"    => $faker->text(),
-            "address" => $faker->address,
-            "lat" => $faker->randomFloat(4, 1, 15),
-            "long" => $faker->randomFloat(4, 1, 15),
-            "user_id" => 4,
-            'created_at' => $now,
-            'updated_at' => $now
-        ]);
+        // DB::table('exploitations')->insert([
+        //     "description"    => $faker->text(),
+        //     "address" => $faker->address,
+        //     "lat" => $faker->randomFloat(4, 1, 15),
+        //     "long" => $faker->randomFloat(4, 1, 15),
+        //     "user_id" => 6,
+        //     'created_at' => $now,
+        //     'updated_at' => $now
+        // ]);
 
 
         // Shopping cart for client

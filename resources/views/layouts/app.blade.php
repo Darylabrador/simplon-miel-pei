@@ -15,7 +15,6 @@
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         <script src="{{ asset('js/utils/check.js') }}"></script>
         <script src="{{ asset('js/account/structure.js') }}"></script>
-
         @yield('head')
     </head>
     <body>

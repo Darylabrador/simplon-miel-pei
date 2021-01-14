@@ -99,8 +99,7 @@ Route::middleware(['auth:api', 'isProducer'])->group(function(){
 
     Route::get('/exploitations/owner', [ExploitationController::class, "owner"])->name("api.exploitations");
     Route::get('/exploitation/owner/{id}', [ExploitationController::class, "show"])->name("api.exploitations.show");
-    Route::post('/exploitation/owner/add', [ExploitationController::class, "create"])->name("api.exploitations.create");
-    Route::put('/exploitation/owner/{id}', [ExploitationController::class, "update"])->name("api.exploitations.update");
+    Route::post('/exploitation/owner/add', [ExploitationController::class, "createUpdate"])->name("api.exploitations.createUpdate");
     Route::delete('/exploitation/owner/{id}', [ExploitationController::class, "destroy"])->name("api.exploitations.destroy");
 
     Route::get('/orders/producer', [OrderController::class, 'producerOrders'])->name('api.orders.producers');
@@ -114,10 +113,6 @@ Route::middleware(['auth:api', 'isProducer'])->group(function(){
 */
 
 Route::middleware('auth:api')->group(function () {
-    Route::get('/myaddress', [AdressController::class, "index"])->name('api.client.address');
-    Route::post('/myaddress/add', [AdressController::class, "create"])->name('api.client.address.add');
-    Route::put('/myaddress/update', [AdressController::class, "update"])->name('api.client.address.update');
-
     Route::get('/shoppingcart', [ShoppingcartProductsController::class, 'index'])->name('api.shoppingcart');
     Route::post('/shoppingcart/add', [ShoppingcartProductsController::class, 'addToCart'])->name('api.shoppingcart.add');
     Route::put('/shoppingcart/{id}', [ShoppingcartProductsController::class, 'updateOne'])->name('api.shoppingcart.update');
