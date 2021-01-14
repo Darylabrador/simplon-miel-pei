@@ -8,7 +8,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
     let searchedWord    = document.getElementById('searchedWord');
     let searchedState   = document.getElementById('searchedState');
     let pagination      = document.getElementById('pagination');
-    let errorInterface  = document.getElementById('errorInterface');
     let config = { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } };
     
     var currentPage     = "";
@@ -22,13 +21,21 @@ window.addEventListener("DOMContentLoaded", (event) => {
     var modalSuspend    = new bootstrap.Modal(document.getElementById('modalSuspend'))
     var modalActiv      = new bootstrap.Modal(document.getElementById('modalActiv'))
     
-    const displayMessage = (node, type, message) => {
-        node.innerHTML = `
-        <div class="alert alert-${type} alert-dismissible fade show mt-1" role="alert">
-            ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>`;
-    };
+    var messageFlash = new bootstrap.Toast(document.getElementById('messageFlash'));
+
+    const flash = (message, success = true) => {
+        let toastContainer = document.getElementById('messageFlash');
+        let bodyToast = document.getElementById('bodyToast');
+        if (success) {
+            toastContainer.classList.add('bg-success');
+            bodyToast.textContent = message;
+        } else {
+            toastContainer.classList.add('bg-danger');
+            bodyToast.textContent = message;
+        }
+        bodyToast.classList.add('text-white');
+        messageFlash.show()
+    }
 
     const paginationBtnAction = (isPost = false, dataSend = null) => {
         if (isPost) {
@@ -88,7 +95,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 paginationBtnAction(true, dataSend);
             }
         } catch (error) {
-            displayMessage(errorInterface, 'danger', error);
+            flash("Erreur lors du changement page", false)
         }
     };
 
@@ -219,7 +226,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
             outputPaginationContent(requestLinks);
             paginationBtnAction(true, dataSend);
         } catch (error) {
-            displayMessage(errorInterface, 'danger', error);
+            flash("Erreur lors de la recherche", false)
         }
     };
 
@@ -252,7 +259,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
             paginationBtnAction();
         } catch (error) {
-            displayMessage(errorInterface, 'danger', error);
+            flash("Erreur lors de l'initialisation", false)
         }
     }
 
@@ -272,12 +279,12 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 identActiv.value = "";
                 getUserList(true, currentPage)
                 modalActiv.toggle();
-                displayMessage(errorInterface, 'success', data.message)
+                flash(data.message)
             } else {
-                displayMessage(errorInterface, 'danger', data.message)
+                flash(data.message, false)
             }
         })
-        .catch(err => displayMessage(errorInterface, 'danger', error))
+            .catch(err => flash("Ressource indisponible", false))
     });
     
     let suspendForm = document.getElementById('suspendForm');
@@ -294,12 +301,12 @@ window.addEventListener("DOMContentLoaded", (event) => {
                     identSuspend.value = "";
                     getUserList(true, currentPage)
                     modalSuspend.toggle();
-                    displayMessage(errorInterface, 'success', data.message)
+                    flash(data.message)
                 } else {
-                    displayMessage(errorInterface, 'danger', data.message)
+                    flash(data.message, false)
                 }
             })
-            .catch(err => displayMessage(errorInterface, 'danger', error))
+            .catch(err => flash("Ressource indisponible", false))
     });
 
 
@@ -320,12 +327,12 @@ window.addEventListener("DOMContentLoaded", (event) => {
                     getUserList(true, currentPage)
                     modalMail.toggle();
                     clientIdEmail.value = "";
-                    displayMessage(errorInterface, 'success', data.message)
+                    flash(data.message)
                 } else {
-                    displayMessage(errorInterface, 'danger', data.message)
+                    flash(data.message, false)
                 }
             })
-            .catch(err => displayMessage(errorInterface, 'danger', error))
+            .catch(err => flash("Ressource indisponible", false))
     });
 
     let modifRoleForm = document.getElementById('modifRoleForm');
@@ -344,11 +351,11 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 if (data.success) {
                     getUserList(true, currentPage)
                     modalRole.toggle();
-                    displayMessage(errorInterface, 'success', data.message)
+                    flash(data.message)
                 } else {
-                    displayMessage(errorInterface, 'danger', data.message)
+                   flash(data.message, false)
                 }
             })
-            .catch(err => displayMessage(errorInterface, 'danger', error))
+            .catch(err => flash("Ressource indisponible", false))
     });
 })

@@ -66,6 +66,7 @@ Route::get('/exploitations', [ExploitationController::class, "index"])->name("ap
 Route::get('/products', [ProductsController::class, "showAll"])->name("api.products");
 Route::get('/products/best', [ProductsController::class, "bestProduct"])->name("api.products.bestProduct");
 Route::get('/producer/{id}', [ProductsController::class, "showProducer"])->name("api.producer.show");
+Route::get('/welcome/product/{id}', [ProductsController::class, "show"])->middleware('auth:api')->name("api.product.welcome.show");
 
 /*
 |--------------------------------------------------------------------------
@@ -120,6 +121,8 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('/shoppingcart', [ShoppingcartProductsController::class, 'destroy'])->name('api.shoppingcart.destroy');
     
     Route::post('/shoppingcart/confirm', [OrderController::class, 'confirmShoppingcart'])->name('api.shoppingcart.confirm');
+    Route::post('/shoppingcart/direct', [OrderController::class, 'directOrder'])->name('api.shoppingcart.confirm');
+
     // Route::get('/orders', [OrderController::class, 'clientOrders'])->name('api.orders');
     Route::get('/orders/waiting', [OrderController::class, 'waiting'])->name('api.orders.waiting');
     Route::get('/orders/inprogress', [OrderController::class, 'inprogress'])->name('api.orders.inprogress');

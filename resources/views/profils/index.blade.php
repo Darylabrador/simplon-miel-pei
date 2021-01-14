@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <div id="messageInterface"></div>
+
+      @include('layouts.toast')
 
     <div class="row justify-content-center">
         <form class="card col-10 col-lg-4 m-2 mx-4" id="formIdentity">

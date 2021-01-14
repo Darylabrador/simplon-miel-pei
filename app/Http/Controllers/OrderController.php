@@ -8,6 +8,7 @@ use App\Http\Resources\UserOrderResource;
 use App\Models\Order;
 use App\Models\UserOrder;
 use App\Models\OrderProduct;
+use App\Models\Products;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -70,6 +71,11 @@ class OrderController extends Controller
                 "product_id" => $info->product_id
             ]);
 
+            $productSelled = Products::whereId($info->product_id)->first();
+            $lastAmount = (int)  $productSelled->amountSell;
+            $productSelled->amountSell = $lastAmount + 1;
+            $$productSelled->save();
+
             $info->delete();
         }
 
@@ -84,6 +90,96 @@ class OrderController extends Controller
         ]);
     }
 
+
+
+    /**
+     * Direct order
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function directOrder(Request  $request) {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'billing'  => 'required',
+                'delivery' => 'required',
+                'quantity' => 'required',
+                'product'  => 'required',
+            ],
+            [
+                'required'  => 'Le champ :attribute est requis',
+            ]
+        );
+
+        $errors = $validator->errors();
+        if (count($errors) != 0) {
+            return response()->json([
+                'success' => false,
+                'message' => $errors->first()
+            ]);
+        }
+
+        $loggedUser     = Auth::user();
+        $loggedUserId = $loggedUser->id;
+
+        $billing   = $validator->validated()['billing'];
+        $delivery  = $validator->validated()['delivery'];
+        $quantity  = (int) $validator->validated()['quantity'];
+        $product   = $validator->validated()['product'];
+
+        $chosenProd = Products::whereId($product)->first();
+
+        if (!$chosenProd) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Produit introuvable'
+            ]);
+        }
+
+        $productQuantity = (int) $chosenProd->quantity;
+
+        if ($productQuantity != 0) {
+            if ($quantity > $productQuantity) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Quantité trop importante'
+                ]);
+            }
+
+            $finalQuantity = $productQuantity - $quantity;
+            $chosenProd->quantity = $finalQuantity;
+            $lastAmount = (int)  $chosenProd->amountSell;
+            $chosenProd->amountSell = $lastAmount + 1;
+            $chosenProd->save();
+
+
+            $newOrder = Order::create([
+                "billing"  => $billing,
+                "delivery" => $delivery,
+            ]);
+
+            OrderProduct::create([
+                "quantity"   => $quantity,
+                "order_id"   => $newOrder->id,
+                "product_id" => $product
+            ]);
+
+            UserOrder::create([
+                "user_id"  => $loggedUserId,
+                "order_id" => $newOrder->id
+            ]);
+        
+            return response()->json([
+                'success' => true,
+                'message' => 'Commande effectuée'
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Stock épuisé'
+        ]);
+    }
 
 
     /**

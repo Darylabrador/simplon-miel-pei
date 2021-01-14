@@ -10,48 +10,57 @@
 @endsection
 
 @section('content')
-  <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light py-1">
-      <div class="container-fluid">
-        <a class="navbar-brand font-weight-bold" href="#">Miel Péi</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex justify-content-end w-100">
-            <li class="nav-item default">
-              <button class="mr-3 btn btn-outline-secondary py-0">
-                <a class="nav-link" href="{{ route('inscription') }}">Inscription</a>
-              </button>
-            </li>
-            <li class="nav-item default">
-              <button  class="btn btn-outline-secondary py-0 ">
-                <a class="nav-link" href="{{ route('connexion') }}">Connexion</a>
-              </button>
-            </li>
-            <li id="" class="nav-item d-none">
-              <button  class="btn btn-outline-secondary py-0 ">
-                <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
-              </button>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header>
+
+  @include('layouts.guestheader')
+
+  @include('layouts.toast')
 
   <section class="container mb-5">
+    <h5 class="text-center border-bottom w-50 mx-auto mb-4">Nos exploitations</h5>
     <div id="mapid" style="height: 450px;" class="w-100"></div>
   </section>
 
   <section class="mb-5 container-fluid">
-    <div id="bestProdContainer" class="d-flex justify-content-between"></div>
+    <h5 class="text-center border-bottom w-75 mx-auto mb-4">Les meilleurs ventes du moment</h5>
+    <div id="bestProdContainer" class="d-flex justify-content-around row"></div>
   </section>
 
-  <footer class="bg-secondary py-1 mt-5">
-    <div class="d-flex justify-content-center align-items-center">
-        <span class="text-center text-white p-0"> © Copyright Daryl ABRADOR</span>
+  @include('layouts.guestfooter')
+ 
+
+    <div class="modal fade" id="modalCommand" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Passez commande dès maintenant !</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form class="modal-body" id="formCommand">
+                    <input type="hidden" id="commandProdId">
+                    <h5 class="text-center mb-3" id="commandProdName"></h5>
+                    <div class="row mb-1">
+                        <div class="col">
+                          <div class="form-control mb-2"> Disponible : <span id="commandStockDispo"></span></div>
+                        </div>
+                        <div class="col">
+                          <input required type="number" step="1" min="1" id="commandStockQuantity" class="form-control mb-2" placeholder="Quantité">
+                        </div>
+                        <div class="col">
+                          <div class="form-control mb-2"> Total : <span id="commandStockTotal"> 0 </span></div>
+                        </div>
+                    </div>
+                    
+                    <input required type="text" id="commandDelivery" class="form-control mb-2" placeholder="Adresse de livraison">
+                    <input required type="text" id="commandBilling" class="form-control mb-4" placeholder="Adresse de facturation">
+
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Commander</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-  </footer>
-  <script src="{{ asset('js/welcome.js') }}"></script>
+    <script src="{{ asset('js/welcome.js') }}"></script>
+   
 @endsection

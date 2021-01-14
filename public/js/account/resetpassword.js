@@ -5,13 +5,20 @@ window.addEventListener("DOMContentLoaded", (event) => {
     let resetToken      = document.getElementById("resetToken").value;
     let resetContainer  = document.getElementById("resetContainer");
 
-    const displayMessage = (type, message) => {
-        let messageInterface = document.getElementById("messageInterface");
-        messageInterface.innerHTML = `
-        <div class="alert alert-${type} alert-dismissible fade show mt-1" role="alert">
-            ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>`;
+    var messageFlash = new bootstrap.Toast(document.getElementById('messageFlash'));
+
+    const flash = (message, success = true) => {
+        let toastContainer = document.getElementById('messageFlash');
+        let bodyToast = document.getElementById('bodyToast');
+        if (success) {
+            toastContainer.classList.add('bg-success');
+            bodyToast.textContent = message;
+        } else {
+            toastContainer.classList.add('bg-danger');
+            bodyToast.textContent = message;
+        }
+        bodyToast.classList.add('text-white');
+        messageFlash.show()
     }
 
     const postAction = async (ask = true, dataSend, form) => {
@@ -20,19 +27,19 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 const requestAsk     = await axios.post(checkResetUrl, dataSend);
                 const requestAskData = requestAsk.data;
                 if (requestAskData.success) {
-                    displayMessage('success', requestAskData.message);
+                    flash(requestAskData.message)
                     form.reset();
                 }
             } else {
                 const requestReset     = await axios.post(resetUrl, dataSend);
                 const requestResetData = requestReset.data;
                 if (requestResetData.success){
-                    displayMessage('success', requestResetData.message);
+                    flash(requestResetData.message)
                     form.reset();
                 }
             }
         } catch (error) {
-            displayMessage('danger', 'Ressource indisponible');
+            flash('Une erreur est survenue', false)
         }
     }
 
@@ -64,7 +71,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
         <div class="w-50 mx-auto p-3" style="min-width: 350px !important;" id="reset">
             <h4 class="text-center text-danger mt-2"> Réinitialiser votre mot de passe </h4>
             <hr class="mt-0"> 
-            <div id="messageInterface"></div>
             <p class="text-center mt-3 mb-4">
                 Vous avez oublié votre mot de passe ?
                 <br> Ne vous inquiétez pas, vous pouvez le réinitialiser en indiquant votre adresse e-mail ci-dessous, la démarche à suivre vous sera envoyer par email !
@@ -83,7 +89,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
         <div class="w-50 mx-auto p-3" style="min-width: 350px !important;" id="reset">
             <h4 class="text-center text-danger mt-2"> Réinitialiser votre mot de passe </h4>
             <hr class="mt-0"> 
-            <div id="messageInterface"></div>
             <p class="text-center mt-3 mb-4">
                 Vous avez oublié votre mot de passe ? Ne vous inquiétez pas, vous pouvez le Réinitialiser en indiquant votre adresse e-mail ci-dessous. <br>
             </p>

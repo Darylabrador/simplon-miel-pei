@@ -22,7 +22,7 @@
 
 @section('content')
 
-    <div id="errorInterface"></div>
+      @include('layouts.toast')
 
     <form id="searchForm" class="mb-4">
         <div class="row no-gutter d-flex align-items-center">
@@ -41,7 +41,7 @@
         </div>
         <hr>
         <div class="mt-4">
-            <label for="description" class="mb-0">Description rapide de votre  ()</label>
+            <label for="description" class="mb-0">Description rapide de vos produits</label>
             <p class="text-muted mt-0" style="font-size: 10px;">Info: max 40 caractères</p>
             <textarea id="description" cols="30" rows="4" class="form-control" maxlength="40"></textarea>
         </div>

@@ -11,20 +11,26 @@ window.addEventListener("DOMContentLoaded", (event) => {
     let addProductQuantity  = document.getElementById('addProductQuantity');
     let addProductFile      = document.getElementById('addProductFile');
 
-    let errorInterface = document.getElementById('errorInterface');
-
     var modalAddProduct = new bootstrap.Modal(document.getElementById('modalAddProduct'))
     var modalEditProduct = new bootstrap.Modal(document.getElementById('modalEditProduct'))
     var modalStockProduct = new bootstrap.Modal(document.getElementById('modalStockProduct'))
     var modalDeleteProduct = new bootstrap.Modal(document.getElementById('modalDeleteProduct'))
 
-    const displayMessage = (node, type, message) => {
-        node.innerHTML = `
-        <div class="alert alert-${type} alert-dismissible fade show mt-1" role="alert">
-            ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>`;
-    };
+    var messageFlash = new bootstrap.Toast(document.getElementById('messageFlash'));
+
+    const flash = (message, success = true) => {
+        let toastContainer = document.getElementById('messageFlash');
+        let bodyToast = document.getElementById('bodyToast');
+        if (success) {
+            toastContainer.classList.add('bg-success');
+            bodyToast.textContent = message;
+        } else {
+            toastContainer.classList.add('bg-danger');
+            bodyToast.textContent = message;
+        }
+        bodyToast.classList.add('text-white');
+        messageFlash.show()
+    }
 
 
     let productList     = document.getElementById('productList');
@@ -100,7 +106,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 paginationBtnAction(true, dataSend);
             }
         } catch (error) {
-            displayMessage(errorInterface, 'danger', error);
+            flash('Erreur lors de la pagination', false)  
         }
     };
 
@@ -157,7 +163,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 stockProductQuantity.value = requestData.produit.quantity;
             }
         } catch(err) {
-            displayMessage(errorInterface, 'danger', err);
+            flash('Erreur : Données individuel', false)  
         }
     }
     const outputHTML = (requestData, requestLinks, requestMeta) => {
@@ -237,7 +243,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
             outputPaginationContent(requestLinks);
             paginationBtnAction(true, dataSend);
         } catch (error) {
-            displayMessage(errorInterface, 'danger', error);
+            flash('Erreur lors de la recherche', false)  
         }
     };
 
@@ -263,7 +269,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
             paginationBtnAction();
         } catch (error) {
-            displayMessage(errorInterface, 'danger', error);
+            flash('Erreur : Initialisation raté', false)  
         }
     }
 
@@ -281,15 +287,16 @@ window.addEventListener("DOMContentLoaded", (event) => {
             .then(({ data }) => {
                 if (data.success) {
                     formAddProduct.reset();
-                    displayMessage(errorInterface, 'success', data.message);
+                    flash(data.message)
                     modalAddProduct.toggle();
                     getDataList(true, currentPage);
                 } else {
-                    displayMessage(errorInterface, 'danger', data.message)
+                    flash(data.message, false)
                 }
             })
-            .catch(err => displayMessage(errorInterface, 'danger', err))
+            .catch(err => flash('Ressource indisponible', false))
     });
+      
 
     let formEditProduct = document.getElementById('formEditProduct');
     formEditProduct.addEventListener('submit', evt => {
@@ -303,14 +310,14 @@ window.addEventListener("DOMContentLoaded", (event) => {
             .then(({ data }) => {
                 if (data.success) {
                     formEditProduct.reset();
-                    displayMessage(errorInterface, 'success', data.message);
+                    flash(data.message)
                     modalEditProduct.toggle();
                     getDataList(true, currentPage);
                 } else {
-                    displayMessage(errorInterface, 'danger', data.message)
+                    flash(data.message, false)
                 }
             })
-            .catch(err => displayMessage(errorInterface, 'danger', err))
+            .catch(err => flash('Ressource indisponible', false))
     })
 
     let formStockProduct = document.getElementById('formStockProduct');
@@ -324,14 +331,14 @@ window.addEventListener("DOMContentLoaded", (event) => {
             .then(({ data }) => {
                 if (data.success) {
                     formStockProduct.reset();
-                    displayMessage(errorInterface, 'success', data.message);
+                    flash(data.message)
                     modalStockProduct.toggle();
                     getDataList(true, currentPage);
                 } else {
-                    displayMessage(errorInterface, 'danger', data.message)
+                    flash(data.message, false)
                 }
             })
-            .catch(err => displayMessage(errorInterface, 'danger', err))
+            .catch(err => flash('Ressource indisponible', false))
     })
 
 
@@ -342,13 +349,13 @@ window.addEventListener("DOMContentLoaded", (event) => {
             .then(({ data }) => {
                 if (data.success) {
                     formDeleteProduct.reset();
-                    displayMessage(errorInterface, 'success', data.message);
+                    flash(data.message)
                     modalDeleteProduct.toggle();
                     getDataList(true, currentPage);
                 } else {
-                    displayMessage(errorInterface, 'danger', data.message)
+                    flash(data.message, false)
                 }
             })
-            .catch(err => displayMessage(errorInterface, 'danger', err))
+            .catch(err => flash("Ressource indisponible", false))
     })
 })

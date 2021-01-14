@@ -39,6 +39,9 @@ Route::get('/inscription', function () {
 |--------------------------------------------------------------------------
 */
 
+Route::get('/fiche/producteur/{id}', function($id){
+    return view('ficheproducteur', compact('id'));
+})->name('producer.sheet.view');
 
 /*
 |--------------------------------------------------------------------------

@@ -16,15 +16,21 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
     var apiResult;
 
-    let errorInterface = document.getElementById('errorInterface');
+    var messageFlash = new bootstrap.Toast(document.getElementById('messageFlash'));
 
-    const displayMessage = (node, type, message) => {
-        node.innerHTML = `
-        <div class="alert alert-${type} alert-dismissible fade show mt-1" role="alert">
-            ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>`;
-    };
+    const flash = (message, success = true) => {
+        let toastContainer = document.getElementById('messageFlash');
+        let bodyToast = document.getElementById('bodyToast');
+        if (success) {
+            toastContainer.classList.add('bg-success');
+            bodyToast.textContent = message;
+        } else {
+            toastContainer.classList.add('bg-danger');
+            bodyToast.textContent = message;
+        }
+        bodyToast.classList.add('text-white');
+        messageFlash.show()
+    }
 
     const createMap = (lat, lon, zoom, isLocated = false, data) => {
         // to reinit map
@@ -70,7 +76,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 createMap(-21.1287074, 55.4627191, 9);
             }
         } catch (error) {
-            displayMessage(errorInterface, 'danger', error)
+            flash("Erreur d'initialisation de la carte", false)
         }
     }
 
@@ -104,7 +110,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 })
                 resultSearch.innerHTML = options;
             })
-                .catch(err => displayMessage(errorInterface, 'danger', 'ressource indisponible'))
+                .catch(err => flash("Ressource indisponible", false))
         } else {
             resultSearch.innerHTML = "";
         }
@@ -135,17 +141,17 @@ window.addEventListener("DOMContentLoaded", (event) => {
         axios.post(setLocationInfoUrl, dataSend, config)
             .then(({data}) => {
                 if(data.success) {
-                    displayMessage(errorInterface, 'success', data.message)
+                    flash(data.message, false)
                     searchForm.reset();
                     defaultInformation();
                     resultSearch.innerHTML = "";
                     stopEditionBtn.classList.toggle('d-none')
                     startEditingBtn.classList.toggle('d-none')
                 } else {
-                    displayMessage(errorInterface, 'danger', data.message)
+                    flash(data.message, false)
                 }
             })
-            .catch(err => displayMessage(errorInterface, 'danger', err))
+            .catch(err => flash("Ressource indisponible", false))
     });
 
     defaultInformation();

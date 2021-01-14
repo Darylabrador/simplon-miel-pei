@@ -13,13 +13,20 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
     let config = { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } };
 
-    const displayMessage = (type, message) => {
-        let messageInterface = document.getElementById("messageInterface");
-        messageInterface.innerHTML = `
-        <div class="alert alert-${type} alert-dismissible fade show mt-1" role="alert">
-            ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>`;
+    var messageFlash = new bootstrap.Toast(document.getElementById('messageFlash'));
+
+    const flash = (message, success = true) => {
+        let toastContainer = document.getElementById('messageFlash');
+        let bodyToast = document.getElementById('bodyToast');
+        if (success) {
+            toastContainer.classList.add('bg-success');
+            bodyToast.textContent = message;
+        } else {
+            toastContainer.classList.add('bg-danger');
+            bodyToast.textContent = message;
+        }
+        bodyToast.classList.add('text-white');
+        messageFlash.show()
     }
 
     const getIdentity = async () => {
@@ -35,7 +42,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
             let profilNameEdited = document.getElementById('profilName');
             profilNameEdited.textContent = checkData.identity;
         } catch (error) {
-            displayMessage('danger', error);
+            flash("Ressource indisponible", false)
         }
     }
 
@@ -71,12 +78,12 @@ window.addEventListener("DOMContentLoaded", (event) => {
             .then(({data}) => {
                 if(data.success) {
                     getIdentity();
-                    displayMessage('success', data.message)
+                    flash(data.message)
                 } else {
-                    displayMessage('danger', data.message)
+                    flash(data.message, false)
                 }
             })
-            .catch(err => console.log(err))
+            .catch(err => flash("Ressource indisponible", false))
     });
 
 
@@ -94,12 +101,12 @@ window.addEventListener("DOMContentLoaded", (event) => {
             .then(({data}) => {
                 if (data.success) {
                     formChangePassword.reset();
-                    displayMessage('success', data.message)
+                    flash(data.message)
                 } else {
-                    displayMessage('danger', data.message)
+                    flash(data.message, false)
                 } 
             })
-            .catch(err => console.log(err))
+            .catch(err => flash("Ressource indisponible", false))
     });
 
 });

@@ -174,8 +174,15 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
+    
         $loggedUser   = Auth::user();
         $loggedUserId = (int) $loggedUser->id;
+
+        if($loggedUser->role_id == 2){
+            $product = Producer::where(["product_id" => $id])->first();
+            return new ProducerResource($product);
+        }
+
         $product = Producer::where(['user_id' => $loggedUserId, "product_id" => $id])->first();
         return new ProducerResource($product);
     }

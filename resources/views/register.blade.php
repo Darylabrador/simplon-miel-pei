@@ -5,10 +5,12 @@
 @endsection
 
 @section('content')
+
+    @include('layouts.toast')
+
    <div class="container" style="height: 80vh !important; display: flex; flex-content: center; align-items: center;">
        <form id="registerForm" class="w-50 mx-auto p-3 rounded">
             <h4 class="text-danger text-center fw-bold"> Inscription </h4>
-            <div id="error"></div>
               <div class="row">
                 <div class="col">
                     <input type="text" id="registerIdentity" class="form-control mt-5 mb-2" placeholder="Nom Prénom">

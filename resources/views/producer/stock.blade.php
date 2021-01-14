@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-    <div id="errorInterface"> </div>
+      @include('layouts.toast')
 
      <form id="search" class="mb-4" novalidate>
         <div class="row d-flex align-items-center">

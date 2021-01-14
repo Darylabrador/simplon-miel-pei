@@ -7,6 +7,21 @@ window.addEventListener("DOMContentLoaded", (event) => {
     let loginForm    = document.getElementById("loginForm");
     let registerForm = document.getElementById("registerForm");
 
+    var messageFlash = new bootstrap.Toast(document.getElementById('messageFlash'));
+    const flash = (message, success = true) => {
+        let toastContainer = document.getElementById('messageFlash');
+        let bodyToast = document.getElementById('bodyToast');
+        if (success) {
+            toastContainer.classList.add('bg-success');
+            bodyToast.textContent = message;
+        } else {
+            toastContainer.classList.add('bg-danger');
+            bodyToast.textContent = message;
+        }
+        bodyToast.classList.add('text-white');
+        messageFlash.show()
+    }
+
     const getRoles = async (node) => {
         try {
             const requestRoles = await axios.get(rolesUrl);
@@ -17,17 +32,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
             })
             node.innerHTML = selectOptions; 
         } catch (error) {
-            displayMessage('danger', error);
+            flash('Erreur : Récupérer les rôles', false)
         }
-    }
-
-    const displayMessage = (type, message) => {
-        let error = document.getElementById('error');
-        error.innerHTML = `
-        <div class="alert alert-${type} alert-dismissible fade show mt-1" role="alert" style="margin-bottom: -40px !important;">
-            ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>`;
     }
 
     if(loginForm){
@@ -47,10 +53,10 @@ window.addEventListener("DOMContentLoaded", (event) => {
                         loginForm.reset();
                         location.href = '/';
                     } else {
-                        displayMessage('danger', data.message);
+                        flash(data.message, false)
                     }
                 })
-                .catch(err => displayMessage('danger', err))
+                .catch(err => flash("Erreur : Veuillez réessayer plus tard", false))
         })
     }
 
@@ -75,13 +81,13 @@ window.addEventListener("DOMContentLoaded", (event) => {
             axios.post(registerUrl, dataSend)
                 .then(({data}) => {
                     if (data.success) {
-                        displayMessage('success', data.message);
+                        flash(data.message)
                         registerForm.reset();
                     } else {
-                        displayMessage('danger', data.message);
+                        flash(data.message, false)
                     }
                 })
-                .catch(err => displayMessage('danger', err))
+                .catch(err => flash("Erreur : Veuillez réessayer plus tard", false))
         })
     }
 });
