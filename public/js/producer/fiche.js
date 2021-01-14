@@ -27,8 +27,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
     };
 
     const createMap = (lat, lon, zoom, isLocated = false, data) => {
-
-        console.log(data)
         // to reinit map
         var container = L.DomUtil.get('mapid');
         if (container != null) {
@@ -152,35 +150,3 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
     defaultInformation();
 })
-
-// // Initialisation
-// var lat = -21.34690;
-// var long = 55.55851;
-// var maCarte = null;
-
-// /**
-//  * Fonction pour initialiser l'utilisation de la carte
-//  * 
-//  * On utilise une librairie (leaflet) pour avoir le rendu
-//  */
-// function initMap() {
-//     var maCarte = L.map('carteLocation').setView([lat, long], 18);
-
-//     L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
-
-//         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-//         minZoom: 1,
-//         maxZoom: 20,
-
-//     }).addTo(maCarte);
-
-//     // Mise en place du marker
-//     var cospiMarker = L.marker([lat, long]).addTo(maCarte);
-
-//     // mise en place du popup
-//     cospiMarker.bindPopup("<strong>Stade Gaby FOLIO</strong> <br> 14 Rue des Jacarandas <br> Petite - île 97429 <br> Réunion").openPopup();
-// }
-
-// window.onload = function () {
-//     initMap();
-// };
