@@ -21,7 +21,7 @@
 
             <li class="nav-item mr-3">
               <button id="cartLink" class="btn btn-outline-secondary py-0 d-none">
-                <a class="nav-link" href="#">Mon panier</a>
+                <a class="nav-link" href="{{ route('client.cart') }}">Mon panier</a>
               </button>
             </li>
 

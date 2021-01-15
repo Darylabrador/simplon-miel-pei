@@ -43,6 +43,10 @@ Route::get('/fiche/producteur/{id}', function($id){
     return view('ficheproducteur', compact('id'));
 })->name('producer.sheet.view');
 
+Route::get('/panier', function(){
+    return view('panier');
+})->name('client.cart');
+
 /*
 |--------------------------------------------------------------------------
 | Producer Routes

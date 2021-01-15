@@ -19,6 +19,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
     
     let config = { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } };
     
+    var price;
+
     var messageFlash = new bootstrap.Toast(document.getElementById('messageFlash'));
 
     const flash = (message, success = true) => {
@@ -146,7 +148,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                             Stock : ${prod.produit.quantity}
                         </p>
                         <div class="d-flex justify-content-end commandContainer">
-                            <button type="button" class="btn btn-primary py-1 px-2 d-none commandBtn" data-id="${prod.produit.id}"> Commander </button>
+                            <button type="button" class="btn btn-primary py-1 px-2 d-none commandBtn" data-id="${prod.produit.id}" data-price="${prod.produit.price}" data-quantity="${prod.produit.quantity}"> Commander </button>
                         </div>
                     </div>
                 </div>`;
@@ -159,6 +161,9 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 commandBtn.forEach(btn => {
                     btn.addEventListener('click', evt => {
                         let idProdCommand = evt.currentTarget.getAttribute('data-id');
+                        price     = evt.currentTarget.getAttribute('data-price');
+                        commandStockTotal.textContent = evt.currentTarget.getAttribute('data-price');
+                        commandStockQuantity.setAttribute('max', evt.currentTarget.getAttribute('data-quantity'))
                         commandProdId.value = idProdCommand;
                         modalCommand.toggle();
                         getProdInfo(idProdCommand)
@@ -173,13 +178,18 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
     getExploitations();
     getBestProduct();
-    
-    // let commandProdName = document.getElementById('commandProdName');
-    // let commandStockDispo = document.getElementById('commandStockDispo');
-    // let commandStockQuantity = document.getElementById('commandStockQuantity');
-    // let commandStockTotal = document.getElementById('commandStockTotal');
-    // let commandDelivery = document.getElementById('commandStockTotal');
-    // let commandBilling = document.getElementById('commandStockTotal');
+
+
+    commandStockQuantity.addEventListener('change', evt => {
+        let valueChosen = evt.currentTarget.value;
+        commandStockTotal.textContent = (valueChosen * price).toFixed(2);
+    })
+
+    commandStockQuantity.addEventListener('keyup', evt => {
+        let valueChosen = evt.currentTarget.value;
+        commandStockTotal.textContent = (valueChosen * price).toFixed(2);
+    })
+
 
     formCommand.addEventListener('submit', evt => {
         evt.preventDefault();
@@ -196,10 +206,23 @@ window.addEventListener("DOMContentLoaded", (event) => {
                     modalCommand.toggle();
                     formCommand.reset();
                     flash(data.message)  
+                    price = undefined;
+                    getBestProduct();
                 } else {
                     flash(data.message, false)  
                 }
             })
             .catch(err => flash('Une erreur est survenue', false)  )
     })
+
+    let btnClose = document.querySelectorAll('.closeModal');
+    btnClose.forEach(btn => {
+        btn.addEventListener('click', evt => {
+            price = undefined;
+            commandStockTotal.textContent = 0;
+            commandStockQuantity.removeAttribute('max');
+            commandStockQuantity.value = 1;
+        })
+    })
+   
 })

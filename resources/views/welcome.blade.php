@@ -33,7 +33,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Passez commande dès maintenant !</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close closeModal" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form class="modal-body" id="formCommand">
                     <input type="hidden" id="commandProdId">
@@ -46,7 +46,7 @@
                           <input required type="number" step="1" min="1" id="commandStockQuantity" class="form-control mb-2" placeholder="Quantité">
                         </div>
                         <div class="col">
-                          <div class="form-control mb-2"> Total : <span id="commandStockTotal"> 0 </span></div>
+                          <div class="form-control mb-2"> Total : <span id="commandStockTotal"> 0 </span>€</div>
                         </div>
                     </div>
                     
@@ -54,7 +54,7 @@
                     <input required type="text" id="commandBilling" class="form-control mb-4" placeholder="Adresse de facturation">
 
                     <div class="d-flex justify-content-end">
-                        <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">Annuler</button>
+                        <button type="button" class="btn btn-secondary mx-2 closeModal" data-bs-dismiss="modal">Annuler</button>
                         <button type="submit" class="btn btn-primary">Commander</button>
                     </div>
                 </form>

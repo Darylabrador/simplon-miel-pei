@@ -85,8 +85,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
         searchLocation.removeAttribute('readonly')
         resultSearch.removeAttribute('disabled')
         description.removeAttribute('readonly')
-        stopEditionBtn.classList.toggle('d-none')
-        startEditingBtn.classList.toggle('d-none')
+        stopEditionBtn.classList.remove('d-none')
+        startEditingBtn.classList.add('d-none')
     })
 
     stopEditionBtn.addEventListener('click', evt => {
@@ -94,8 +94,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
         searchLocation.setAttribute('readonly', true)
         resultSearch.setAttribute('disabled', true)
         description.setAttribute('readonly', true)
-        stopEditionBtn.classList.toggle('d-none')
-        startEditingBtn.classList.toggle('d-none')
+        stopEditionBtn.classList.add('d-none')
+        startEditingBtn.classList.remove('d-none')
     })
 
     searchLocation.addEventListener('keyup', evt => {
@@ -145,8 +145,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
                     searchForm.reset();
                     defaultInformation();
                     resultSearch.innerHTML = "";
-                    stopEditionBtn.classList.toggle('d-none')
-                    startEditingBtn.classList.toggle('d-none')
+                    stopEditionBtn.classList.add('d-none')
+                    startEditingBtn.classList.remove('d-none')
                 } else {
                     flash(data.message, false)
                 }
