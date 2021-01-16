@@ -10,7 +10,10 @@ const verifToken = async () => {
         const checkData = check.data.data;
         
         let profilName = document.getElementById('profilName');
-        profilName.textContent = checkData.identity;
+        if (profilName) {
+
+            profilName.textContent = checkData.identity;
+        }
 
     } catch (error) {
         localStorage.clear();
