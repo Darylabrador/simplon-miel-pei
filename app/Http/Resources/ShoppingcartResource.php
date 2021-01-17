@@ -16,7 +16,7 @@ class ShoppingcartResource extends JsonResource
     {
         return [
             "id"        => $this->id,
-            "confirmed" => $this->confirmed
+            "confirmed" => $this->confirmed,
         ];
     }
 }

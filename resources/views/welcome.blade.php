@@ -61,6 +61,7 @@
             </div>
         </div>
     </div>
+    
     <script src="{{ asset('js/welcome.js') }}"></script>
    
 @endsection

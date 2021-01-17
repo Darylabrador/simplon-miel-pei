@@ -74,8 +74,7 @@ class OrderController extends Controller
             $productSelled = Products::whereId($info->product_id)->first();
             $lastAmount = (int)  $productSelled->amountSell;
             $productSelled->amountSell = $lastAmount + 1;
-            $$productSelled->save();
-
+            $productSelled->save();
             $info->delete();
         }
 

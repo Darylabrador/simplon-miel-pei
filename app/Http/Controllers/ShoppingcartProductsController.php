@@ -139,7 +139,7 @@ class ShoppingcartProductsController extends Controller
         $shoppingCartId = $loggedUser->shoppingcart->id;
         $quantity       = (int) $validator->validated()['quantity'];
 
-        $shoppingCartRow = ShoppingcartProducts::where(['id' => $id, "shoppingcart_id" => $shoppingCartId])->first();
+        $shoppingCartRow = ShoppingcartProducts::where(['product_id' => $id, "shoppingcart_id" => $shoppingCartId])->first();
         if(!$shoppingCartRow){
             return response()->json([
                 'success' => false,
@@ -164,11 +164,19 @@ class ShoppingcartProductsController extends Controller
                 ]);
             }
 
-            $finalQuantity = $productInfoQuantity - $quantity;
-            $product->quantity = $finalQuantity;
-            $product->save();
+            $quantityEdited =  (int) $shoppingCartRow->quantity - $quantity;
+            
+            if($quantityEdited < 0) {
+                $finalQuantity = $productInfoQuantity - $quantity;
+                $product->quantity = $finalQuantity;
+                $product->save();
+            } else {
+                $finalQuantity = $productInfoQuantity + $quantityEdited;
+                $product->quantity = $finalQuantity;
+                $product->save();
+            }
 
-            (int) $shoppingCartRow->quantity += $quantity;
+            $shoppingCartRow->quantity = $quantity;
             $shoppingCartRow->save();
 
             return response()->json([
@@ -194,7 +202,7 @@ class ShoppingcartProductsController extends Controller
     {
         $loggedUser     = Auth::user();
         $shoppingCartId = $loggedUser->shoppingcart->id;
-        $shoppingCartRow = ShoppingcartProducts::where(['id' => $id, "shoppingcart_id" => $shoppingCartId])->first();
+        $shoppingCartRow = ShoppingcartProducts::where(['product_id' => $id, "shoppingcart_id" => $shoppingCartId])->first();
 
         if (!$shoppingCartRow) {
             return response()->json([
