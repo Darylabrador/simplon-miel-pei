@@ -16,6 +16,7 @@ Identifiant admin :
 - login : admin@gmail.com
 - mot de passe : password
 
+Pour les autres role il faut regarder les utilisateurs ayant role 2 : client et role 3 producteur ( mdp: password)
 
 ## Initialisation du projet
 
