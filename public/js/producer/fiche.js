@@ -141,7 +141,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
         axios.post(setLocationInfoUrl, dataSend, config)
             .then(({data}) => {
                 if(data.success) {
-                    flash(data.message, false)
+                    flash(data.message)
                     searchForm.reset();
                     defaultInformation();
                     resultSearch.innerHTML = "";

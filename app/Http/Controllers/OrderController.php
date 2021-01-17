@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Resources\OrderProductResource;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\UserOrderResource;
+use App\Models\Invoice;
+use App\Models\Invoicelines;
 use App\Models\Order;
 use App\Models\UserOrder;
 use App\Models\OrderProduct;
@@ -14,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Shoppingcart;
 use App\Models\ShoppingcartProducts;
+use DateTime;
 
 class OrderController extends Controller
 {
@@ -63,6 +66,15 @@ class OrderController extends Controller
         ]);
 
         $shoppingcartRow = ShoppingcartProducts::where(['shoppingcart_id' => $shoppingcart->id])->get();
+        $total = 0;
+
+        $now = new DateTime($newOrder->created_at);
+        $nowFormat = $now->format('d-m-Y');
+        
+        $invoice = Invoice::create([
+            "filename"   => "commande-{$nowFormat}",
+            "order_id"   => $newOrder->id,
+        ]);
 
         foreach($shoppingcartRow as $info) {
             OrderProduct::create([
@@ -75,6 +87,19 @@ class OrderController extends Controller
             $lastAmount = (int)  $productSelled->amountSell;
             $productSelled->amountSell = $lastAmount + 1;
             $productSelled->save();
+
+            $quantityprod = (int) $info->quantity;
+            $prodPrice = (float) $productSelled->price;
+
+            $total += $quantityprod * $prodPrice;
+            
+            Invoicelines::create([
+                "name"         => $productSelled->name,
+                "quantity"     => $info->quantity,
+                "price"        => $productSelled->price,
+                "invoice_id"   => $invoice->id,
+            ]);
+
             $info->delete();
         }
 
@@ -82,7 +107,10 @@ class OrderController extends Controller
             "user_id"  => $loggedUserId,
             "order_id" => $newOrder->id
         ]);
-        
+
+        $invoice->total = $total;
+        $invoice->save();
+
         return response()->json([
             'success' => true,
             'message' => 'Panier confirmer'
@@ -217,26 +245,13 @@ class OrderController extends Controller
     }
 
 
-    // /**
-    //  * Display client order.
-    //  *
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function clientOrders()
-    // {
-    //     $loggedUser     = Auth::user();
-    //     $loggedUserId = $loggedUser->id;
-    //     $loggedUserOrders = UserOrder::where(['user_id' => $loggedUserId])->get();
-    //     return UserOrderResource::collection($loggedUserOrders);
-    // }
-
     
     /**
      * Display client order.
      *
      * @return \Illuminate\Http\Response
      */
-    public function waiting()
+    public function waiting(Request $request)
     {
         $loggedUser     = Auth::user();
         $loggedUserId = $loggedUser->id;
@@ -246,7 +261,7 @@ class OrderController extends Controller
             ->join("orders", "user_orders.order_id", "=", "orders.id")
             ->where("orders.state", "LIKE", "%en attente%")
             ->select("user_orders.*")
-            ->get();
+        ->paginate(5);
 
         return UserOrderResource::collection($loggedUserOrders);
     }
@@ -257,17 +272,17 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function inprogress()
+    public function inprogress(Request $request)
     {
         $loggedUser     = Auth::user();
         $loggedUserId = $loggedUser->id;
 
         $loggedUserOrders = UserOrder::orderBy('user_orders.id', 'desc')
-        ->where(["user_orders.user_id" => $loggedUserId])
+            ->where(["user_orders.user_id" => $loggedUserId])
             ->join("orders", "user_orders.order_id", "=", "orders.id")
             ->where("orders.state", "LIKE", "%en cours%")
             ->select("user_orders.*")
-            ->get();
+            ->paginate(5);
 
         return UserOrderResource::collection($loggedUserOrders);
     }
@@ -278,17 +293,17 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function finished()
+    public function finished(Request $request)
     {
         $loggedUser     = Auth::user();
         $loggedUserId = $loggedUser->id;
 
         $loggedUserOrders = UserOrder::orderBy('user_orders.id', 'desc')
-        ->where(["user_orders.user_id" => $loggedUserId])
+            ->where(["user_orders.user_id" => $loggedUserId])
             ->join("orders", "user_orders.order_id", "=", "orders.id")
             ->where("orders.state", "LIKE", "%termine%")
             ->select("user_orders.*")
-            ->get();
+        ->paginate(5);
 
         return UserOrderResource::collection($loggedUserOrders);
     }

@@ -30,4 +30,9 @@ class Order extends Model
     {
         return $this->hasMany('App\Models\OrderProduct', 'order_id', 'id');
     }
+
+    public function invoice()
+    {
+        return $this->hasOne('App\Models\Invoice');
+    }
 }

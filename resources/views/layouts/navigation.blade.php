@@ -37,6 +37,13 @@
                     <i class="fa fa-cart-arrow-down mr-2" aria-hidden="true"></i> Mes commandes
                 </a>
             </li>
+
+            <li class="{!! Request::is('dashboard/client/commandes') || Request::is('dashboard/client/commandes/*') ? 'active' : null !!} d-none cli">
+                <a href="{{ route('client.order') }}" >
+                    <i class="fa fa-cart-arrow-down mr-2" aria-hidden="true"></i> Mes commandes
+                </a>
+            </li>
+
         </ul>
     </div>
 

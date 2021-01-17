@@ -39,7 +39,8 @@ class OrderResource extends JsonResource
             'finished_at' => $finishedAtFormated,
             'created_at'  => $createdAtFormated,
             'updated_at'  => $updatedAtFormated,
-            'products'    => OrderProductResource::collection($productList)
+            'products'    => OrderProductResource::collection($productList),
+            'invoice'     => new InvoiceResource($this->invoice)
         ];
     }
 }

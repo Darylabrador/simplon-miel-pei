@@ -266,7 +266,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 let searchedWordValue = evt.currentTarget.value;
                 searched(searchedWordValue);
             });
-
             paginationBtnAction();
         } catch (error) {
             flash('Erreur : Initialisation raté', false)  

@@ -26,13 +26,16 @@ const structureHtml = async () => {
 
         let adm = document.querySelectorAll('.adm');
         let prod = document.querySelectorAll('.prod');
+        let cli = document.querySelectorAll('.cli');
 
         switch (checkData.role_id) {
             case 1:
                 displayBtn(adm)
                 break;
             case 2:
-                console.log('client')
+                displayBtn(adm, true)
+                displayBtn(prod, true)
+                displayBtn(cli)
                 break;
             case 3:
                 displayBtn(adm, true)

@@ -47,6 +47,23 @@ Route::get('/panier', function(){
     return view('panier');
 })->name('client.cart');
 
+Route::get('/dashboard/client/commandes', function () {
+    return view('client.index');
+})->name('client.order');
+
+
+Route::get('/dashboard/client/commandes/encours', function () {
+    return view('client.waiting');
+})->name('client.order.waiting');
+
+Route::get('/dashboard/client/commandes/attente', function () {
+    return view('client.inprogress');
+})->name('client.order.inprogress');
+
+Route::get('/dashboard/client/commandes/termine', function () {
+    return view('client.finish');
+})->name('client.order.finish');
+
 /*
 |--------------------------------------------------------------------------
 | Producer Routes
