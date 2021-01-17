@@ -12,6 +12,11 @@ Une seconde version sera mise en place suivant :
 - FRONTEND : VueJS
 - BACKEND  : Laravel v8
 
+Identifiant admin : 
+- login : admin@gmail.com
+- mot de passe : password
+
+
 ## Initialisation du projet
 
 Après avoir fait un git clone de ce projet, vous devez effectué les actions suivantes : 
