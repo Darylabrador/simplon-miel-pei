@@ -261,7 +261,7 @@ class OrderController extends Controller
             ->join("orders", "user_orders.order_id", "=", "orders.id")
             ->where("orders.state", "LIKE", "%en attente%")
             ->select("user_orders.*")
-        ->paginate(5);
+            ->paginate(5);
 
         return UserOrderResource::collection($loggedUserOrders);
     }

@@ -135,6 +135,15 @@ window.addEventListener("DOMContentLoaded", (event) => {
         }
     };
 
+    const downloadPDF = (filename, data) => {
+        var a = document.createElement('a');
+        var url = window.URL.createObjectURL(new Blob([data], { type: 'application/pdf' }));
+        a.href = url;
+        a.download = filename;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    }
+    
     const outputHTML = (requestData, requestLinks, requestMeta) => {
         let contentHTML = "";
         requestData.forEach(content => {
@@ -154,6 +163,21 @@ window.addEventListener("DOMContentLoaded", (event) => {
         dataList.innerHTML = contentHTML;
         compteur.textContent = `${requestMeta.current_page} / ${requestMeta.last_page}`;
         currentPage = requestMeta.current_page;
+
+        let btnPDF = document.querySelectorAll('.btnPDF');
+        if (btnPDF) {
+            btnPDF.forEach(btn => {
+                btn.addEventListener('click', evt => {
+                    let id = evt.currentTarget.getAttribute('data-id');
+                    let filename = evt.currentTarget.getAttribute('data-name');
+                    axios.get(`${generalUrl}/api/order/${id}/pdf`, config)
+                        .then(({ data }) => {
+                            downloadPDF(filename, data)
+                        })
+                        .catch(err => flash('Une erreur est survenue', false));
+                })
+            })
+        }
     }
 
     const getDataList = async (refresh = false, currentPage) => {

@@ -2,7 +2,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
     let generalUrl = location.origin;
     let orderWaitingUrl = `${generalUrl}/api/orders/waiting`;
 
-    let config = { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } };
+    let config = { headers: { Authorization: `Bearer ${localStorage.getItem('token')}`} };
 
     let dataList = document.getElementById('dataList');
     let compteur = document.getElementById('compteur');
@@ -128,6 +128,15 @@ window.addEventListener("DOMContentLoaded", (event) => {
         }
     };
 
+    const downloadPDF = (filename, data) => {
+        var a = document.createElement('a');
+        var url = window.URL.createObjectURL(new Blob([data], { type: 'application/pdf' }));
+        a.href = url;
+        a.download = filename;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    }
+    
     const outputHTML = (requestData, requestLinks, requestMeta) => {
         let contentHTML = "";
         requestData.forEach(content => {
@@ -137,7 +146,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                         <td> ${content.order.created_at} </td>
                         <td> ${content.order.invoice.total} € </td>
                         <td> 
-                            <button class="btn btn-outline-danger py-1 px-2 rounded-circle ml-2 btnPDF" data-id="${content.order.id}"> 
+                            <button class="btn btn-outline-danger py-1 px-2 rounded-circle ml-2 btnPDF" data-id="${content.order.id}" data-name="${content.order.invoice.filename}"> 
                                 <span class="iconify" data-inline="false" data-icon="bx:bxs-file-pdf" style="font-size: 20px !important;"></span>
                             </button> 
                         </td>
@@ -147,6 +156,24 @@ window.addEventListener("DOMContentLoaded", (event) => {
         dataList.innerHTML = contentHTML;
         compteur.textContent = `${requestMeta.current_page} / ${requestMeta.last_page}`;
         currentPage = requestMeta.current_page;
+
+        let btnPDF = document.querySelectorAll('.btnPDF');
+        if(btnPDF) {
+            btnPDF.forEach(btn => {
+                btn.addEventListener('click', evt => {
+                    let id = evt.currentTarget.getAttribute('data-id');
+                    let filename = evt.currentTarget.getAttribute('data-name');
+                    axios.get(`${generalUrl}/api/order/${id}/pdf`, {
+                        responseType: 'arraybuffer',
+                        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                    },)
+                    .then(({data}) => {
+                        downloadPDF(filename, data)
+                    })
+                        .catch(err => flash('Une erreur est survenue', false));
+                })
+            })
+        }
     }
 
     const getDataList = async (refresh = false, currentPage) => {
