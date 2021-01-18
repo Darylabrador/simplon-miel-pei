@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
 
         // Add Users data
         DB::table('users')->insert([
-            'identity'       => "admin",
+            'identity'       => "admin admin",
             'email'          => "admin@gmail.com",
             'password'       => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
@@ -37,17 +37,28 @@ class DatabaseSeeder extends Seeder
             'updated_at'     => $now
         ]);
 
+
         DB::table('users')->insert([
-            'identity'       => "user sans adresse",
-            'email'          => "noadresse@gmail.com",
+            'identity'       => "DOE John",
+            'email'          => "client@gmail.com",
             'password'       => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
-            'role_id'        => 1,
+            'role_id'        => 2,
             'created_at'     => $now,
             'updated_at'     => $now
         ]);
 
-        for($i = 2; $i < 4; $i++){
+        DB::table('users')->insert([
+            'identity'       => "Payet Claude",
+            'email'          => "producteur@gmail.com",
+            'password'       => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'remember_token' => Str::random(10),
+            'role_id'        => 3,
+            'created_at'     => $now,
+            'updated_at'     => $now
+        ]);
+
+        for($i = 0; $i < 5; $i++){
             DB::table('users')->insert([
                 'identity'       => $faker->name,
                 'email'          => $faker->unique()->safeEmail,
@@ -58,19 +69,6 @@ class DatabaseSeeder extends Seeder
                 'updated_at'     => $now
             ]);
         }
-
-        for ($i = 4; $i < 6; $i++) {
-            DB::table('users')->insert([
-                'identity'       => $faker->name,
-                'email'          => $faker->unique()->safeEmail,
-                'password'       => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-                'remember_token' => Str::random(10),
-                'role_id'        => 3,
-                'created_at'     => $now,
-                'updated_at'     => $now
-            ]);
-        }
-
 
         // Add product data
         for ($i = 1; $i < 11; $i++) {
@@ -87,15 +85,29 @@ class DatabaseSeeder extends Seeder
 
         for ($i = 1; $i < 6; $i++) {
             DB::table('producers')->insert([
-                "user_id"    => 5,
+                "user_id"    => 3,
                 "product_id" => $i,
             ]);
         }
 
-        for ($i = 6; $i < 11; $i++) {
-            DB::table('producers')->insert([
-                "user_id"    => 6,
-                "product_id" => $i,
+        DB::table('exploitations')->insert([
+            "description" => "Miel péi original",
+            "address" => "45 Rue Auguste Babet 97410 Saint-Pierre",
+            "lat" => "-21.336042",
+            "long" => "55.480444",
+            "user_id"    => 3,
+        ]);
+
+
+        DB::table('shoppingcarts')->insert([
+            "user_id"    => 2,
+        ]);
+
+        for ($i = 1; $i < 6; $i++) {
+            DB::table('shoppingcart_products')->insert([
+                "quantity"          => $faker->numberBetween(1, 15),
+                "shoppingcart_id"   => 1,
+                "product_id"        => $i,
             ]);
         }
     }

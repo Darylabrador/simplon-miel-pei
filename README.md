@@ -12,11 +12,19 @@ Une seconde version sera mise en place suivant :
 - FRONTEND : VueJS
 - BACKEND  : Laravel v8
 
+## Compte de test :
+
 Identifiant admin : 
 - login : admin@gmail.com
 - mot de passe : password
 
-Pour les autres role il faut regarder les utilisateurs ayant role 2 : client et role 3 producteur ( mdp: password)
+Identifiant d'un client :
+- login : client@gmail.com
+- mot de passe : password
+
+Identifiant d'un producteur
+- login : producteur@gmail.com
+- mot de passe : password
 
 ## Initialisation du projet
 
