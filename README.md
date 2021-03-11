@@ -65,3 +65,7 @@ En mode développment vous devez utiliser les commandes suivantes :
 En mode production la commande suivante doit être actif en permanence :
 
 - php artisan queue:work
+
+## Version 2 disponible
+
+> Une version 2 de l'application est disponible <a href="https://github.com/Darylabrador/simplon-miel-pei/tree/application_v2"> ici </a>. Cette version utilise les technologies suivantes : Laravel / VueJS
