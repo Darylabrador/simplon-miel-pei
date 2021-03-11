@@ -4,11 +4,6 @@ La conception et le développement de ce projet s'est effectué dans le cadre de
 
 J'utilise ici : 
 
-- FRONTEND : Blade et Javascript
-- BACKEND  : Laravel v8
-
-Une seconde version sera mise en place suivant :
-
 - FRONTEND : VueJS
 - BACKEND  : Laravel v8
 
