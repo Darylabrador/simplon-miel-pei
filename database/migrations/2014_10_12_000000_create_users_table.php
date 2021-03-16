@@ -20,13 +20,15 @@ class CreateUsersTable extends Migration
 
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('role_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('identity');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('resetToken')->nullable();
             $table->boolean('suspended')->default(false);
-            $table->foreignId('role_id')->nullable()->constrained()->onDelete('cascade');
-            $table->rememberToken();
+            $table->integer('tentatives')->default(0);
+            $table->string('resetToken')->nullable();
+            $table->string('confirmToken')->nullable();
+            $table->dateTime('verified_at')->nullable();
             $table->timestamps();
         });
     }

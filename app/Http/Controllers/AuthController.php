@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ResetTentatives;
 use App\Mail\LoginNotification;
+use App\Mail\NotificationLockedAccount;
+use App\Mail\NotificationUnlockedAccount;
+use App\Mail\VerifyEmail;
 use App\Models\Shoppingcart;
 use App\Models\User;
+use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -46,34 +51,84 @@ class AuthController extends Controller
         $password   = $validator->validated()['password'];
         $userExist  = User::where(["email" => $email])->first();
 
-        if (!$userExist || !Hash::check($password, $userExist->password)) {
+        if (!$userExist) {
             return response()->json([
                 'success' => false,
                 'message' => "Adresse email ou mot de passe incorrecte"
             ]);
         }
 
-        if($userExist->suspended == 1) {
+        if ($userExist->verified_at == null) {
+            return response()->json([
+                'success' => false,
+                'message' => "Vous devez confirmer votre adresse email"
+            ]);
+        }
+
+        if ($userExist->suspended == 1) {
             return response()->json([
                 'success' => false,
                 'message' => "Compte temporairement suspendu"
             ]);
         }
 
-        // information about connection (security notification mail)
-        $ip  = $_SERVER['REMOTE_ADDR'];
-        $now = now()->toDateString();
-        $datenow = new DateTime($now);
-        $datenowFormat = $datenow->format('d-m-Y');
+        $oldTentative = $userExist->tentatives;
 
-        Mail::to($userExist->email)->send(new LoginNotification($userExist->identity, $ip, $datenowFormat));
-        $token = $userExist->createToken('AuthToken')->accessToken;
+        switch ($oldTentative) {
+            case 3:
+                $userExist->tentatives = 4;
+                $userExist->save();
 
-        return response()->json([
-            "success" => true,
-            "message" => "Vous êtes connecté !",
-            "token"   => $token
-        ]);        
+                Mail::to($userExist->email)->later(now()->addMinutes(30), new NotificationUnlockedAccount());
+                $resetJob = (new ResetTentatives($userExist->id, $userExist->email))->delay(Carbon::now()->addMinutes(30));
+                dispatch($resetJob);
+
+                $ip  = $_SERVER['REMOTE_ADDR'];
+                openlog('TEMAAS_AUTH', LOG_NDELAY, LOG_USER);
+                syslog(LOG_INFO, "L'utilisateur {$userExist->email} à atteint son nombre maximal de tentative de connexion depuis l'adresse IP {$ip} ! ");
+                Mail::to($userExist->email)->send(new NotificationLockedAccount());
+
+                return response()->json([
+                    'success' => false,
+                    'message' => "Veuillez réessayer dans 30 minutes",
+                ]);
+                break;
+            case 4:
+                return response()->json([
+                    'success' => false,
+                    'message' => "Veuillez réessayer dans quelques minutes",
+                ]);
+                break;
+            default:
+                if (Hash::check($password, $userExist->password)) {
+                    $userExist->tentatives = 0;
+                    $userExist->save();
+                    
+                    // information about connection (security notification mail)
+                    $ip  = $_SERVER['REMOTE_ADDR'];
+                    $now = now()->toDateString();
+                    $datenow = new DateTime($now);
+                    $datenowFormat = $datenow->format('d-m-Y');
+                    
+                    Mail::to($userExist->email)->send(new LoginNotification($userExist->identity, $ip, $datenowFormat));
+                    $token = $userExist->createToken('AuthToken')->accessToken;
+            
+                    return response()->json([
+                        "success" => true,
+                        "message" => "Vous êtes connecté !",
+                        "token"   => $token
+                    ]);
+                } else {
+                    $tentative    = $userExist->tentatives + 1;
+                    $userExist->tentatives = $tentative;
+                    $userExist->save();
+                    return response()->json([
+                        'success' => false,
+                        'message' => "Adresse email ou mot de passe incorrecte",
+                    ]);
+                }
+                break;
+            }       
     }
 
 
@@ -126,7 +181,8 @@ class AuthController extends Controller
             "email"    => $email,
             "password" => Hash::make($password),
             "role_id"  => $role,
-            "remember_token" => Str::random(10)
+            "remember_token" => Str::random(10),
+            "confirmToken"  => Str::random(20)
         ]);
 
         if($role == 2) {
@@ -136,12 +192,67 @@ class AuthController extends Controller
             ]);
         }
 
+        $url = request()->getSchemeAndHttpHost() . "/email/verification/" . $user->confirmToken;
+        Mail::to($user->email)->send(new VerifyEmail($user->name, $url));
+
         return response()->json([
             "success" => true,
-            "message" => "Inscription réussie"
+            "message" => "Vous devez à présent confirmer votre adresse e-mail"
         ]);
     }
 
+
+    /**
+     * Verify mail
+     *
+     *  @return \Illuminate\Http\Response
+     */
+    public function verifymail(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'confirmToken' => 'required',
+            ],
+            [
+                'required' => 'Le champ :attribute est requis',
+            ]
+        );
+
+        $errors = $validator->errors();
+        if (count($errors) != 0) {
+            return response()->json([
+                'success' => false,
+                'message' => $errors->first()
+            ]);
+        }
+
+        $confirmToken  = $validator->validated()['confirmToken'];
+        $userExist = User::where(['confirmToken' => $confirmToken])->first();
+
+        if (!$userExist) {
+            return response()->json([
+                "success" => false,
+                "message" => "Jeton de vérification invalide"
+            ]);
+        }
+
+        if ($userExist->verified_at != null) {
+            return response()->json([
+                "success" => false,
+                "message" => "Adresse e-mail déjà vérifier"
+            ]);
+        }
+
+        $userExist->verified_at =  now();
+        $userExist->save();
+
+        return response()->json([
+            "success" => true,
+            "message" => "Adresse email vérifier avec succès"
+        ]);
+    }
+    
 
     /**
      * Handle disconnect request.

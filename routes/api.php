@@ -37,6 +37,7 @@ use App\Http\Controllers\UserController;
 Route::post('/login', [AuthController::class, "connection"])->name('api.connexion');
 Route::post('/register', [AuthController::class, "register"])->name('api.inscription');
 Route::get('/roles', [RoleController::class, "index"])->name('api.roles');
+Route::post('/email/verification', [AuthController::class, "verifymail"])->name('api.verifyemail');
 
 Route::middleware('auth:api')->group(function () {
     Route::get('/logout', [AuthController::class, "logout"])->name('api.logout');

@@ -1,21 +1,23 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import Accueil from './views/Accueil.vue';
+import Login from './login/Login.vue';
 
 Vue.use(VueRouter);
 
 const router = new VueRouter({
     mode: 'history',
     routes: [
-        // {
-        //     path: '/',
-        //     name: 'welcome',
-        //     component: Welcome
-        // },
-        // {
-        //     path: '/connexion',
-        //     name: 'login',
-        //     component: Login
-        // },
+        {
+            path: '/',
+            name: 'accueil',
+            component: Accueil
+        },
+        {
+            path: '/connexion',
+            name: 'login',
+            component: Login
+        },
         // {
         //     path: '/inscription',
         //     name: 'register',

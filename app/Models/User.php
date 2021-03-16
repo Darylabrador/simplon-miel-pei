@@ -23,6 +23,7 @@ class User extends Authenticatable
         'password',
         'resetToken',
         'role_id',
+        'verified_at'
     ];
 
     /**

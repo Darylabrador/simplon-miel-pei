@@ -31,8 +31,9 @@ class DatabaseSeeder extends Seeder
             'identity'       => "admin admin",
             'email'          => "admin@gmail.com",
             'password'       => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10),
+            'confirmToken' => Str::random(10),
             'role_id'        => 1,
+            'verified_at'    => $now,
             'created_at'     => $now,
             'updated_at'     => $now
         ]);
@@ -42,8 +43,9 @@ class DatabaseSeeder extends Seeder
             'identity'       => "DOE John",
             'email'          => "client@gmail.com",
             'password'       => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10),
+            'confirmToken' => Str::random(10),
             'role_id'        => 2,
+            'verified_at'    => $now,
             'created_at'     => $now,
             'updated_at'     => $now
         ]);
@@ -52,8 +54,9 @@ class DatabaseSeeder extends Seeder
             'identity'       => "Payet Claude",
             'email'          => "producteur@gmail.com",
             'password'       => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10),
+            'confirmToken' => Str::random(10),
             'role_id'        => 3,
+            'verified_at'    => $now,
             'created_at'     => $now,
             'updated_at'     => $now
         ]);
@@ -63,8 +66,9 @@ class DatabaseSeeder extends Seeder
                 'identity'       => $faker->name,
                 'email'          => $faker->unique()->safeEmail,
                 'password'       => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-                'remember_token' => Str::random(10),
+                'confirmToken' => Str::random(10),
                 'role_id'        => 2,
+                'verified_at'    => $now,
                 'created_at'     => $now,
                 'updated_at'     => $now
             ]);

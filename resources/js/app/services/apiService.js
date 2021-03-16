@@ -38,8 +38,8 @@ export const apiService = {
 }
 
 function headers() {
-    const authHeader = localStorage.getItem('tmaasToken')
-        ? { Authorization: "Bearer " + localStorage.getItem('tmaasToken') }
+    const authHeader = localStorage.getItem('mielTok')
+        ? { Authorization: "Bearer " + localStorage.getItem('mielTok') }
         : {};
     return {
         ...authHeader,
