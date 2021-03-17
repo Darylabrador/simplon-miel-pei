@@ -2,6 +2,8 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Accueil from './views/Accueil.vue';
 import Login from './login/Login.vue';
+import Register from './login/Register.vue';
+import VerifyEmail from './login/VerifyEmail.vue';
 
 Vue.use(VueRouter);
 
@@ -18,11 +20,16 @@ const router = new VueRouter({
             name: 'login',
             component: Login
         },
-        // {
-        //     path: '/inscription',
-        //     name: 'register',
-        //     component: Register
-        // },
+        {
+            path: '/inscription',
+            name: 'register',
+            component: Register
+        },
+        {
+            path: '/email/verification/:token',
+            name: 'verifymail',
+            component: VerifyEmail
+        },
         // {
         //     path: '/reinitialisation',
         //     name: 'reset',
@@ -32,11 +39,6 @@ const router = new VueRouter({
         //     path: '/reinitialisation/:token',
         //     name: 'resettoken',
         //     component: ResetPassword
-        // },
-        // {
-        //     path: '/email/verification/:token',
-        //     name: 'verifymail',
-        //     component: VerifyEmail
         // },
         // {
         //     path: '/dashboard',

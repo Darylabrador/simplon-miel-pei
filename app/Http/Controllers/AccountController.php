@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ChangePassword;
 use App\Mail\ForgottenPassword;
 use App\Models\User;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -86,6 +88,12 @@ class AccountController extends Controller
         $user->password   = Hash::make($newPassword);
         $user->save();
 
+        $ip            = $_SERVER['REMOTE_ADDR'];
+        $now           = now()->toDateString();
+        $datenow       = new DateTime($now);
+        $datenowFormat = $datenow->format('d-m-Y');
+        Mail::to($user->email)->send(new ChangePassword($user->identity, $datenowFormat, $ip));
+        
         return response()->json([
             'success' => true,
             'message' => "Mise à jour effectuée"

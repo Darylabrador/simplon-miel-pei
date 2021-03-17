@@ -176,14 +176,14 @@ class AuthController extends Controller
             ]);
         }
 
-        $user = User::create([
-            "identity" => $identity,
-            "email"    => $email,
-            "password" => Hash::make($password),
-            "role_id"  => $role,
-            "remember_token" => Str::random(10),
-            "confirmToken"  => Str::random(20)
-        ]);
+        $confirmToken = Str::random(20);
+        $user = new User();
+        $user->identity = $identity;
+        $user->email = $email;
+        $user->password = Hash::make($password);
+        $user->role_id = $role;
+        $user->confirmToken = $confirmToken;
+        $user->save();
 
         if($role == 2) {
             Shoppingcart::create([
@@ -192,8 +192,8 @@ class AuthController extends Controller
             ]);
         }
 
-        $url = request()->getSchemeAndHttpHost() . "/email/verification/" . $user->confirmToken;
-        Mail::to($user->email)->send(new VerifyEmail($user->name, $url));
+        $url = request()->getSchemeAndHttpHost() . "/email/verification/" . $confirmToken;
+        Mail::to($user->email)->send(new VerifyEmail($user->identity, $url));
 
         return response()->json([
             "success" => true,

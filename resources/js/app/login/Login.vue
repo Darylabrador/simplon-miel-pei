@@ -1,8 +1,8 @@
 <template >
     <v-container class="d-flex flex-column justify-center align-center mt-5" style="height:80vh; width: 100%;">
         <v-card class="mx-auto" width="450">
-            <v-card-text>
-                <h3 class="font-weight-black text-center red--text"> Connexion </h3>
+             <v-card-text class="mt-4">
+                <h2 class="font-weight-black text-center red--text"> Connexion </h2>
             </v-card-text>
 
             <v-card-actions class="d-flex justify-center">

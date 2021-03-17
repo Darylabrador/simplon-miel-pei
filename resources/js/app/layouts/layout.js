@@ -11,10 +11,6 @@ export default {
         }
     },
 
-    created() {
-
-    },
-
     methods: {
         async disconnect() {
             try {
