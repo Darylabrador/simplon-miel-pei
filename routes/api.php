@@ -53,6 +53,7 @@ Route::middleware('auth:api')->group(function () {
 Route::prefix("reset")->group(function () {
     Route::post("/request", [AccountController::class, "guestForgottenPassRequest"])->name("api.reset.request");
     Route::post("/password", [AccountController::class, "resetPassword"])->name("api.reset.password");
+    
     Route::post("/passwordAccount", [AccountController::class, "resetPassword"])->middleware('auth:api')->name("api.reset.password2");
     Route::post("/name", [AccountController::class, "editName"])->middleware('auth:api')->name("api.reset.name");
 });

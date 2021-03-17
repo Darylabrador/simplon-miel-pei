@@ -64,7 +64,6 @@ class AccountController extends Controller
 
         if ($resetToken) {
             $user = User::where(["resetToken" => $resetToken])->first();
-            $user->resetToken = null;
         }
 
         if ($email) {
@@ -85,6 +84,7 @@ class AccountController extends Controller
             ]);
         }
 
+        $user->resetToken = null;
         $user->password   = Hash::make($newPassword);
         $user->save();
 
