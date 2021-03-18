@@ -2,3 +2,26 @@
     width: 100% !important;
     padding: 0 25px;
 }
+
+.map {
+    position: relative;
+    height: 450px  !important;
+    min-width: 80% !important;
+    overflow: hidden;
+    margin: 10px auto !important;
+}
+
+.dividerStyle {
+    min-width: 60% !important;
+    max-width: 70% !important; 
+}
+
+.resetControl {
+    background: rgb(165, 0, 0);
+    padding: 5px;
+    border: 1px solid #aaa;
+    border-radius: 0.1em;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+}

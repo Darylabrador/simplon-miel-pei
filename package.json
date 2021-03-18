@@ -22,9 +22,11 @@
         "@smartweb/vue-flash-message": "^0.6.10",
         "axios": "^0.21.1",
         "es6-promise": "^4.2.8",
+        "leaflet": "^1.7.1",
         "vue": "^2.6.12",
         "vue-password-strength-meter": "^1.7.2",
         "vue-router": "^3.5.1",
+        "vue2-leaflet": "^2.6.0",
         "vuetify": "^2.4.6",
         "zxcvbn": "^4.4.2"
     }

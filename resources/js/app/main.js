@@ -4,6 +4,7 @@ import Router from './router.js';
 import Layout from './layouts/Layout.vue';
 import FlashMessage from '@smartweb/vue-flash-message';
 import 'vuetify/dist/vuetify.min.css';
+import 'leaflet/dist/leaflet.css';
 import _ from 'lodash';
 
 Vue.use(Vuetify);
