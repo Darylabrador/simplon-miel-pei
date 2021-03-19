@@ -30,7 +30,10 @@ export default {
             url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
             center: [-21.1287074, 55.4627191],
             zoom: 10,
-            markers: []
+            markers: [],
+            bestProds: [],
+            loading: false,
+            defaultOrigin: location.origin
         }
     },
 
@@ -40,6 +43,7 @@ export default {
 
     created() {
         this.getExploitations()
+        this.getBestProducts()
     },
 
     methods: {
@@ -67,13 +71,18 @@ export default {
         },
         async getBestProducts() {
             try {
-                
+                const requestBestProds = await axios.get(`${location.origin}/api/products/best`);
+                const bestProdData = requestBestProds.data.data;
+                this.bestProds = bestProdData;
             } catch (error) {
                 this.flashMessage.error({
                     title: error.msg,
                     time: 8000,
                 })
             }
+        },
+        getImageUrl(image) {
+            return `${location.origin}/images/${image}`
         }
     }
 }

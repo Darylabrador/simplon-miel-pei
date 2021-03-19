@@ -30,7 +30,7 @@ class ProductsController extends Controller
             ->join("products", "producers.product_id", "=", "products.id")
             ->where("quantity", ">", "0")
             ->orderBy("amountSell", "desc")
-            ->limit(5)
+            ->limit(4)
             ->get();
         return ProducerResource::collection($bestProducts);
     }
