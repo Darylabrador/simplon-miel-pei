@@ -6,7 +6,6 @@
         <v-toolbar color="grey darken-1" class="white--text" dark >
           <v-toolbar-title class='font-weight-bold d-flex align-center'>
             <div>
-
              Miel Péi 
             </div>
             <v-btn icon class="mr-2" color="white" :to="homePath" active-class="no-active"> <v-icon>mdi-home</v-icon></v-btn>
@@ -14,9 +13,9 @@
           <v-spacer></v-spacer>
 
           <div v-if="connected">
-            <v-btn text class="mr-2" color="white" :to="panierPath"> Mon panier </v-btn>
-            <v-btn text class="mr-2" color="white" :to="dashboardPath"> Dashboard </v-btn>
-            <v-btn text class="mr-2" color="white" @click="disconnect"> Déconnexion </v-btn>
+            <v-btn text class="mr-2" color="white" :to="panierPath"> <v-icon>mdi-cart</v-icon> mon panier</v-btn>
+            <v-btn text class="mr-2" color="white" :to="dashboardPath"> <v-icon>mdi-clipboard-list</v-icon> dashboard </v-btn>
+            <v-btn text class="mr-2" color="white" @click="disconnect"> <v-icon>mdi-exit-to-app</v-icon> déconnexion </v-btn>
           </div>
 
           <div v-else class="d-flex">
