@@ -5,6 +5,8 @@ import Login from './login/Login.vue';
 import Register from './login/Register.vue';
 import VerifyEmail from './login/VerifyEmail.vue';
 import ResetPassword from './login/ResetPassword.vue';
+import Producteur from './views/Producteur.vue';
+import ProducteurList from './views/ProducteurList.vue';
 
 Vue.use(VueRouter);
 
@@ -41,6 +43,21 @@ const router = new VueRouter({
             name: 'resettoken',
             component: ResetPassword
         },
+        {
+            path: '/producteurs',
+            name: 'producteurs',
+            component: ProducteurList
+        },
+        {
+            path: '/producteur',
+            name: 'producteur',
+            redirect: '/producteurs'
+        },
+        {
+            path: '/producteur/:id',
+            name: 'producteurDetails',
+            component: Producteur
+        }
         // {
         //     path: '/dashboard',
         //     name: 'dashboard',
