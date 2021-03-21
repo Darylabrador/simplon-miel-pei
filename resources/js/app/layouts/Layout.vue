@@ -20,6 +20,7 @@
 
           <div v-else class="d-flex">
             <v-btn text class="mr-2" color="white" :to="panierPath"> <v-icon>mdi-cart</v-icon> mon panier</v-btn>
+                        <v-btn text class="mr-2" color="white" :to="producersPath"> <v-icon>mdi-clipboard-list</v-icon> Nos producteurs </v-btn>
             <v-btn text class="mr-2" color="white" :to="loginPath"> <v-icon>mdi-account</v-icon> connexion</v-btn>
           </div>
         </v-toolbar>

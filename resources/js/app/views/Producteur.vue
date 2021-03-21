@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid>
+    <v-container fluid class="grey lighten-5">
         <section class="mt-10">
             <h3 class="text-center"> {{ producteurIdentity }} <br> {{ producteurAddress }} </h3>
             <v-divider light class="mx-auto mt-2 dividerStyle"></v-divider>

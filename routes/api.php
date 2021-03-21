@@ -8,6 +8,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExploitationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PDFcontroller;
+use App\Http\Controllers\ProducerController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ShoppingcartProductsController;
@@ -135,6 +136,12 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/order/{id}/pdf', [PDFcontroller::class, 'generateInvoice'])->name('api.invoice.pdf');
 });
 
+
+/**
+ * Producer routes
+ */
+
+ Route::get('/producteurs', [ProducerController::class, 'producersList'])->name('api.producer.list');
 
 /*
 |--------------------------------------------------------------------------

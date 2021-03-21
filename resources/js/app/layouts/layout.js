@@ -8,7 +8,8 @@ export default {
             loginPath: '/connexion',
             panierPath: '/panier',
             dashboardPath: '/dashboard',
-            homePath: '/'
+            homePath: '/',
+            producersPath: '/producteurs'
         }
     },
 

@@ -26,8 +26,8 @@ export default {
     created() {
         if (this.$route.params.id) {
             this.producteurId = this.$route.params.id;
+            this.productInfo();
         }
-        this.productInfo();
     },
 
     methods: {
@@ -38,7 +38,6 @@ export default {
                 this.producteur = producteurData;
                 this.producteurIdentity = producteurData[0].producteur.identity;
                 this.producteurAddress = producteurData[0].producteur.exploitations[0].address;
-                console.log(this.producteur)
             } catch (error) {
                 this.flashMessage.error({
                     title: error.msg,
