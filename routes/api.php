@@ -93,6 +93,8 @@ Route::middleware('auth:api', 'isAdmin')->prefix('gestion')->group(function () {
 |--------------------------------------------------------------------------
 */
 
+Route::get('/miels', [ProductsController::class, "productsList"])->name('api.product.list');
+
 Route::middleware(['auth:api', 'isProducer'])->group(function(){
     Route::get('/products/gestion', [ProductsController::class, "index"])->name("api.products.gestion");
     Route::post('/products/gestion', [ProductsController::class, "index"])->name("api.products.gestion.search");

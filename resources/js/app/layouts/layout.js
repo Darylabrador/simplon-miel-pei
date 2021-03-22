@@ -9,7 +9,8 @@ export default {
             panierPath: '/panier',
             dashboardPath: '/dashboard',
             homePath: '/',
-            producersPath: '/producteurs'
+            producersPath: '/producteurs',
+            produitsPath: '/miels'
         }
     },
 

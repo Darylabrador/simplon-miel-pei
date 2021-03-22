@@ -13,20 +13,27 @@
           <v-spacer></v-spacer>
 
           <div v-if="connected">
-            <v-btn text class="mr-2" color="white" :to="panierPath"> <v-icon>mdi-cart</v-icon> mon panier</v-btn>
-            <v-btn text class="mr-2" color="white" :to="dashboardPath"> <v-icon>mdi-clipboard-list</v-icon> dashboard </v-btn>
-            <v-btn text class="mr-2" color="white" @click="disconnect"> <v-icon>mdi-exit-to-app</v-icon> déconnexion </v-btn>
+            <v-btn text class="mr-2" color="white" :to="panierPath">
+              <v-badge content="6" class="dark--text font-weight-bold mr-4" color="grey"></v-badge> 
+              <v-icon class="mr-1">mdi-cart</v-icon> mon panier
+            </v-btn>
+            <v-btn text class="mr-2" color="white" :to="dashboardPath"> <v-icon class="mr-1">mdi-clipboard-list</v-icon> dashboard </v-btn>
+            <v-btn text class="mr-2" color="white" @click="disconnect"> <v-icon class="mr-1">mdi-exit-to-app</v-icon> déconnexion </v-btn>
           </div>
 
           <div v-else class="d-flex">
-            <v-btn text class="mr-2" color="white" :to="panierPath"> <v-icon>mdi-cart</v-icon> mon panier</v-btn>
-                        <v-btn text class="mr-2" color="white" :to="producersPath"> <v-icon>mdi-clipboard-list</v-icon> Nos producteurs </v-btn>
-            <v-btn text class="mr-2" color="white" :to="loginPath"> <v-icon>mdi-account</v-icon> connexion</v-btn>
+            <v-btn text class="mr-2" color="white" :to="produitsPath"> <v-icon class="mr-1">mdi-beehive-outline</v-icon> Nos miels </v-btn>
+            <v-btn text class="mr-2" color="white" :to="producersPath"> <v-icon class="mr-1">mdi-clipboard-list</v-icon> Nos producteurs </v-btn>
+            <v-btn text class="mr-2" color="white" :to="panierPath">
+              <v-badge content="6" class="dark--text font-weight-bold mr-4" color="grey"></v-badge> 
+              <v-icon class="mr-1">mdi-cart</v-icon> mon panier
+            </v-btn>
+            <v-btn text class="mr-2" color="white" :to="loginPath"> <v-icon class="mr-1">mdi-account</v-icon> connexion</v-btn>
           </div>
         </v-toolbar>
       </div>
 
-    <v-main>
+    <v-main class="grey lighten-5">
       <router-view @updateNavbar="updateNavbar" @unathorized="unathorized"></router-view>
     </v-main>
 

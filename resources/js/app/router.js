@@ -7,6 +7,7 @@ import VerifyEmail from './login/VerifyEmail.vue';
 import ResetPassword from './login/ResetPassword.vue';
 import Producteur from './views/Producteur.vue';
 import ProducteurList from './views/ProducteurList.vue';
+import Miels from './views/Miels.vue';
 
 Vue.use(VueRouter);
 
@@ -57,6 +58,11 @@ const router = new VueRouter({
             path: '/producteur/:id',
             name: 'producteurDetails',
             component: Producteur
+        },
+        {
+            path: '/miels',
+            name: 'miels',
+            component: Miels
         }
         // {
         //     path: '/dashboard',

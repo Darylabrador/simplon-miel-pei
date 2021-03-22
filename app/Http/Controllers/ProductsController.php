@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\ProducerResource;
+use App\Http\Resources\ProductsResource;
 
 class ProductsController extends Controller
 {
@@ -34,6 +35,18 @@ class ProductsController extends Controller
             ->get();
         return ProducerResource::collection($bestProducts);
     }
+
+    
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function productsList() {
+        $productList = Products::all();
+        return ProductsResource::collection($productList);
+    }
+
 
     /**
      * Display a listing of the resource.
