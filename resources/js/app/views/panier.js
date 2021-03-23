@@ -21,8 +21,8 @@ export default {
     },
 
     created() {
-    
-        console.log(this.$store.state.cart)
+        this.productArray = this.$store.state.cart;
+        console.log(this.productArray);
     },
 
     methods: {
