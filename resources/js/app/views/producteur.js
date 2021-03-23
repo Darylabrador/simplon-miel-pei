@@ -1,8 +1,9 @@
 import { apiService } from '../services/apiService.js';
+import AddToCart from '../components/AddToCart.vue';
 
 export default {
     components: {
-        
+        AddToCart
     },
 
     props: {

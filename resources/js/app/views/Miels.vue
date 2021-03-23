@@ -11,12 +11,13 @@
                     <v-card :loading="loading" class="mx-auto my-10 p-0" max-width="300">
                         <v-card-title> {{ miel.name }} </v-card-title>
                         <v-img max-height="150" :src="getImageUrl(miel.image)" class="mx-2"></v-img>
-                        <v-card-text class="d-flex justify-end">
+                        <v-card-text class="d-flex justify-end my-0">
                             <div class="subtitle-1 font-weight-bold text-right">
                                 {{ inStock(miel.quantity ) }} <br>
                                 {{ miel.price }} €
                             </div>
                         </v-card-text>
+                        <addToCart :mielInfo="miel" />
                     </v-card>
                 </v-col>
             </v-row>

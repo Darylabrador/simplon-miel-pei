@@ -8,6 +8,7 @@ import ResetPassword from './login/ResetPassword.vue';
 import Producteur from './views/Producteur.vue';
 import ProducteurList from './views/ProducteurList.vue';
 import Miels from './views/Miels.vue';
+import Panier from './views/Panier.vue';
 
 Vue.use(VueRouter);
 
@@ -60,10 +61,16 @@ const router = new VueRouter({
             component: Producteur
         },
         {
+            path: '/panier',
+            name: 'panier',
+            component: Panier
+        },
+        {
             path: '/miels',
             name: 'miels',
             component: Miels
-        }
+        },
+  
         // {
         //     path: '/dashboard',
         //     name: 'dashboard',

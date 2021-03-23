@@ -1,8 +1,9 @@
 import { apiService } from '../services/apiService.js';
+import AddToCart from '../components/AddToCart.vue';
 
 export default {
     components: {
-
+        AddToCart
     },
 
     props: {
@@ -30,7 +31,6 @@ export default {
                 const mielReq = await apiService.get(`${location.origin}/api/miels`);
                 const mielData = mielReq.data.data;
                 this.miels = mielData;
-                console.log(mielData);
             } catch (error) {
                 this.flashMessage.error({
                     title: error.msg,

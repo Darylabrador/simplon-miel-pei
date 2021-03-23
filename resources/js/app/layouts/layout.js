@@ -10,7 +10,8 @@ export default {
             dashboardPath: '/dashboard',
             homePath: '/',
             producersPath: '/producteurs',
-            produitsPath: '/miels'
+            produitsPath: '/miels',
+            number: 0
         }
     },
 

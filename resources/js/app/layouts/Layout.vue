@@ -17,7 +17,10 @@
               <v-badge content="6" class="dark--text font-weight-bold mr-4" color="grey"></v-badge> 
               <v-icon class="mr-1">mdi-cart</v-icon> mon panier
             </v-btn>
-            <v-btn text class="mr-2" color="white" :to="dashboardPath"> <v-icon class="mr-1">mdi-clipboard-list</v-icon> dashboard </v-btn>
+
+            <!-- espace client en list-item à la place d'un dashboard générale -->
+            <v-btn text class="mr-2" color="white" :to="dashboardPath"> <v-icon class="mr-1">mdi-clipboard-list</v-icon> espace client </v-btn>
+
             <v-btn text class="mr-2" color="white" @click="disconnect"> <v-icon class="mr-1">mdi-exit-to-app</v-icon> déconnexion </v-btn>
           </div>
 
@@ -25,7 +28,7 @@
             <v-btn text class="mr-2" color="white" :to="produitsPath"> <v-icon class="mr-1">mdi-beehive-outline</v-icon> Nos miels </v-btn>
             <v-btn text class="mr-2" color="white" :to="producersPath"> <v-icon class="mr-1">mdi-clipboard-list</v-icon> Nos producteurs </v-btn>
             <v-btn text class="mr-2" color="white" :to="panierPath">
-              <v-badge content="6" class="dark--text font-weight-bold mr-4" color="grey"></v-badge> 
+              <v-badge :content="number" class="dark--text font-weight-bold mr-4" color="grey" v-if="number != 0"></v-badge> 
               <v-icon class="mr-1">mdi-cart</v-icon> mon panier
             </v-btn>
             <v-btn text class="mr-2" color="white" :to="loginPath"> <v-icon class="mr-1">mdi-account</v-icon> connexion</v-btn>

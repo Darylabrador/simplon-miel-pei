@@ -17,6 +17,7 @@
                                 {{ product.produit.price }} €
                             </div>
                         </v-card-text>
+                        <addToCart :mielInfo="product.produit" />
                     </v-card>
                 </v-col>
             </v-row>
