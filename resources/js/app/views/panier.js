@@ -1,4 +1,5 @@
 import { apiService } from '../services/apiService.js';
+import store from '../store/index.js';
 
 export default {
     components: {
@@ -11,7 +12,7 @@ export default {
 
     data() {
         return {
-
+            productArray: []
         }
     },
 
@@ -20,7 +21,7 @@ export default {
     },
 
     created() {
-
+        console.log(store.state.cart)
     },
 
     methods: {

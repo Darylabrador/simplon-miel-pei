@@ -1,3 +1,6 @@
+import EventBus from '../evt-bus.js';
+import store from '../store/index.js';
+
 export default {
     components: {
  
@@ -22,6 +25,8 @@ export default {
     },
 
     methods: {
-
+        test(){
+            store.commit('addToCartInfo', this.mielInfo)
+        }
     }
 }
