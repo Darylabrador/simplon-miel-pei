@@ -21,7 +21,8 @@ export default {
     },
 
     created() {
-        console.log(store.state.cart)
+    
+        console.log(this.$store.state.cart)
     },
 
     methods: {

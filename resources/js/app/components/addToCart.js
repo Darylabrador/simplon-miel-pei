@@ -26,7 +26,7 @@ export default {
 
     methods: {
         test(){
-            store.commit('addToCartInfo', this.mielInfo)
+            this.$store.commit('addToCartInfo', this.mielInfo)
         }
     }
 }

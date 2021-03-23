@@ -8,8 +8,8 @@ export default new Vuex.Store({
         cart: []
     },
     mutations: {
-        addToCartInfo(state) {
-            state.cart.push(state)
+        addToCartInfo(state, payload) {
+            state.cart.push(payload)
         },
         emptyCart(state){
             state.cart = []
