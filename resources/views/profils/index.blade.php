@@ -1,8 +1,9 @@
 @extends('layouts.app')
 
+@include('layouts.toast')
+
 @section('content')
 
-      @include('layouts.toast')
 
     <div class="row justify-content-center">
         <form class="card col-10 col-lg-4 m-2 mx-4" id="formIdentity">

@@ -19,10 +19,10 @@
     </button>
 @endsection
 
+@include('layouts.toast')
 
 @section('content')
 
-      @include('layouts.toast')
 
     <form id="searchForm" class="mb-4">
         <div class="row no-gutter d-flex align-items-center">

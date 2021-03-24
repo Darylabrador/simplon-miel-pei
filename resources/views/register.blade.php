@@ -4,9 +4,11 @@
     <script src="{{ asset("js/utils/checkRegister.js") }}"></script>
 @endsection
 
+@include('layouts.toast')
+
+
 @section('content')
 
-    @include('layouts.toast')
 
    <div class="container" style="height: 80vh !important; display: flex; flex-content: center; align-items: center;">
        <form id="registerForm" class="w-50 mx-auto p-3 rounded">

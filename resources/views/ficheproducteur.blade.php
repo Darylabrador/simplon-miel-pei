@@ -4,10 +4,11 @@
   
 @endsection
 
+@include('layouts.toast')
+
 @section('content')
   @include('layouts.guestheader')
 
-  @include('layouts.toast')
 
     <input type="hidden" id="producerId" value="{{ $id ?? null }}">
   

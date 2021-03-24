@@ -101,7 +101,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
     searchLocation.addEventListener('keyup', evt => {
         let locationValue = evt.currentTarget.value;
         if(locationValue != "") {
-            axios.get(`https://api-adresse.data.gouv.fr/search/?q=${locationValue}&type=housenumber&autocomplete=1` )
+            axios.get(`https://api-adresse.data.gouv.fr/search/?q=${locationValue}&type=housenumber&autocomplete=1`)
             .then(({data}) => {
                 apiResult = data.features;
                 let options = "";

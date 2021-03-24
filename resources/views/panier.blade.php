@@ -5,10 +5,11 @@
 
 @endsection
 
+@include('layouts.toast')
+
 @section('content')
   @include('layouts.guestheader')
 
-  @include('layouts.toast')
 
     <main class="container mb-5">
       <h5 class="text-center border-bottom w-50 mx-auto mb-4">Récapitulatif de mon panier</h5>
