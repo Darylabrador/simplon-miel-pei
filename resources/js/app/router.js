@@ -51,11 +51,6 @@ const router = new VueRouter({
             component: ProducteurList
         },
         {
-            path: '/producteur',
-            name: 'producteur',
-            redirect: '/producteurs'
-        },
-        {
             path: '/producteur/:id',
             name: 'producteurDetails',
             component: Producteur

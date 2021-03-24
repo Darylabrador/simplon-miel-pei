@@ -4,7 +4,7 @@ import EventBus from '../evt-bus.js';
 export default {
     mounted(){
         EventBus.$on('increment', (number) => {
-            this.number += 1;
+            this.number = this.$store.state.cart.length;
         })
     },
     data() {
