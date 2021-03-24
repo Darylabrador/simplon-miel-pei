@@ -1,5 +1,23 @@
 <template>
     <v-container fluid class="grey lighten-5">
+        <section class="mt-13">
+            <h3 class="text-center"> Les meilleurs ventes du moment </h3>
+            <v-divider light class="mx-auto mt-2 dividerStyle"></v-divider>
+            <v-row no-gutters class="mt-8">
+                <v-col v-for="product in bestProds" :key="product.id">
+                    <v-card :loading="loading" class="mx-auto my-10 p-0" max-width="300">
+                        <v-card-title> {{ product.produit.name }} </v-card-title>
+                        <v-img max-height="150" :src="getImageUrl(product.produit.image)" class="mx-2"></v-img>
+                        <v-card-text class="d-flex justify-end">
+                            <div class="subtitle-1 font-weight-bold">
+                                {{ product.produit.price }} €
+                            </div>
+                        </v-card-text>
+                    </v-card>
+                </v-col>
+            </v-row>
+        </section>
+
         <section class="mt-10">
             <h3 class="text-center"> Nos exploitations </h3>
             <v-divider light class="mx-auto mt-2 dividerStyle"></v-divider>
@@ -31,24 +49,6 @@
                     </l-popup>
                 </l-marker>
             </l-map>
-        </section>
-
-        <section class="mt-13">
-            <h3 class="text-center"> Les meilleurs ventes du moment </h3>
-            <v-divider light class="mx-auto mt-2 dividerStyle"></v-divider>
-            <v-row no-gutters class="mt-8">
-                <v-col v-for="product in bestProds" :key="product.id">
-                    <v-card :loading="loading" class="mx-auto my-10 p-0" max-width="300">
-                        <v-card-title> {{ product.produit.name }} </v-card-title>
-                        <v-img max-height="150" :src="getImageUrl(product.produit.image)" class="mx-2"></v-img>
-                        <v-card-text class="d-flex justify-end">
-                            <div class="subtitle-1 font-weight-bold">
-                                {{ product.produit.price }} €
-                            </div>
-                        </v-card-text>
-                    </v-card>
-                </v-col>
-            </v-row>
         </section>
     </v-container>
 </template>

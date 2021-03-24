@@ -13,6 +13,6 @@ export default new Vuex.Store({
         },
         emptyCart(state){
             state.cart = []
-        }
+        },
     }
 })

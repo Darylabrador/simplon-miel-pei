@@ -26,7 +26,8 @@ export default {
 
     methods: {
         addToCart(){
-            this.$store.commit('addToCartInfo', this.mielInfo)
+            this.$store.commit('addToCartInfo', this.mielInfo);
+            EventBus.$emit('increment', 1);
         }
     }
 }

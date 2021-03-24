@@ -1,6 +1,12 @@
 import { apiService } from '../services/apiService.js';
+import EventBus from '../evt-bus.js';
 
 export default {
+    mounted(){
+        EventBus.$on('increment', (number) => {
+            this.number += 1;
+        })
+    },
     data() {
         return {
             connected: localStorage.getItem('mielTok') != null ? true : false,
