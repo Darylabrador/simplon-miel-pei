@@ -59,7 +59,7 @@
                         <h4 class="text-center mb-5 font-weight-bold"> Total TTC : {{ totalTTC }} € </h4>
                         
                         <div  class="d-flex justify-center pb-4">
-                            <v-btn color="grey darken-1" class="white--text"> Passer commande </v-btn>
+                            <v-btn color="grey darken-1" class="white--text" @click="validate"> Passer commande </v-btn>
                         </div>
                     </v-card>
                 </v-col>

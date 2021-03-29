@@ -35,6 +35,7 @@ export default {
                     const loginData = loginReq.data;
 
                     if(loginData.success) {
+                        this.$store.commit('connect', true);
                         localStorage.setItem('mielTok', loginData.token);
                         this.email      = "";
                         this.password   = "";

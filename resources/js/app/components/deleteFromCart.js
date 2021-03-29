@@ -20,7 +20,6 @@ export default {
     },
 
     created() {
-        console.log(this.mielInfo)
     },
 
     methods: {
@@ -37,9 +36,5 @@ export default {
                 })
             }
         }
-        // addToCart() {
-        //     this.$store.commit('addToCartInfo', this.mielInfo);
-        //     EventBus.$emit('increment', 1);
-        // }
     }
 }

@@ -31,6 +31,7 @@ export default {
                         title: disconnectData.message,
                         time: 8000,
                     });
+                    this.$store.commit('disconnect', false);
                     localStorage.removeItem('mielTok');
                     this.connected = false;
                     this.$router.push('/');

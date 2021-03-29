@@ -20,11 +20,13 @@ export default {
 
     data() {
         return {
+            valid: false,
+            isUserLogged: this.$store.state.isLogged,
             totalTTC: 0,
             miels: [],
             productArray: [],
-            billing: '',
-            delivery: '',
+            billing: null,
+            delivery: null,
             billingRules: [
                 v => !!v || 'Adresse de facturation requise',
             ],
@@ -35,7 +37,12 @@ export default {
     },
 
     watch: {
-
+        billing() {
+            this.verifyInput()     
+        }, 
+        delivery(){
+            this.verifyInput()
+        }
     },
 
     created() {
@@ -56,14 +63,12 @@ export default {
             });
 
             this.totalTTC = total;
-            console.log(cartUniq);
         },
         async getProds() {
             try {
                 const prodReq = await apiService.get(`${location.origin}/api/miels`);
                 const mielData = prodReq.data.data;
                 this.miels = mielData;
-                console.log(this.miels)
             } catch (error) {
                 this.flashMessage.error({
                     title: error.msg,
@@ -79,6 +84,25 @@ export default {
                 return 'Stock épuisé'
             } else {
                 return `${quantity} en stock`
+            }
+        },
+        verifyInput() {
+            if (this.billing != null && this.delivery != null) {
+                this.valid = true;
+            } else {
+                this.valid = false;
+            }
+        },
+        async validate(){
+            try {
+                if(this.valid) {
+                    console.log('test')
+                }
+            } catch (error) {
+                this.flashMessage.error({
+                    title: error.msg,
+                    time: 8000,
+                })
             }
         }
     }
