@@ -23,23 +23,38 @@ export default new Vuex.Store({
             state.isLogged = true;
             state.userRole = payload.role;
         },
+
         addToCartInfo(state, payload) {
-            if(_.includes(state.cart, payload)) {
-                let sameElement = state.cart.find(element => element.id == payload.id);
-                if (sameElement.amountDefault != sameElement.quantity) {
-                    sameElement.amountDefault += 1;
-                }
+            if(_.isArray(payload)) {
+                payload.forEach(prod => {
+                    let sameElement  = state.cart.find(element => element.id == prod.id);
+                    if(sameElement) {
+                        sameElement.amountDefault += prod.amountDefault
+                    } else {
+                        state.cart.push(prod)
+                    }
+                });
             } else {
-                state.cart.push(payload)
+                if (_.includes(state.cart, payload)) {
+                    let sameElement = state.cart.find(element => element.id == payload.id);
+                    if (sameElement.amountDefault != sameElement.quantity) {
+                        sameElement.amountDefault += 1;
+                    }
+                } else {
+                    state.cart.push(payload)
+                }
             }
         },
+
         removeFromCart(state, payload){
             let filtered = state.cart.filter(element => element.id != payload.id);
             state.cart = filtered;
         },
+
         emptyCart(state){
             state.cart = []
         },
+        
         disconnect(state) {
             state.isLogged = false;
             state.cart = [];
@@ -48,7 +63,7 @@ export default new Vuex.Store({
     },
 
     actions: {
-      
+        
     },
     
     getters: {

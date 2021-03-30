@@ -1,4 +1,5 @@
 import { apiService } from '../services/apiService.js';
+import EventBus from '../evt-bus.js';
 
 export default {
     data: () => ({
@@ -23,6 +24,23 @@ export default {
     },
 
     methods: {
+        async contentShoppingCart() {
+            try {
+                let defaultData = [];
+                const shoppingCartReq = await apiService.get(`${location.origin}/api/shoppingcart`);
+                const shoppingcartData = shoppingCartReq.data.data;
+                if (shoppingcartData.length != 0) {
+                    shoppingcartData.forEach(element => {
+                        element.productInfo.amountDefault = element.quantity;
+                        defaultData.push(element.productInfo)
+                    });
+                    this.$store.commit('addToCartInfo', defaultData);
+                    EventBus.$emit('defaultData', true);
+                }
+            } catch (error) {
+                console.error(error)
+            }
+        },
         async validate() {
             try {
                 await this.$refs.form.validate()
@@ -40,6 +58,7 @@ export default {
                         this.password   = "";
                         this.$store.commit('connect', loginData);
                         this.$emit('updateNavbar', true);
+                        this.contentShoppingCart();
                         this.$router.push('/');
                     } else {
                         this.flashMessage.error({

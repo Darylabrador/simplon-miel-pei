@@ -13,8 +13,11 @@
           <v-spacer></v-spacer>
 
           <div v-if="connected">
+            <v-btn text class="mr-2" color="white" :to="produitsPath"> <v-icon class="mr-1">mdi-beehive-outline</v-icon> Nos miels </v-btn>
+            <v-btn text class="mr-2" color="white" :to="producersPath"> <v-icon class="mr-1">mdi-clipboard-list</v-icon> Nos producteurs </v-btn>
+
             <v-btn text class="mr-2" color="white" :to="panierPath">
-              <v-badge content="6" class="dark--text font-weight-bold mr-4" color="grey"></v-badge> 
+              <v-badge :content="number" class="dark--text font-weight-bold mr-4" color="grey" v-if="number != 0"></v-badge> 
               <v-icon class="mr-1">mdi-cart</v-icon> mon panier
             </v-btn>
 

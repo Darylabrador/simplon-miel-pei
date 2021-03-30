@@ -66,7 +66,11 @@ const router = new VueRouter({
             name: 'miels',
             component: Miels
         },
-  
+        {
+            path: '*',
+            name: '404',
+            component: Accueil
+        }
         // {
         //     path: '/dashboard',
         //     name: 'dashboard',

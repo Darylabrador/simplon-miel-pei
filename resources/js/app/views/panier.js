@@ -16,9 +16,12 @@ export default {
     },
 
     mounted() {
+        EventBus.$on('defaultData', (payload) => {
+            this.startingData();
+        });
         EventBus.$on('deleted', (payload) => {
             this.startingData();
-        })
+        });
         EventBus.$on('updateNavbar', (payload) => {
             this.isUserLogged = this.$store.state.isLogged;
         });

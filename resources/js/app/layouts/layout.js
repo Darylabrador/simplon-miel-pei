@@ -3,6 +3,9 @@ import EventBus from '../evt-bus.js';
 
 export default {
     mounted(){
+        EventBus.$on('defaultData', (payload) => {
+            this.number = _.uniqBy(this.$store.state.cart, 'id').length;
+        });
         EventBus.$on('increment', (number) => {
             this.number = _.uniqBy(this.$store.state.cart, 'id').length;
         });
@@ -10,6 +13,7 @@ export default {
             this.updateNavbar(payload);
         });
     },
+
     data() {
         return {
             connected: localStorage.getItem('mielTok') != null ? true : false,
@@ -25,6 +29,14 @@ export default {
         }
     },
 
+    created() {
+        
+    },
+
+    watch: {
+        
+    },
+
     methods: {
         async disconnect() {
             try {
@@ -38,6 +50,7 @@ export default {
                     this.$store.commit('disconnect');
                     localStorage.removeItem('mielTok');
                     EventBus.$emit('updateNavbar', false);
+                    EventBus.$emit('defaultData', true);
                     this.connected = false;
                     this.userRole = null;
                     this.number = _.uniqBy(this.$store.state.cart, 'id').length;
@@ -47,6 +60,7 @@ export default {
                 this.$store.commit('disconnect');
                 localStorage.removeItem('mielTok');
                 EventBus.$emit('updateNavbar', false);
+                EventBus.$emit('defaultData', true);
                 this.connected = false;
                 this.userRole = null;
                 this.number = _.uniqBy(this.$store.state.cart, 'id').length;
@@ -56,6 +70,7 @@ export default {
         updateNavbar(isLogged) {
             this.connected = isLogged;
             this.userRole  = this.$store.state.userRole;
+            this.number = _.uniqBy(this.$store.state.cart, 'id').length;
         },
         unathorized(val) {
             this.connected = val;

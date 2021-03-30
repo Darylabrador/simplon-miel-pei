@@ -43,6 +43,21 @@ export default {
         openRegister(){
             this.$emit('openRegister', true)
         },
+        async contentShoppingCart() {
+            try {
+                let defaultData = [];
+                const shoppingCartReq = await apiService.get(`${location.origin}/api/shoppingcart`);
+                const shoppingcartData = shoppingCartReq.data.data;
+                shoppingcartData.forEach(element => {
+                    element.productInfo.amountDefault = element.quantity;
+                    defaultData.push(element.productInfo)
+                });
+                this.$store.commit('addToCartInfo', defaultData);
+                EventBus.$emit('defaultData', true);
+            } catch (error) {
+                console.error(error)
+            }
+        },
         async validate() {
             try {
                 await this.$refs.form.validate()
@@ -60,6 +75,7 @@ export default {
                         this.password = "";
                         this.$store.commit('connect', loginData);
                         EventBus.$emit('updateNavbar', true);
+                        this.contentShoppingCart();
                         this.close();
                     } else {
                         this.flashMessage.error({
