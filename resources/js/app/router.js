@@ -9,6 +9,7 @@ import Producteur from './views/Producteur.vue';
 import ProducteurList from './views/ProducteurList.vue';
 import Miels from './views/Miels.vue';
 import Panier from './views/Panier.vue';
+import Store from './store';
 
 Vue.use(VueRouter);
 
@@ -70,23 +71,22 @@ const router = new VueRouter({
         //     path: '/dashboard',
         //     name: 'dashboard',
         //     component: Dashboard,
-        //     meta: { requiresAuth: true }
+        //     meta: { requiresAuth: true, adminAuth: true }
         // },
     ]
 });
 
 
-router.beforeEach((to, from, next) => {
-    function isLogged() {
-        return localStorage.getItem('tmaasToken');
-    }
-    if (to.matched.some(record => record.meta.requiresAuth)) {
-        if (!isLogged()) {
-            return next({ path: "/connexion" });
-        }
-    }
-    return next();
-});
 
+// router.beforeEach((to, from, next) => {
+//     if (to.matched.some(record => record.meta.requiresAuth) && to.matched.some(record => record.meta.adminAuth)) {
+//         if (!Store.state.isLogged && Store.state.userRole != 1) {
+//             return next({ path: "/connexion" });
+//         } else {
+//             return next();
+//         }
+//     }
+//     return next();
+// });
 
 export default router;

@@ -23,7 +23,7 @@ class VerifyEmail extends Mailable implements ShouldQueue
     {
         $this->identity = $identity;
         $this->url      =  $url;
-        $this->subject("TEMAAS - Confirmation d'inscription");
+        $this->subject("Miel péi - Confirmation d'inscription");
     }
 
     /**

@@ -25,7 +25,7 @@
                     <v-text-field type="password" v-model="passwordConfirm" :rules="passwordConfirmRules" label="Confirmation mot de passe*" required></v-text-field>
 
                     <div class="d-flex justify-end mt-5 mb-2 w-100">
-                        <v-btn small color="blue-grey" class="mr-2" :to="loginPath"> Retour </v-btn>
+                        <v-btn small color="blue-grey" class="mr-2 white--text" :to="loginPath"> Retour </v-btn>
                         <v-btn small color="primary" @click="validate"> Inscription </v-btn>
                     </div>
                 </v-form>

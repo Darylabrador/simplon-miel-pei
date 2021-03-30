@@ -116,7 +116,8 @@ class AuthController extends Controller
                     return response()->json([
                         "success" => true,
                         "message" => "Vous êtes connecté !",
-                        "token"   => $token
+                        "token"   => $token,
+                        "role"    => $userExist->role_id
                     ]);
                 } else {
                     $tentative    = $userExist->tentatives + 1;

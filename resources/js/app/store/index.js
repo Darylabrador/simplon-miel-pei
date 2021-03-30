@@ -14,15 +14,14 @@ export default new Vuex.Store({
 
     state: {
         cart: [],
-        isLogged: false
+        isLogged: false,
+        userRole: null
     },
 
     mutations: {
-        connect(state) {
+        connect(state, payload) {
             state.isLogged = true;
-        },
-        disconnect(state) {
-            state.isLogged = false;
+            state.userRole = payload.role;
         },
         addToCartInfo(state, payload) {
             if(_.includes(state.cart, payload)) {
@@ -41,10 +40,15 @@ export default new Vuex.Store({
         emptyCart(state){
             state.cart = []
         },
+        disconnect(state) {
+            state.isLogged = false;
+            state.cart = [];
+            state.userRole = null;
+        },
     },
 
     actions: {
-
+      
     },
     
     getters: {

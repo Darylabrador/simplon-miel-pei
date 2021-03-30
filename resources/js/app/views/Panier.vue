@@ -1,5 +1,9 @@
 <template>
     <v-container fluid class="grey lighten-5">
+
+        <loginModal :dialog.sync="loginDialog" @openRegister="openRegister" />
+        <registerModal :dialog.sync="registerDialog" />
+
         <section class="mt-10">
             <h3 class="text-center"> Mon panier </h3>
             <v-divider light class="mx-auto mt-2 dividerStyle"></v-divider>
@@ -52,14 +56,14 @@
                             <h2 class="font-weight-bold text-center">Commandes</h2>
                         </v-card-text>
                         <div class="px-3">
-                            <v-text-field outlined clearable v-model="billing" :rules="billingRules"  label="Adresse de livraison" required></v-text-field>
+                            <v-text-field outlined clearable v-model="billing" :rules="billingRules"  label="Adresse de livraison" required class="mb-2"></v-text-field>
                             <v-text-field outlined clearable v-model="delivery" :rules="deliveryRules"  label="Adresse de facturation" required></v-text-field>
                         </div>
                         
                         <h4 class="text-center mb-5 font-weight-bold"> Total TTC : {{ totalTTC }} € </h4>
                         
                         <div  class="d-flex justify-center pb-4">
-                            <v-btn color="grey darken-1" class="white--text" @click="validate"> Passer commande </v-btn>
+                            <v-btn color="grey darken-1" class="white--text" @click="validate" :disabled="!valid"> Passer commande </v-btn>
                         </div>
                     </v-card>
                 </v-col>

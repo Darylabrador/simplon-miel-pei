@@ -25,7 +25,7 @@ export default {
     methods: {
         async validate() {
             try {
-                this.$refs.form.validate()
+                await this.$refs.form.validate()
                 if (this.valid) {
                     let dataSend = {
                         email: this.email,
@@ -35,10 +35,10 @@ export default {
                     const loginData = loginReq.data;
 
                     if(loginData.success) {
-                        this.$store.commit('connect', true);
                         localStorage.setItem('mielTok', loginData.token);
                         this.email      = "";
                         this.password   = "";
+                        this.$store.commit('connect', loginData);
                         this.$emit('updateNavbar', true);
                         this.$router.push('/');
                     } else {

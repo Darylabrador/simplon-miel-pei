@@ -5,7 +5,10 @@ export default {
     mounted(){
         EventBus.$on('increment', (number) => {
             this.number = _.uniqBy(this.$store.state.cart, 'id').length;
-        })
+        });
+        EventBus.$on('updateNavbar', (payload) => {
+            this.updateNavbar(payload);
+        });
     },
     data() {
         return {
@@ -17,34 +20,42 @@ export default {
             homePath: '/',
             producersPath: '/producteurs',
             produitsPath: '/miels',
-            number: 0
+            number: _.uniqBy(this.$store.state.cart, 'id').length,
+            userRole: this.$store.state.userRole
         }
     },
 
     methods: {
         async disconnect() {
             try {
-                const disconnectReq = await apiService.get(`${location.origin}/api/logout`);
+                const disconnectReq  = await apiService.get(`${location.origin}/api/logout`);
                 const disconnectData = disconnectReq.data;
                 if(disconnectData.success) {
                     this.flashMessage.success({
                         title: disconnectData.message,
                         time: 8000,
                     });
-                    this.$store.commit('disconnect', false);
+                    this.$store.commit('disconnect');
                     localStorage.removeItem('mielTok');
+                    EventBus.$emit('updateNavbar', false);
                     this.connected = false;
-                    this.$router.push('/');
+                    this.userRole = null;
+                    this.number = _.uniqBy(this.$store.state.cart, 'id').length;
+                    this.$router.go(1);
                 }
             } catch (error) {
-                this.flashMessage.error({
-                    title: error.msg,
-                    time: 8000,
-                })
+                this.$store.commit('disconnect');
+                localStorage.removeItem('mielTok');
+                EventBus.$emit('updateNavbar', false);
+                this.connected = false;
+                this.userRole = null;
+                this.number = _.uniqBy(this.$store.state.cart, 'id').length;
+                this.$router.go(1);
             }
         },
         updateNavbar(isLogged) {
             this.connected = isLogged;
+            this.userRole  = this.$store.state.userRole;
         },
         unathorized(val) {
             this.connected = val;

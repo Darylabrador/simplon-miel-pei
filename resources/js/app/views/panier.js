@@ -1,10 +1,14 @@
 import { apiService } from '../services/apiService.js';
 import DeleteFromCart from '../components/DeleteFromCart.vue';
+import LoginModal from '../components/modal/LoginModal.vue';
+import RegisterModal from '../components/modal/RegisterModal.vue';
 import EventBus from '../evt-bus.js';
 
 export default {
     components: {
-        DeleteFromCart
+        DeleteFromCart,
+        LoginModal,
+        RegisterModal
     },
 
     props: {
@@ -13,14 +17,18 @@ export default {
 
     mounted() {
         EventBus.$on('deleted', (payload) => {
-            let filtered = this.productArray.filter(element => element.id != payload.id);
-            this.productArray = filtered;
+            this.startingData();
         })
+        EventBus.$on('updateNavbar', (payload) => {
+            this.isUserLogged = this.$store.state.isLogged;
+        });
     },
 
     data() {
         return {
             valid: false,
+            loginDialog: false,
+            registerDialog: false,
             isUserLogged: this.$store.state.isLogged,
             totalTTC: 0,
             miels: [],
@@ -93,10 +101,18 @@ export default {
                 this.valid = false;
             }
         },
+        openRegister(val){
+            this.loginDialog    = !val;
+            this.registerDialog = val;
+        },
         async validate(){
             try {
                 if(this.valid) {
-                    console.log('test')
+                    if (!this.isUserLogged){
+                        this.loginDialog = true;
+                    } else {
+                        console.log('connected to continue')
+                    }
                 }
             } catch (error) {
                 this.flashMessage.error({
