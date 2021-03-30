@@ -53,7 +53,7 @@ export default {
         }, 
         delivery(){
             this.verifyInput()
-        }
+        },
     },
 
     created() {
@@ -123,6 +123,11 @@ export default {
                     time: 8000,
                 })
             }
+        },
+        saveCart() {
+            console.log('panier1', )
+            console.log('panier2', this.productArray)
+            console.log('all prods', this.miels)
         }
     }
 }

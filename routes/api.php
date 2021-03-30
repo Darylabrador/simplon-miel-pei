@@ -121,7 +121,7 @@ Route::middleware(['auth:api', 'isProducer'])->group(function(){
 
 Route::middleware('auth:api')->group(function () {
     Route::get('/shoppingcart', [ShoppingcartProductsController::class, 'index'])->name('api.shoppingcart');
-    Route::post('/shoppingcart/add', [ShoppingcartProductsController::class, 'addToCart'])->name('api.shoppingcart.add');
+    Route::post('/shoppingcart/save', [ShoppingcartProductsController::class, 'saveCart'])->name('api.shoppingcart.add');
     Route::put('/shoppingcart/{id}', [ShoppingcartProductsController::class, 'updateOne'])->name('api.shoppingcart.update');
     Route::delete('/shoppingcart/{id}', [ShoppingcartProductsController::class, 'deleteOne'])->name('api.shoppingcart.deleteone');
     Route::delete('/shoppingcart', [ShoppingcartProductsController::class, 'destroy'])->name('api.shoppingcart.destroy');

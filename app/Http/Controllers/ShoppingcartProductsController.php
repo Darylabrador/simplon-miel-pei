@@ -30,13 +30,12 @@ class ShoppingcartProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function addToCart(Request $request)
+    public function saveCart(Request $request)
     {
         $validator = Validator::make(
             $request->all(),
             [
-                'product'   => 'required|integer',
-                'quantity'  => 'required|integer',
+                'cart.*'   => 'required',
             ],
             [
                 'required'  => 'Le champ :attribute est requis',
@@ -54,56 +53,21 @@ class ShoppingcartProductsController extends Controller
 
         $loggedUser     = Auth::user();
         $shoppingCartId = $loggedUser->shoppingcart->id;
-        $product        = $validator->validated()['product'];
-        $quantity       = (int) $validator->validated()['quantity'];
+        $shoppingCart = $validator->validated()['cart'];
         
-        $productInfo     = Products::whereId($product)->first();
-
-        if(!$productInfo){
-            return response()->json([
-                'success' => false,
-                'message' => 'Produit introuvable'
-            ]);
+        foreach ($shoppingCart as $cart) {
+            $cartExist = ShoppingcartProducts::where(['shoppingcart_id' => $shoppingCartId,'product_id' => $cart['id']])->first();
+            if($cartExist) {
+                $cartExist->quantity = $cart['amountDefault'];
+                $cartExist->save();
+            } else {
+                ShoppingcartProducts::create([
+                    "quantity"          => $cart['amountDefault'],
+                    "shoppingcart_id"   => $shoppingCartId,
+                    "product_id"        => $cart['id']
+                ]);
+            }
         }
-
-        $productQuantity = (int) $productInfo->quantity;
-
-        if($productQuantity != 0) {
-            if($quantity > $productQuantity) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Quantité trop importante'
-                ]);
-            }
-
-            $alreadyExist = ShoppingcartProducts::where(['product_id' => $productInfo->id])->first();
-            if($alreadyExist){
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Ce produit est déjà dans votre panier'
-                ]);
-            }
-
-            $finalQuantity = $productQuantity - $quantity;
-            $productInfo->quantity = $finalQuantity;
-            $productInfo->save();
-
-            ShoppingcartProducts::create([
-                "quantity"          => $quantity,
-                "shoppingcart_id"   => $shoppingCartId,
-                "product_id"        => $product
-            ]);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Produit ajouté au panier'
-            ]);
-        } 
-
-        return response()->json([
-            'success' => false,
-            'message' => 'Stock épuisé'
-        ]);
     }
 
 

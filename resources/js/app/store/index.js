@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import VuexPersistence from 'vuex-persist';
+import { apiService } from '../services/apiService.js';
+
 import _ from 'lodash';
 
 Vue.use(Vuex)
@@ -44,17 +46,25 @@ export default new Vuex.Store({
                     state.cart.push(payload)
                 }
             }
+
+            if(state.isLogged) {
+                this.dispatch('saveCart');
+            }
         },
 
         removeFromCart(state, payload){
             let filtered = state.cart.filter(element => element.id != payload.id);
             state.cart = filtered;
+
+            if (state.isLogged) {
+                this.dispatch('deleteFromCart', payload);
+            }
         },
 
         emptyCart(state){
             state.cart = []
         },
-        
+
         disconnect(state) {
             state.isLogged = false;
             state.cart = [];
@@ -63,7 +73,20 @@ export default new Vuex.Store({
     },
 
     actions: {
-        
+        async saveCart() {
+            try {
+                await apiService.post(`${location.origin}/api/shoppingcart/save`, { cart: this.state.cart});
+            } catch (error) {
+                console.error(error)
+            }
+        },
+        async deleteFromCart({commit, state}, payload) {
+            try {
+                await apiService.delete(`${location.origin}/api/shoppingcart/${payload.id}`);
+            } catch (error) {
+                console.error(error)
+            }
+        },
     },
     
     getters: {
