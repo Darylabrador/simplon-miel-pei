@@ -95,10 +95,6 @@ export default {
                         this.passwordConfirm = '';
                         this.resetToken = '';  
                         this.$refs.form.resetValidation()
-                        this.flashMessage.success({
-                            title: resetPassData.message,
-                            time: 8000,
-                        });
                         this.$router.push('/connexion');
                     } else {
                         this.flashMessage.error({

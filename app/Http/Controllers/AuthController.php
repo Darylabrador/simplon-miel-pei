@@ -114,10 +114,11 @@ class AuthController extends Controller
                     $token = $userExist->createToken('AuthToken')->accessToken;
             
                     return response()->json([
-                        "success" => true,
-                        "message" => "Vous êtes connecté !",
-                        "token"   => $token,
-                        "role"    => $userExist->role_id
+                        "success"  => true,
+                        "message"  => "Vous êtes connecté !",
+                        "token"    => $token,
+                        "role"     => $userExist->role_id,
+                        "identity" => $userExist->identity
                     ]);
                 } else {
                     $tentative    = $userExist->tentatives + 1;

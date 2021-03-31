@@ -1,6 +1,7 @@
 <template>
   <v-app>
-    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet"/>
+      <profil :dialog.sync="profilDialog" />
+      <passwordChange :dialog.sync="passwordChangeDialog" />
 
       <div>
         <v-toolbar color="grey darken-1" class="white--text" dark >
@@ -21,9 +22,8 @@
               <v-icon class="mr-1">mdi-cart</v-icon> mon panier
             </v-btn>
 
-            <!-- espace client en list-item à la place d'un dashboard générale -->
             <div class="text-center" v-if="userRole != null">
-              <v-menu offset-y :rounded="rounded" left v-if="userRole === 1">
+              <v-menu offset-y left v-if="userRole === 1">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn text color="white" v-bind="attrs" v-on="on"> 
                     <v-icon class="mr-1">mdi-clipboard-list</v-icon>
@@ -37,7 +37,6 @@
                 </v-list>
               </v-menu>
 
-
               <v-menu offset-y :rounded="rounded" left v-if="userRole === 3">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn text color="white" v-bind="attrs" v-on="on"> 
@@ -46,7 +45,7 @@
                   </v-btn>
                 </template>
                 <v-list dense>
-                  <v-list-item dense class="font-weight-bold" >
+                  <v-list-item dense class="font-weight-bold" @click="goToCommande" >
                     Les commandes
                   </v-list-item>
                 </v-list>
@@ -54,7 +53,7 @@
             </div>
 
             <div class="text-center">
-              <v-menu offset-y :rounded="rounded" left>
+              <v-menu offset-y left>
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn text color="white" v-bind="attrs" v-on="on"> 
                     <v-icon class="mr-1">mdi-clipboard-list</v-icon>
@@ -62,11 +61,14 @@
                   </v-btn>
                 </template>
                 <v-list dense>
-                  <v-list-item dense class="font-weight-bold" >
+                  <v-list-item dense class="font-weight-bold" @click="openProfil">
                     Profils
                   </v-list-item>
-                  <v-list-item dense class="font-weight-bold" >
+                  <v-list-item dense class="font-weight-bold" @click="openPasswordChange">
                     Mot de passe
+                  </v-list-item>
+                  <v-list-item dense class="font-weight-bold" @click="goToCommande" v-if="userRole === 2">
+                    Mes commandes
                   </v-list-item>
                 </v-list>
               </v-menu>

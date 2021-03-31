@@ -18,13 +18,15 @@ export default new Vuex.Store({
         cart: [],
         updatedCart: [],
         isLogged: false,
-        userRole: null
+        userRole: null,
+        identity: null,
     },
 
     mutations: {
         connect(state, payload) {
             state.isLogged = true;
             state.userRole = payload.role;
+            state.identity = payload.identity;
         },
 
         addToCartInfo(state, payload) {
@@ -63,10 +65,15 @@ export default new Vuex.Store({
         },
 
         disconnect(state) {
-            state.isLogged = false;
             state.cart = [];
+            state.isLogged = false;
             state.userRole = null;
+            state.identity = null;
         },
+
+        updateIdentity(state, payload){
+            state.identity = payload;
+        }
     },
 
     actions: {

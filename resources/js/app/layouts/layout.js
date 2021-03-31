@@ -1,7 +1,14 @@
 import { apiService } from '../services/apiService.js';
 import EventBus from '../evt-bus.js';
 
+import PasswordChange from '../components/modal/PasswordChange.vue';
+import Profil from '../components/modal/Profil.vue';
+
 export default {
+    components: {
+        PasswordChange,
+        Profil
+    },
     mounted(){
         EventBus.$on('defaultData', (payload) => {
             this.number = _.uniqBy(this.$store.state.cart, 'id').length;
@@ -25,7 +32,9 @@ export default {
             producersPath: '/producteurs',
             produitsPath: '/miels',
             number: _.uniqBy(this.$store.state.cart, 'id').length,
-            userRole: this.$store.state.userRole
+            userRole: this.$store.state.userRole,
+            profilDialog: false,
+            passwordChangeDialog: false
         }
     },
 
@@ -43,10 +52,6 @@ export default {
                 const disconnectReq  = await apiService.get(`${location.origin}/api/logout`);
                 const disconnectData = disconnectReq.data;
                 if(disconnectData.success) {
-                    this.flashMessage.success({
-                        title: disconnectData.message,
-                        time: 8000,
-                    });
                     this.$store.commit('disconnect');
                     localStorage.removeItem('mielTok');
                     EventBus.$emit('updateNavbar', false);
@@ -74,6 +79,15 @@ export default {
         },
         unathorized(val) {
             this.connected = val;
+        },
+        openProfil() {
+            this.profilDialog = true;
+        },
+        openPasswordChange() {
+            this.passwordChangeDialog = true;
+        },
+        goToCommande() {
+            this.$router.push('/commandes');
         }
     }
 }
