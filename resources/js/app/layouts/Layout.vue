@@ -12,19 +12,67 @@
           </v-toolbar-title>
           <v-spacer></v-spacer>
 
-          <div v-if="connected">
+          <div v-if="connected" class="d-flex">
             <v-btn text class="mr-2" color="white" :to="produitsPath"> <v-icon class="mr-1">mdi-beehive-outline</v-icon> Nos miels </v-btn>
             <v-btn text class="mr-2" color="white" :to="producersPath"> <v-icon class="mr-1">mdi-clipboard-list</v-icon> Nos producteurs </v-btn>
 
-            <v-btn text class="mr-2" color="white" :to="panierPath">
+            <v-btn text class="mr-2" color="white" :to="panierPath" v-if="userRole == 2">
               <v-badge :content="number" class="dark--text font-weight-bold mr-4" color="grey" v-if="number != 0"></v-badge> 
               <v-icon class="mr-1">mdi-cart</v-icon> mon panier
             </v-btn>
 
             <!-- espace client en list-item à la place d'un dashboard générale -->
-            <v-btn text class="mr-2" color="white" :to="dashboardPath"> <v-icon class="mr-1">mdi-clipboard-list</v-icon> espace client </v-btn>
+            <div class="text-center" v-if="userRole != null">
+              <v-menu offset-y :rounded="rounded" left v-if="userRole === 1">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn text color="white" v-bind="attrs" v-on="on"> 
+                    <v-icon class="mr-1">mdi-clipboard-list</v-icon>
+                    Administrations
+                  </v-btn>
+                </template>
+                <v-list dense>
+                  <v-list-item dense class="font-weight-bold" >
+                    Gestions comptes
+                  </v-list-item>
+                </v-list>
+              </v-menu>
 
-            <v-btn text class="mr-2" color="white" @click="disconnect"> <v-icon class="mr-1">mdi-exit-to-app</v-icon> déconnexion </v-btn>
+
+              <v-menu offset-y :rounded="rounded" left v-if="userRole === 3">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn text color="white" v-bind="attrs" v-on="on"> 
+                    <v-icon class="mr-1">mdi-clipboard-list</v-icon>
+                    Administrations
+                  </v-btn>
+                </template>
+                <v-list dense>
+                  <v-list-item dense class="font-weight-bold" >
+                    Les commandes
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+            </div>
+
+            <div class="text-center">
+              <v-menu offset-y :rounded="rounded" left>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn text color="white" v-bind="attrs" v-on="on"> 
+                    <v-icon class="mr-1">mdi-clipboard-list</v-icon>
+                    espace client
+                  </v-btn>
+                </template>
+                <v-list dense>
+                  <v-list-item dense class="font-weight-bold" >
+                    Profils
+                  </v-list-item>
+                  <v-list-item dense class="font-weight-bold" >
+                    Mot de passe
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+            </div>
+
+            <v-btn text class="mr-2" color="white" @click="disconnect"> <v-icon class="mr-1">mdi-exit-to-app</v-icon> </v-btn>
           </div>
 
           <div v-else class="d-flex">

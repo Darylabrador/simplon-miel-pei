@@ -58,7 +58,9 @@ export default {
                         this.password   = "";
                         this.$store.commit('connect', loginData);
                         this.$emit('updateNavbar', true);
-                        this.contentShoppingCart();
+                        if(this.$store.state.userRole == 2) {
+                            this.contentShoppingCart();
+                        }
                         this.$router.push('/');
                     } else {
                         this.flashMessage.error({
