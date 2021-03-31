@@ -16,6 +16,7 @@ export default new Vuex.Store({
 
     state: {
         cart: [],
+        updatedCart: [],
         isLogged: false,
         userRole: null
     },
@@ -37,14 +38,14 @@ export default new Vuex.Store({
                     }
                 });
             } else {
-                if (_.includes(state.cart, payload)) {
-                    let sameElement = state.cart.find(element => element.id == payload.id);
+                let sameElement = state.cart.find(element => element.id == payload.id);
+                if(sameElement) {
                     if (sameElement.amountDefault != sameElement.quantity) {
                         sameElement.amountDefault += 1;
                     }
                 } else {
-                    state.cart.push(payload)
-                }
+                    state.cart.push(payload);
+                } 
             }
 
             if(state.isLogged) {
@@ -75,7 +76,9 @@ export default new Vuex.Store({
     actions: {
         async saveCart() {
             try {
-                await apiService.post(`${location.origin}/api/shoppingcart/save`, { cart: this.state.cart});
+                if(this.state.cart.length != 0) {
+                    await apiService.post(`${location.origin}/api/shoppingcart/save`, { cart: this.state.cart});
+                }
             } catch (error) {
                 console.error(error)
             }

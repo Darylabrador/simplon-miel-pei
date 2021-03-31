@@ -18,9 +18,11 @@ export default {
     mounted() {
         EventBus.$on('defaultData', (payload) => {
             this.startingData();
+            this.getProds();
         });
         EventBus.$on('deleted', (payload) => {
             this.startingData();
+            this.getProds();
         });
         EventBus.$on('updateNavbar', (payload) => {
             this.isUserLogged = this.$store.state.isLogged;
@@ -32,6 +34,7 @@ export default {
             valid: false,
             loginDialog: false,
             registerDialog: false,
+            isLoaded: false,
             isUserLogged: this.$store.state.isLogged,
             totalTTC: 0,
             miels: [],
@@ -80,6 +83,9 @@ export default {
                 const prodReq = await apiService.get(`${location.origin}/api/miels`);
                 const mielData = prodReq.data.data;
                 this.miels = mielData;
+                this.isLoaded = true;
+                await this.compareStock();
+        
             } catch (error) {
                 this.flashMessage.error({
                     title: error.msg,
@@ -89,13 +95,6 @@ export default {
         }, 
         getImageUrl(image) {
             return `${location.origin}/images/${image}`
-        },
-        inStock(quantity) {
-            if (quantity == 0) {
-                return 'Stock épuisé'
-            } else {
-                return `${quantity} en stock`
-            }
         },
         verifyInput() {
             if (this.billing != null && this.delivery != null) {
@@ -124,10 +123,28 @@ export default {
                 })
             }
         },
-        saveCart() {
-            console.log('panier1', )
-            console.log('panier2', this.productArray)
-            console.log('all prods', this.miels)
+        compareStock() {
+            this.miels.forEach(prod => {
+                let sameElement = this.productArray.find(element => element.id == prod.id);
+                if (sameElement) {
+                    sameElement.inStock     = true;
+                    sameElement.maxQuantity = prod.quantity;
+                    if(sameElement.amountDefault > prod.quantity) {
+                        sameElement.amountDefault = prod.quantity;
+                    }
+
+                    if (prod.quantity == 0) {
+                        sameElement.inStock = false;
+                    }
+                }
+            });
+        },
+        inStock(quantity) {
+            if (quantity == 0) {
+                return false
+            } else {
+                return true
+            }
         }
     }
 }

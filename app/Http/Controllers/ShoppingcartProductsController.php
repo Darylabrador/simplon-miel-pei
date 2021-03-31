@@ -56,16 +56,39 @@ class ShoppingcartProductsController extends Controller
         $shoppingCart = $validator->validated()['cart'];
         
         foreach ($shoppingCart as $cart) {
-            $cartExist = ShoppingcartProducts::where(['shoppingcart_id' => $shoppingCartId,'product_id' => $cart['id']])->first();
-            if($cartExist) {
-                $cartExist->quantity = $cart['amountDefault'];
-                $cartExist->save();
-            } else {
-                ShoppingcartProducts::create([
-                    "quantity"          => $cart['amountDefault'],
-                    "shoppingcart_id"   => $shoppingCartId,
-                    "product_id"        => $cart['id']
+     
+            $cartExist = ShoppingcartProducts::where(['shoppingcart_id' => $shoppingCartId, 'product_id' => $cart['id']])->first();
+            $productInfo     = Products::where(['id' => $cart['id']])->first();
+
+            if (!$productInfo) {
+                return response()->json([
+                    'success' => false,
+                    'message' => $cart['name'] . ' introuvable'
                 ]);
+            }
+
+            $productQuantity  = (int) $productInfo->quantity;
+            $quantity         = (int) $cart['amountDefault'];
+
+            if ($productQuantity != 0) {
+                if ($quantity > $productQuantity) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Quantité trop importante: ' . $cart['name']
+                    ]);
+                }
+
+                if ($cartExist) {
+                    $oldValue = $cartExist->quantity;
+                    $cartExist->quantity = $quantity;
+                    $cartExist->save();
+                } else {
+                    ShoppingcartProducts::create([
+                        "quantity"          => $quantity,
+                        "shoppingcart_id"   => $shoppingCartId,
+                        "product_id"        => $cart['id']
+                    ]);
+                }
             }
         }
     }

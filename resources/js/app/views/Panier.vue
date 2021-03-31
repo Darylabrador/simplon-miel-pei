@@ -9,7 +9,7 @@
             <v-divider light class="mx-auto mt-2 dividerStyle"></v-divider>
         </section>
 
-        <section class="my-13">
+        <section class="my-13" v-if="isLoaded">
             <v-row no-gutters v-if="productArray.length != 0">
                 <v-col class="my-2">
                     <v-row v-for="prod in productArray" :key="prod.id">
@@ -36,8 +36,11 @@
                                             <v-col class="text-center">
                                                 Prix : {{ prod.price }} €
                                             </v-col>
-                                            <v-col class="text-left">
+                                            <v-col class="text-left" v-if="inStock(prod.maxQuantity)">
                                                Quantité : {{ prod.amountDefault }}
+                                            </v-col>
+                                             <v-col class="text-left red--text font-weight-bold" v-else>
+                                               Stock épuisé
                                             </v-col>
                                         </v-row>
                                     </v-col>
