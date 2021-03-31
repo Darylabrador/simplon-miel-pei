@@ -26,6 +26,7 @@ export default {
     methods: {
         addToCart(){
             this.$store.commit('addToCartInfo', this.mielInfo);
+            EventBus.$emit('defaultData', true);
             EventBus.$emit('increment', 1);
         }
     }

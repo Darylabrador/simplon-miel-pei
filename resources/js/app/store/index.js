@@ -47,10 +47,6 @@ export default new Vuex.Store({
                     state.cart.push(payload);
                 } 
             }
-
-            if(state.isLogged) {
-                this.dispatch('saveCart');
-            }
         },
 
         removeFromCart(state, payload){
@@ -74,15 +70,6 @@ export default new Vuex.Store({
     },
 
     actions: {
-        async saveCart() {
-            try {
-                if(this.state.cart.length != 0) {
-                    await apiService.post(`${location.origin}/api/shoppingcart/save`, { cart: this.state.cart});
-                }
-            } catch (error) {
-                console.error(error)
-            }
-        },
         async deleteFromCart({commit, state}, payload) {
             try {
                 await apiService.delete(`${location.origin}/api/shoppingcart/${payload.id}`);

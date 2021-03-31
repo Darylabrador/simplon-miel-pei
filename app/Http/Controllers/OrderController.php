@@ -77,28 +77,32 @@ class OrderController extends Controller
         ]);
 
         foreach($shoppingcartRow as $info) {
-            OrderProduct::create([
-                "quantity"   => $info->quantity,
-                "order_id"   => $newOrder->id,
-                "product_id" => $info->product_id
-            ]);
-
+         
             $productSelled = Products::whereId($info->product_id)->first();
-            $lastAmount = (int)  $productSelled->amountSell;
-            $productSelled->amountSell = $lastAmount + 1;
-            $productSelled->save();
 
-            $quantityprod = (int) $info->quantity;
-            $prodPrice = (float) $productSelled->price;
+            if($productSelled->quantity != 0 && $info->quantity <= $productSelled->quantity ) {
+                $lastAmount = (int)  $productSelled->amountSell;
+                $productSelled->amountSell = $lastAmount + 1;
+                $productSelled->quantity -= $info->quantity;
+                $productSelled->save();
 
-            $total += $quantityprod * $prodPrice;
-            
-            Invoicelines::create([
-                "name"         => $productSelled->name,
-                "quantity"     => $info->quantity,
-                "price"        => $productSelled->price,
-                "invoice_id"   => $invoice->id,
-            ]);
+                $quantityprod = (int) $info->quantity;
+                $prodPrice = (float) $productSelled->price;
+                $total += $quantityprod * $prodPrice;
+
+                OrderProduct::create([
+                    "quantity"   => $info->quantity,
+                    "order_id"   => $newOrder->id,
+                    "product_id" => $info->product_id
+                ]);
+
+                Invoicelines::create([
+                    "name"         => $productSelled->name,
+                    "quantity"     => $info->quantity,
+                    "price"        => $productSelled->price,
+                    "invoice_id"   => $invoice->id,
+                ]);
+            }
 
             $info->delete();
         }

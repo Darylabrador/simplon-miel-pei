@@ -19,6 +19,7 @@ export default {
         EventBus.$on('defaultData', (payload) => {
             this.startingData();
             this.getProds();
+            this.saveCart();
         });
         EventBus.$on('deleted', (payload) => {
             this.startingData();
@@ -62,6 +63,7 @@ export default {
     created() {
         this.startingData();
         this.getProds();
+        this.saveCart();
     },
 
     methods: {
@@ -85,7 +87,6 @@ export default {
                 this.miels = mielData;
                 this.isLoaded = true;
                 await this.compareStock();
-        
             } catch (error) {
                 this.flashMessage.error({
                     title: error.msg,
@@ -113,7 +114,13 @@ export default {
                     if (!this.isUserLogged){
                         this.loginDialog = true;
                     } else {
-                        console.log('connected to continue')
+                        let dataSend = {
+                            billing: this.billing,
+                            delivery: this.delivery
+                        }
+                        await apiService.post(`${location.origin}/api/shoppingcart/confirm`, dataSend);
+                        await this.$store.commit('emptyCart');
+                        await EventBus.$emit('defaultData');
                     }
                 }
             } catch (error) {
@@ -129,7 +136,7 @@ export default {
                 if (sameElement) {
                     sameElement.inStock     = true;
                     sameElement.maxQuantity = prod.quantity;
-                    if(sameElement.amountDefault > prod.quantity) {
+                    if(sameElement.amountDefault >= prod.quantity) {
                         sameElement.amountDefault = prod.quantity;
                     }
 
@@ -145,6 +152,15 @@ export default {
             } else {
                 return true
             }
-        }
+        },
+        async saveCart() {
+            try {
+                if (this.productArray.length != 0) {
+                    await apiService.post(`${location.origin}/api/shoppingcart/save`, { cart: this.productArray });
+                }
+            } catch (error) {
+                console.error(error)
+            }
+        },
     }
 }
