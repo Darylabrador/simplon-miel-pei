@@ -59,7 +59,10 @@ export default {
                     this.connected = false;
                     this.userRole = null;
                     this.number = _.uniqBy(this.$store.state.cart, 'id').length;
-                    this.$router.go(1);
+
+                    if (this.$router.history.current.name != 'accueil') {
+                        this.$router.push({ name: "accueil" });
+                    }
                 }
             } catch (error) {
                 this.$store.commit('disconnect');
@@ -69,7 +72,10 @@ export default {
                 this.connected = false;
                 this.userRole = null;
                 this.number = _.uniqBy(this.$store.state.cart, 'id').length;
-                this.$router.go(1);
+
+                if (this.$router.history.current.name != 'accueil') {
+                    this.$router.push({ name: "accueil" });
+                }
             }
         },
         updateNavbar(isLogged) {

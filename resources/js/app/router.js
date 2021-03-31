@@ -9,6 +9,7 @@ import Producteur from './views/Producteur.vue';
 import ProducteurList from './views/ProducteurList.vue';
 import Miels from './views/Miels.vue';
 import Panier from './views/Panier.vue';
+import Commandes from './views/Commandes.vue';
 import Store from './store';
 
 Vue.use(VueRouter);
@@ -70,27 +71,27 @@ const router = new VueRouter({
             path: '*',
             name: '404',
             component: Accueil
-        }
-        // {
-        //     path: '/dashboard',
-        //     name: 'dashboard',
-        //     component: Dashboard,
-        //     meta: { requiresAuth: true, adminAuth: true }
-        // },
+        },
+        {
+            path: '/Commandes',
+            name: 'commandes',
+            component: Commandes,
+            meta: { requiresAuth: true }
+        },
     ]
 });
 
 
 
-// router.beforeEach((to, from, next) => {
-//     if (to.matched.some(record => record.meta.requiresAuth) && to.matched.some(record => record.meta.adminAuth)) {
-//         if (!Store.state.isLogged && Store.state.userRole != 1) {
-//             return next({ path: "/connexion" });
-//         } else {
-//             return next();
-//         }
-//     }
-//     return next();
-// });
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        if (!Store.state.isLogged) {
+            return next({ path: "/" });
+        } else {
+            return next();
+        }
+    }
+    return next();
+});
 
 export default router;
