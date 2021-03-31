@@ -31,13 +31,13 @@
                   </v-btn>
                 </template>
                 <v-list dense>
-                  <v-list-item dense class="font-weight-bold" >
+                  <v-list-item dense class="font-weight-bold" @click="goToManagement">
                     Gestions comptes
                   </v-list-item>
                 </v-list>
               </v-menu>
 
-              <v-menu offset-y :rounded="rounded" left v-if="userRole === 3">
+              <v-menu offset-y left v-if="userRole === 3">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn text color="white" v-bind="attrs" v-on="on"> 
                     <v-icon class="mr-1">mdi-clipboard-list</v-icon>
@@ -46,7 +46,7 @@
                 </template>
                 <v-list dense>
                   <v-list-item dense class="font-weight-bold" @click="goToCommande" >
-                    Les commandes
+                    Mes commandes
                   </v-list-item>
                 </v-list>
               </v-menu>

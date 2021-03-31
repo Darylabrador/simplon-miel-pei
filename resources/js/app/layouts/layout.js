@@ -93,7 +93,14 @@ export default {
             this.passwordChangeDialog = true;
         },
         goToCommande() {
-            this.$router.push('/commandes');
+            if (this.$router.history.current.name != 'commandes') {
+                this.$router.push('/commandes');
+            }
+        },
+        goToManagement() {
+            if (this.$router.history.current.name != 'utilisateurs') {
+                this.$router.push('/utilisateurs');
+            }
         }
     }
 }

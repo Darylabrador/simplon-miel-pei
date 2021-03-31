@@ -10,6 +10,7 @@ import ProducteurList from './views/ProducteurList.vue';
 import Miels from './views/Miels.vue';
 import Panier from './views/Panier.vue';
 import Commandes from './views/Commandes.vue';
+import UserManagement from './views/UserManagement.vue';
 import Store from './store';
 
 Vue.use(VueRouter);
@@ -68,30 +69,39 @@ const router = new VueRouter({
             component: Miels
         },
         {
+            path: '/commandes',
+            name: 'commandes',
+            component: Commandes,
+            meta: { requiresAuth: true, adminAuth: false }
+        },
+        {
+            path: '/utilisateurs',
+            name: 'utilisateurs',
+            component: UserManagement,
+            meta: { requiresAuth: true, adminAuth: true }
+        },
+        {
             path: '*',
             name: '404',
             component: Accueil
-        },
-        {
-            path: '/Commandes',
-            name: 'commandes',
-            component: Commandes,
-            meta: { requiresAuth: true }
-        },
+        }
     ]
 });
 
-
-
 router.beforeEach((to, from, next) => {
-    if (to.matched.some(record => record.meta.requiresAuth)) {
+    const { requiresAuth, adminAuth} = to.meta;
+
+    if(requiresAuth && adminAuth) {
+        if (Store.state.isLogged && Store.state.userRole != 1) {
+            return next({ path: "/"});
+        }
+    } else if(requiresAuth && adminAuth == false) {
         if (!Store.state.isLogged) {
             return next({ path: "/" });
-        } else {
-            return next();
-        }
+        } 
     }
-    return next();
+
+    next();
 });
 
 export default router;
