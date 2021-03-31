@@ -32,12 +32,12 @@
                                                 <deleteFromCart :mielInfo="prod" />
                                             </v-col>
                                         </v-row>
-                                        <v-row no-gutters class="mt-15">
-                                            <v-col class="text-center">
+                                        <v-row no-gutters class="mt-10 mr-4">
+                                            <v-col class="text-center mt-2">
                                                 Prix : {{ prod.price }} €
                                             </v-col>
-                                            <v-col class="text-left" v-if="inStock(prod.maxQuantity)">
-                                               Quantité : {{ prod.amountDefault }}
+                                            <v-col cols="4" class="text-left" v-if="inStock(prod.maxQuantity)">
+                                                <v-text-field v-model="prod.amountDefault" required type="number" label="Quantité" dense outlined :value="prod.amountDefault" :max="prod.maxQuantity" min="0" @input="changeQuantity()"> </v-text-field>
                                             </v-col>
                                              <v-col class="text-left red--text font-weight-bold" v-else>
                                                Stock épuisé

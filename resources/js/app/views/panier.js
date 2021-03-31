@@ -64,14 +64,13 @@ export default {
         }, 
         delivery(){
             this.verifyInput()
-        },
+        }
     },
 
     created() {
         this.startingData();
         this.getProds();
         this.saveCart();
-        console.log(EventBus._events.defaultData)
     },
 
     methods: {
@@ -170,5 +169,8 @@ export default {
                 console.error(error)
             }
         },
+        changeQuantity(){
+            this.saveCart()
+        }
     }
 }
