@@ -80,7 +80,6 @@ Route::get('/welcome/product/{id}', [ProductsController::class, "show"])->middle
 
 Route::middleware('auth:api', 'isAdmin')->prefix('gestion')->group(function () {
     Route::get('/users', [UserController::class, "index"])->name("api.gestion.users");
-    Route::post('/users', [UserController::class, "index"])->name("api.gestion.users.search");
     Route::put('/user/mail/{id}', [UserController::class, "updateMail"])->name("api.gestion.user.mail");
     Route::put('/user/role/{id}', [UserController::class, "changeRole"])->name("api.gestion.user.role");
     Route::post('/user/suspend', [UserController::class, "suspend"])->name("api.gestion.user.suspend");

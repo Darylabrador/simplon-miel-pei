@@ -16,50 +16,12 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $searchedWord  = $request->words;
-        $searchedState = $request->suspended;
-
-        // all field is empty
-        if ($searchedWord == "" && $searchedState == "") {
-            $users = User::orderBy("identity", "asc")
-            ->where("role_id", "!=", "1")
-            ->paginate(5);
-            return UserResource::collection($users);
-        }
-
-        // word field is not empty || suspends field is empty
-        if ($searchedWord != "" && $searchedState == "") {
-            $users = User::orderBy("identity", "asc")
-            ->where("role_id", "!=", "1")
-            ->where(function($query) use ($searchedWord){
-                $query->where("identity", "LIKE", "%" . $searchedWord . "%")
-                ->orWhere("email", "LIKE", "%" . $searchedWord . "%");
-            })->paginate(5);
-            return UserResource::collection($users);
-        }
-
-        // word field is empty || suspends field is not empty
-        if ($searchedWord == "" && $searchedState != "") {
-            $users = User::orderBy("identity", "asc")
-            ->where("suspended", "=", $searchedState)
-            ->where("role_id", "!=", "1")
-            ->paginate(5);
-            return UserResource::collection($users);
-        }
-
-         // all field is not empty
-        if ($searchedWord != "" && $searchedState != "") {
-            $users = User::orderBy("identity", "asc")
-            ->where("role_id", "!=", "1")
-            ->where("suspended", "=", $searchedState)
-            ->where(function ($query) use ($searchedWord) {
-                $query->where("identity", "LIKE", "%" . $searchedWord . "%")
-                    ->orWhere("email", "LIKE", "%" . $searchedWord . "%");
-            })->paginate(5);
-            return UserResource::collection($users);
-        }
+        $users = User::orderBy("identity", "asc")
+        ->where("role_id", "!=", "1")
+        ->get();
+        return UserResource::collection($users);
     }
 
 
