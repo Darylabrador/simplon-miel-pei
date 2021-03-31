@@ -197,10 +197,6 @@ class ShoppingcartProductsController extends Controller
                 'message' => "Une erreur s'est produite"
             ]);
         }
-
-        $productInfo     = Products::whereId($shoppingCartRow->product_id)->first();
-        (int) $productInfo->quantity += $shoppingCartRow->quantity;
-        $productInfo->save();
         
         $shoppingCartRow->delete();
         return response()->json([

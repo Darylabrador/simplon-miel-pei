@@ -23,13 +23,12 @@ export default {
                 this.saveCart();
             });
         }
-  
-        if (!EventBus._events.deleted) {
-            EventBus.$on('deleted', (payload) => {
-                this.startingData();
-                this.getProds();
-            });
-        }
+   
+        EventBus.$on('deleted', (payload) => {
+            this.startingData();
+            this.getProds();
+        });
+        
      
         EventBus.$on('updateNavbar', (payload) => {
             this.isUserLogged = this.$store.state.isLogged;
@@ -76,6 +75,9 @@ export default {
     methods: {
         startingData() {
             let cartInfo      = this.$store.state.cart;
+
+            console.log(cartInfo);
+            
             let cartOrderById = _.orderBy(cartInfo, ['id'], ['asc']);
             let cartUniq      = _.uniqBy(cartOrderById, 'id');
             this.productArray = cartUniq;
