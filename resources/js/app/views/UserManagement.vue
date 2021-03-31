@@ -141,6 +141,8 @@
             :items="users"
             :search="search"
             style="background-color: rgba(255, 255, 255, 0.15);"
+            :loading="!isLoading"
+            loading-text="chargement en cours..."
             >
                 <template v-slot:item.role.label="{ item }">
                     <v-chip
