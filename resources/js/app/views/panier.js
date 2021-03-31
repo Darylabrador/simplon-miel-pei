@@ -75,9 +75,6 @@ export default {
     methods: {
         startingData() {
             let cartInfo      = this.$store.state.cart;
-
-            console.log(cartInfo);
-            
             let cartOrderById = _.orderBy(cartInfo, ['id'], ['asc']);
             let cartUniq      = _.uniqBy(cartOrderById, 'id');
             this.productArray = cartUniq;
