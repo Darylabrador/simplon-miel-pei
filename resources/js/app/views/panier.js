@@ -16,15 +16,21 @@ export default {
     },
 
     mounted() {
-        EventBus.$on('defaultData', (payload) => {
-            this.startingData();
-            this.getProds();
-            this.saveCart();
-        });
-        EventBus.$on('deleted', (payload) => {
-            this.startingData();
-            this.getProds();
-        });
+        if (!EventBus._events.defaultData) {
+            EventBus.$on('defaultData', (payload) => {
+                this.startingData();
+                this.getProds();
+                this.saveCart();
+            });
+        }
+  
+        if (!EventBus._events.deleted) {
+            EventBus.$on('deleted', (payload) => {
+                this.startingData();
+                this.getProds();
+            });
+        }
+     
         EventBus.$on('updateNavbar', (payload) => {
             this.isUserLogged = this.$store.state.isLogged;
         });
@@ -36,6 +42,7 @@ export default {
             loginDialog: false,
             registerDialog: false,
             isLoaded: false,
+            isSaving: false,
             isUserLogged: this.$store.state.isLogged,
             totalTTC: 0,
             miels: [],
@@ -64,6 +71,7 @@ export default {
         this.startingData();
         this.getProds();
         this.saveCart();
+        console.log(EventBus._events.defaultData)
     },
 
     methods: {
