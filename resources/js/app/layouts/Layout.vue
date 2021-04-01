@@ -3,7 +3,7 @@
       <profil :dialog.sync="profilDialog" />
       <passwordChange :dialog.sync="passwordChangeDialog" />
 
-      <div>
+      <div>       
         <v-toolbar color="grey darken-1" class="white--text" dark >
           <v-toolbar-title class='font-weight-bold d-flex align-center'>
             <div>
@@ -14,18 +14,20 @@
           <v-spacer></v-spacer>
 
           <div v-if="connected" class="d-flex">
-            <v-btn text class="mr-2" color="white" :to="produitsPath"> <v-icon class="mr-1">mdi-beehive-outline</v-icon> Nos miels </v-btn>
-            <v-btn text class="mr-2" color="white" :to="producersPath"> <v-icon class="mr-1">mdi-clipboard-list</v-icon> Nos producteurs </v-btn>
 
-            <v-btn text class="mr-2" color="white" :to="panierPath" v-if="userRole == 2">
+            <!-- start desktop menu -->
+            <v-btn small text class="mr-2 hidden-sm-and-down" color="white" :to="produitsPath"> <v-icon class="mr-1">mdi-beehive-outline</v-icon> Nos miels </v-btn>
+            <v-btn small text class="mr-2 hidden-sm-and-down" color="white" :to="producersPath"> <v-icon class="mr-1">mdi-clipboard-list</v-icon> Nos producteurs </v-btn>
+
+            <v-btn small text class="mr-2 hidden-sm-and-down" color="white" :to="panierPath" v-if="userRole == 2">
               <v-badge :content="number" class="dark--text font-weight-bold mr-4" color="grey" v-if="number != 0"></v-badge> 
               <v-icon class="mr-1">mdi-cart</v-icon> mon panier
             </v-btn>
 
-            <div class="text-center" v-if="userRole != null">
+            <div class="text-center hidden-sm-and-down" v-if="userRole != null">
               <v-menu offset-y left v-if="userRole === 1">
                 <template v-slot:activator="{ on, attrs }">
-                  <v-btn text color="white" v-bind="attrs" v-on="on"> 
+                  <v-btn small text color="white" v-bind="attrs" v-on="on"> 
                     <v-icon class="mr-1">mdi-clipboard-list</v-icon>
                     Administrations
                   </v-btn>
@@ -39,7 +41,7 @@
 
               <v-menu offset-y left v-if="userRole === 3">
                 <template v-slot:activator="{ on, attrs }">
-                  <v-btn text color="white" v-bind="attrs" v-on="on"> 
+                  <v-btn small text color="white" v-bind="attrs" v-on="on"> 
                     <v-icon class="mr-1">mdi-clipboard-list</v-icon>
                     Administrations
                   </v-btn>
@@ -58,10 +60,10 @@
               </v-menu>
             </div>
 
-            <div class="text-center">
+            <div class="text-center hidden-sm-and-down">
               <v-menu offset-y left>
                 <template v-slot:activator="{ on, attrs }">
-                  <v-btn text color="white" v-bind="attrs" v-on="on"> 
+                  <v-btn small text color="white" v-bind="attrs" v-on="on"> 
                     <v-icon class="mr-1">mdi-clipboard-list</v-icon>
                     espace client
                   </v-btn>
@@ -80,17 +82,110 @@
               </v-menu>
             </div>
 
-            <v-btn text class="mr-2" color="white" @click="disconnect"> <v-icon class="mr-1">mdi-exit-to-app</v-icon> </v-btn>
+            <v-btn small text class="mr-2 hidden-sm-and-down" color="white" @click="disconnect"> <v-icon class="mr-1">mdi-exit-to-app</v-icon> </v-btn>
+            <!-- end desktop menu -->
+
+            <!-- start mobile menu -->
+            <div class="hidden-md-and-up">
+              <v-menu offset-y left >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn text color="white" v-bind="attrs" v-on="on"> 
+                    <v-icon class="mr-1">mdi-menu</v-icon>
+                  </v-btn>
+                </template>
+                <v-list dense>
+                  <v-list-item dense class="font-weight-bold" :to="produitsPath">
+                    <v-icon class="mr-1">mdi-beehive-outline</v-icon> Nos miels
+                  </v-list-item>
+                  <v-list-item dense class="font-weight-bold" :to="producersPath">
+                    <v-icon class="mr-1">mdi-clipboard-list</v-icon> Nos producteurs
+                  </v-list-item>
+                  <v-list-item dense class="font-weight-bold" :to="panierPath" v-if="userRole == 2">
+                    <v-badge :content="number" class="dark--text font-weight-bold mr-4" color="grey" v-if="number != 0"></v-badge> 
+                    <v-icon class="mr-1">mdi-cart</v-icon> Mon panier
+                  </v-list-item>
+                  <v-list-item dense class="font-weight-bold">
+                     <v-menu offset-x left v-if="userRole === 1">
+                        <template v-slot:activator="{ on, attrs }">
+                          <span text v-bind="attrs" v-on="on"> 
+                            <v-icon class="mr-1">mdi-clipboard-list</v-icon>
+                            Administrations
+                          </span>
+                        </template>
+                        <v-list dense>
+                          <v-list-item dense class="font-weight-bold" @click="goToManagement">
+                            Gestions comptes
+                          </v-list-item>
+                        </v-list>
+                      </v-menu>
+
+                      <v-menu offset-x left v-if="userRole === 3">
+                        <template v-slot:activator="{ on, attrs }">
+                          <span text v-bind="attrs" v-on="on"> 
+                            <v-icon class="mr-1">mdi-clipboard-list</v-icon>
+                            Administrations
+                          </span>
+                        </template>
+                        <v-list dense>
+                          <v-list-item dense class="font-weight-bold" @click="goToExploitation" >
+                            Gestion exploitations
+                          </v-list-item>
+                          <v-list-item dense class="font-weight-bold" @click="goToCommande" >
+                            Gestion commandes
+                          </v-list-item>
+                          <v-list-item dense class="font-weight-bold" @click="goToStock" >
+                            Gestion stock
+                          </v-list-item>
+                        </v-list>
+                      </v-menu>
+                  </v-list-item>
+                  <v-list-item dense class="font-weight-bold" @click="disconnect">
+                    <v-icon class="mr-1">mdi-exit-to-app</v-icon> Deconnexion
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+            </div>
+            <!-- end mobile menu -->
+
           </div>
 
           <div v-else class="d-flex">
-            <v-btn text class="mr-2" color="white" :to="produitsPath"> <v-icon class="mr-1">mdi-beehive-outline</v-icon> Nos miels </v-btn>
-            <v-btn text class="mr-2" color="white" :to="producersPath"> <v-icon class="mr-1">mdi-clipboard-list</v-icon> Nos producteurs </v-btn>
-            <v-btn text class="mr-2" color="white" :to="panierPath">
+            <!-- start desktop menu -->
+            <v-btn small text class="mr-2 hidden-sm-and-down" color="white" :to="produitsPath"> <v-icon class="mr-1">mdi-beehive-outline</v-icon> Nos miels </v-btn>
+            <v-btn small text class="mr-2 hidden-sm-and-down" color="white" :to="producersPath"> <v-icon class="mr-1">mdi-clipboard-list</v-icon> Nos producteurs </v-btn>
+            <v-btn small text class="mr-2 hidden-sm-and-down" color="white" :to="panierPath">
               <v-badge :content="number" class="dark--text font-weight-bold mr-4" color="grey" v-if="number != 0"></v-badge> 
               <v-icon class="mr-1">mdi-cart</v-icon> mon panier
             </v-btn>
-            <v-btn text class="mr-2" color="white" :to="loginPath"> <v-icon class="mr-1">mdi-account</v-icon> connexion</v-btn>
+            <v-btn small text class="mr-2 hidden-sm-and-down" color="white" :to="loginPath"> <v-icon class="mr-1">mdi-account</v-icon> connexion</v-btn>
+            <!-- end desktop menu -->
+
+            <!-- start mobile menu -->
+            <div class="hidden-sm-and-up">
+              <v-menu offset-y left >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn text color="white" v-bind="attrs" v-on="on"> 
+                    <v-icon class="mr-1">mdi-menu</v-icon>
+                  </v-btn>
+                </template>
+                <v-list dense>
+                  <v-list-item dense class="font-weight-bold" :to="produitsPath">
+                    <v-icon class="mr-1">mdi-beehive-outline</v-icon> Nos miels
+                  </v-list-item>
+                  <v-list-item dense class="font-weight-bold" :to="producersPath">
+                    <v-icon class="mr-1">mdi-clipboard-list</v-icon> Nos producteurs
+                  </v-list-item>
+                  <v-list-item dense class="font-weight-bold" :to="panierPath">
+                    <v-badge :content="number" class="dark--text font-weight-bold mr-4" color="grey" v-if="number != 0"></v-badge> 
+                    <v-icon class="mr-1">mdi-cart</v-icon> Mon panier
+                  </v-list-item>
+                  <v-list-item dense class="font-weight-bold" :to="loginPath">
+                    <v-icon class="mr-1">mdi-account</v-icon>  Connexion
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+            </div>
+            <!-- end mobile menu -->
           </div>
         </v-toolbar>
       </div>

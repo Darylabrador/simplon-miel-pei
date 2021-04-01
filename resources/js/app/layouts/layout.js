@@ -47,6 +47,9 @@ export default {
     },
 
     methods: {
+        menuItems() {
+            return this.menu
+        },
         async disconnect() {
             try {
                 const disconnectReq  = await apiService.get(`${location.origin}/api/logout`);
