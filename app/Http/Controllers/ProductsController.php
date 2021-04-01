@@ -84,29 +84,16 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         $loggedUser   = Auth::user();
         $loggedUserId = (int) $loggedUser->id;
 
-        $searchedWord  = $request->words;
-
-        // all field is empty
-        if ($searchedWord == "") {
-            $products = Producer::orderBy('id', 'desc')
-                ->where(['user_id' => $loggedUserId])->paginate(5);
-            return ProducerResource::collection($products);
-        }
-
-        // word field is not empty || suspends field is empty
-        if ($searchedWord != "") {
-            $products = Producer::orderBy('products.id', 'desc')
-                ->where(['producers.user_id' => $loggedUserId])
-                ->join("products", "products.id", "=", "producers.product_id")
-                ->where("products.name", "LIKE", "%" . $searchedWord . "%")
-                ->paginate(5);
-            return ProducerResource::collection($products);
-        }
+        $products = Producer::orderBy('id', 'desc')
+            ->where(['user_id' => $loggedUserId])
+            ->get();
+        return ProducerResource::collection($products);
+        
     }
 
     /**
@@ -215,7 +202,7 @@ class ProductsController extends Controller
             [
                 'name'      => 'required',
                 'price'     => 'required',
-                'image'     => 'nullable|mimes:jpg,jpeg,png|max:5000',
+                'image'     => 'nullable',
             ],
             [
                 'required'  => 'Le champ :attribute est requis',
@@ -236,7 +223,6 @@ class ProductsController extends Controller
         $loggedUserId   = (int) $loggedUser->id;
         $name           = $validator->validated()['name'];
         $price          = $validator->validated()['price'];
-        $imageUploaded  = $validator->validated()['image'];
 
         $producer = Producer::where(['user_id' => $loggedUserId, "product_id" => $id])->first();
         if(!$producer) {
@@ -257,7 +243,7 @@ class ProductsController extends Controller
         $product->name     = $name;
         $product->price    = $price;
 
-        if ($imageUploaded != null) {
+        if ($request->hasFile('image')) {
             $oldImage = $product->image;
 
             if ($oldImage != "default.jpg") {
@@ -265,9 +251,10 @@ class ProductsController extends Controller
                 unlink($oldFilePath);
             }
 
-            $extension      = $imageUploaded->getClientOriginalExtension();
+            $imageSend      = $validator->validated()['image'];
+            $extension      = $imageSend->getClientOriginalExtension();
             $image          = time() . rand() . '.' . $extension;
-            $imageUploaded->move(public_path('images'), $image);
+            $imageSend->move(public_path('images'), $image);
             $product->image = $image;
         }
 

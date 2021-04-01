@@ -96,7 +96,6 @@ Route::get('/miels', [ProductsController::class, "productsList"])->name('api.pro
 
 Route::middleware(['auth:api', 'isProducer'])->group(function(){
     Route::get('/products/gestion', [ProductsController::class, "index"])->name("api.products.gestion");
-    Route::post('/products/gestion', [ProductsController::class, "index"])->name("api.products.gestion.search");
     Route::get('/product/{id}', [ProductsController::class, "show"])->name("api.product.show");
     Route::post('/product/add', [ProductsController::class, "create"])->name("api.products.add");
     Route::post('/product/{id}', [ProductsController::class, "update"])->name("api.products.update");

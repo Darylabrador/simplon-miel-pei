@@ -101,6 +101,16 @@ export default {
             if (this.$router.history.current.name != 'utilisateurs') {
                 this.$router.push('/utilisateurs');
             }
+        },
+        goToExploitation() {
+            if (this.$router.history.current.name != 'exploitations') {
+                this.$router.push('/exploitations');
+            }
+        },
+        goToStock() {
+            if (this.$router.history.current.name != 'stock') {
+                this.$router.push('/stock');
+            }
         }
     }
 }

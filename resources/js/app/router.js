@@ -11,6 +11,8 @@ import Miels from './views/Miels.vue';
 import Panier from './views/Panier.vue';
 import Commandes from './views/Commandes.vue';
 import UserManagement from './views/UserManagement.vue';
+import Exploitation from './views/Exploitation.vue';
+import Stock from './views/Stock.vue';
 import Store from './store';
 
 Vue.use(VueRouter);
@@ -72,13 +74,25 @@ const router = new VueRouter({
             path: '/commandes',
             name: 'commandes',
             component: Commandes,
-            meta: { requiresAuth: true, adminAuth: false }
+            meta: { requiresAuth: true, adminAuth: false, producerAuth: false }
         },
         {
             path: '/utilisateurs',
             name: 'utilisateurs',
             component: UserManagement,
-            meta: { requiresAuth: true, adminAuth: true }
+            meta: { requiresAuth: true, adminAuth: true, producerAuth: false }
+        },
+        {
+            path: '/exploitations',
+            name: 'exploitations',
+            component: Exploitation,
+            meta: { requiresAuth: true, adminAuth: false, producerAuth: true }
+        },
+        {   
+            path: '/stock',
+            name: 'stock',
+            component: Stock,
+            meta: { requiresAuth: true, adminAuth: false, producerAuth: true }
         },
         {
             path: '*',
@@ -89,13 +103,17 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    const { requiresAuth, adminAuth} = to.meta;
+    const { requiresAuth, adminAuth, producerAuth} = to.meta;
 
-    if(requiresAuth && adminAuth) {
-        if (Store.state.isLogged && Store.state.userRole != 1) {
+    if (requiresAuth && producerAuth && adminAuth == false) {
+        if ((Store.state.isLogged && Store.state.userRole != 3) || (!Store.state.isLogged && Store.state.userRole != 3)) {
+            return next({ path: "/" });
+        }
+    } else if (requiresAuth && adminAuth && producerAuth == false) {
+        if ((Store.state.isLogged && Store.state.userRole != 1) || (!Store.state.isLogged && Store.state.userRole != 1)) {
             return next({ path: "/"});
         }
-    } else if(requiresAuth && adminAuth == false) {
+    } else if (requiresAuth && adminAuth == false && producerAuth == false) {
         if (!Store.state.isLogged) {
             return next({ path: "/" });
         } 

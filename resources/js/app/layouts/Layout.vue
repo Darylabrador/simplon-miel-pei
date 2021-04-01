@@ -45,8 +45,14 @@
                   </v-btn>
                 </template>
                 <v-list dense>
-                  <v-list-item dense class="font-weight-bold" @click="goToCommande" >
-                    Mes commandes
+                  <v-list-item dense class="font-weight-bold" @click="goToExploitation" >
+                    Gestion exploitations
+                  </v-list-item>
+                   <v-list-item dense class="font-weight-bold" @click="goToCommande" >
+                    Gestion commandes
+                  </v-list-item>
+                  <v-list-item dense class="font-weight-bold" @click="goToStock" >
+                    Gestion stock
                   </v-list-item>
                 </v-list>
               </v-menu>

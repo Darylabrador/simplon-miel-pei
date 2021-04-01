@@ -11,6 +11,14 @@
   margin: 10px auto !important;
 }
 
+.map2 {
+  position: relative;
+  height: 450px !important;
+  min-width: 80% !important;
+  overflow: hidden;
+  margin: 10px auto !important;
+}
+
 .dividerStyle {
   min-width: 60% !important;
   max-width: 70% !important;
