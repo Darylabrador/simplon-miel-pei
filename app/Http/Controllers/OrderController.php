@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\OrderProductProducerResource;
 use App\Http\Resources\OrderProductResource;
 use App\Http\Resources\OrderResource;
 use App\Models\Invoice;
@@ -84,7 +85,8 @@ class OrderController extends Controller
                 OrderProduct::create([
                     "quantity"   => $info->quantity,
                     "order_id"   => $newOrder->id,
-                    "product_id" => $info->product_id
+                    "product_id" => $info->product_id,
+                    "user_id"    => $productSelled->user_id
                 ]);
 
                 Invoicelines::create([
@@ -119,8 +121,11 @@ class OrderController extends Controller
         $loggedUserId = $loggedUser->id;
 
         if($loggedUser->role_id == 2) {
-            $listCommandes = Order::where(["user_id" => $loggedUserId])->get();
+            $listCommandes = Order::orderBy('id','desc')->where(["user_id" => $loggedUserId])->get();
             return OrderResource::collection($listCommandes);
+        } else {
+            $listCommandes = OrderProduct::orderBy('id', 'desc')->where(["user_id" => $loggedUserId])->get();
+            return OrderProductProducerResource::collection($listCommandes);
         }
     }
 }

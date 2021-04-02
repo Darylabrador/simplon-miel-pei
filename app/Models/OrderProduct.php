@@ -18,8 +18,10 @@ class OrderProduct extends Model
      */
     protected $fillable = [
         'quantity',
+        "confirmed",
         'order_id',
         'product_id',
+        'user_id',
     ];
 
     public function order()
@@ -30,5 +32,10 @@ class OrderProduct extends Model
     public function product()
     {
         return $this->belongsTo('App\Models\Products', 'product_id', 'id');
+    }
+
+    public function producer()
+    {
+        return $this->belongsTo('App\Models\User', 'user_id', 'id');
     }
 }

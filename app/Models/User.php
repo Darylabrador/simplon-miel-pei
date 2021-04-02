@@ -67,6 +67,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Order', 'producer_id', 'id');
     }
 
+    public function producerOrderProduct()
+    {
+        return $this->hasMany('App\Models\OrderProduct');
+    }
+
     public function isAdmin() 
     {
         if($this->role->label == 'admin'){
