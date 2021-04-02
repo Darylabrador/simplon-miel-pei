@@ -57,7 +57,7 @@ export default {
                         this.email      = "";
                         this.password   = "";
                         this.$store.commit('connect', loginData);
-                        this.$emit('updateNavbar', true);
+                        EventBus.$emit('updateNavbar', true);
                         if (loginData.role == 2) {
                             this.contentShoppingCart();
                         }
