@@ -138,7 +138,13 @@ export default {
                         }
                         await apiService.post(`${location.origin}/api/shoppingcart/confirm`, dataSend);
                         await this.$store.commit('emptyCart');
+                        await EventBus.$emit('refreshCart');
                         await EventBus.$emit('defaultData');
+                        this.productArray = [];
+                        this.billing = null;
+                        this.delivery = null;
+                        this.totalTTC = 0;
+                        this.valid = false;
                     }
                 }
             } catch (error) {
