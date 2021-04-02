@@ -20,10 +20,18 @@ export default {
             EventBus.$on('defaultData', (payload) => {
                 this.startingData();
                 this.getProds();
-                this.saveCart();
+                if (this.isUserLogged) {
+                    this.saveCart();
+                }
             });
         }
-   
+        
+        EventBus.$on('refreshCart', (payload) => {
+            this.startingData();
+            this.getProds();
+        });
+
+
         EventBus.$on('deleted', (payload) => {
             this.startingData();
             this.getProds();
@@ -43,6 +51,7 @@ export default {
             isLoaded: false,
             isSaving: false,
             isUserLogged: this.$store.state.isLogged,
+            userRole: this.$store.state.userRole,
             totalTTC: 0,
             miels: [],
             productArray: [],
@@ -69,7 +78,10 @@ export default {
     created() {
         this.startingData();
         this.getProds();
-        this.saveCart();
+        
+        if (this.isUserLogged) {
+            this.saveCart();
+        }
     },
 
     methods: {

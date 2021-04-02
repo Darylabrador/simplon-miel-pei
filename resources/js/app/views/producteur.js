@@ -16,7 +16,8 @@ export default {
             producteurId: '',
             producteur: [],
             producteurIdentity: '',
-            producteurAddress: ''
+            producteurAddress: '',
+            userRole: this.$store.state.userRole,
         }
     },
 
@@ -35,10 +36,10 @@ export default {
         async productInfo() {
             try {
                 const producteurReq = await apiService.get(`${location.origin}/api/producer/${this.producteurId}`);
-                const producteurData = producteurReq.data.data;
-                this.producteur = producteurData;
-                this.producteurIdentity = producteurData[0].producteur.identity;
-                this.producteurAddress = producteurData[0].producteur.exploitations[0].address;
+                const producteurData = producteurReq.data;
+                this.producteur = producteurData.produits;
+                this.producteurIdentity = producteurData.producteur.identity;
+                this.producteurAddress = producteurData.producteur.exploitations[0].address;
             } catch (error) {
                 this.flashMessage.error({
                     title: error.msg,

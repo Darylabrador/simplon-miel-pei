@@ -9,15 +9,15 @@
             <v-row no-gutters class="mt-8">
                 <v-col v-for="product in producteur" :key="product.id">
                     <v-card :loading="loading" class="mx-auto my-10 p-0" max-width="300">
-                        <v-card-title> {{ product.produit.name }} </v-card-title>
-                        <v-img max-height="150" :src="getImageUrl(product.produit.image)" class="mx-2"></v-img>
+                        <v-card-title> {{ product.name }} </v-card-title>
+                        <v-img max-height="150" :src="getImageUrl(product.image)" class="mx-2"></v-img>
                         <v-card-text class="d-flex justify-end">
                             <div class="subtitle-1 font-weight-bold text-right">
-                                {{ inStock(product.produit.quantity ) }} <br>
-                                {{ product.produit.price }} €
+                                {{ inStock(product.quantity ) }} <br>
+                                {{ product.price }} €
                             </div>
                         </v-card-text>
-                        <addToCart :mielInfo="product.produit" />
+                        <addToCart :mielInfo="product" v-if="userRole == 2 || userRole == null" />
                     </v-card>
                 </v-col>
             </v-row>

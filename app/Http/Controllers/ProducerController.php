@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\UserResource;
+use App\Http\Resources\ProducerResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -15,6 +15,6 @@ class ProducerController extends Controller
      */
     public function producersList() {
         $producers = User::where(['role_id' => 3])->get();
-        return UserResource::collection($producers);
+        return ProducerResource::collection($producers);
     }
 }

@@ -17,7 +17,9 @@ class Shoppingcart extends Model
      * @var array
      */
     protected $fillable = [
+        "quantity",
         "user_id",
+        "product_id",
     ];
 
     public function user()
@@ -25,8 +27,8 @@ class Shoppingcart extends Model
         return $this->belongsTo('App\Models\User', 'user_id', 'id');
     }
 
-    public function shoppingcartRow()
+    public function product()
     {
-        return $this->hasMany('App\Models\ShoppingcartProducts');
+        return $this->belongsTo('App\Models\Products', 'product_id', 'id');
     }
 }

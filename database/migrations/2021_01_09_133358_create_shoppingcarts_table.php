@@ -15,7 +15,9 @@ class CreateShoppingcartsTable extends Migration
     {
         Schema::create('shoppingcarts', function (Blueprint $table) {
             $table->id();
+            $table->integer('quantity');
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade');
         });
     }
 

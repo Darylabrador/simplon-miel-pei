@@ -15,9 +15,12 @@ class ProducerResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'         => $this->id,
-            'produit'    => new ProductsResource($this->product),
-            'producteur' => new UserResource($this->user),
+            "id"            => $this->id,
+            "identity"      => $this->identity,
+            "email"         => $this->email,
+            "suspended"     => $this->suspended,
+            "role"          => new RoleRessource($this->role),
+            "exploitations" => ExploitationResource::collection($this->exploitations)
         ];
     }
 }

@@ -29,11 +29,11 @@ export default {
                     text: 'Images',
                     align: 'start',
                     filterable: true,
-                    value: 'produit.image',
+                    value: 'image',
                 },
-                { text: 'Produits', value: 'produit.name' },
-                { text: "Prix", value: "produit.price" },
-                { text: "Stock", value: "produit.quantity" },
+                { text: 'Produits', value: 'name' },
+                { text: "Prix", value: "price" },
+                { text: "Stock", value: "quantity" },
                 { text: 'Actions', value: 'actions', sortable: false },
             ],
             rules: [
@@ -152,11 +152,11 @@ export default {
         async editProd() {
             try {
                 let formData = new FormData();
-                formData.set('name', this.editedItem.produit.name);
-                formData.set('price', this.editedItem.produit.price);
+                formData.set('name', this.editedItem.name);
+                formData.set('price', this.editedItem.price);
                 formData.set('image', this.prodImage);
 
-                const editProdReq = await apiService.post(`${location.origin}/api/product/${this.editedItem.produit.id}`, formData);
+                const editProdReq = await apiService.post(`${location.origin}/api/product/${this.editedItem.id}`, formData);
                 const editProdData = editProdReq.data;
 
                 if (editProdData.success) {
@@ -177,10 +177,10 @@ export default {
         async editStock() {
             try {
                 let dataSend = {
-                    quantity: this.editedItem.produit.quantity
+                    quantity: this.editedItem.quantity
                 }
 
-                const editProdReq = await apiService.put(`${location.origin}/api/product/${this.editedItem.produit.id}/stock`, dataSend);
+                const editProdReq = await apiService.put(`${location.origin}/api/product/${this.editedItem.id}/stock`, dataSend);
                 const editProdData = editProdReq.data;
 
                 if (editProdData.success) {
@@ -200,7 +200,7 @@ export default {
         },
         async deleteProd() {
             try {
-                const deleteReq = await apiService.delete(`${location.origin}/api/product/${this.editedItem.produit.id}`);
+                const deleteReq = await apiService.delete(`${location.origin}/api/product/${this.editedItem.id}`);
                 const deleteData = deleteReq.data;
 
                 if (deleteData.success) {

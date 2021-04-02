@@ -13,7 +13,8 @@ export default {
     data() {
         return {
             miels: [],
-            loading: false
+            loading: false,
+            userRole: this.$store.state.userRole,
         }   
     },
 

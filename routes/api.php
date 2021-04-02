@@ -11,6 +11,7 @@ use App\Http\Controllers\PDFcontroller;
 use App\Http\Controllers\ProducerController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\ShoppingcartProductsController;
 use App\Http\Controllers\UserController;
 
@@ -96,7 +97,6 @@ Route::get('/miels', [ProductsController::class, "productsList"])->name('api.pro
 
 Route::middleware(['auth:api', 'isProducer'])->group(function(){
     Route::get('/products/gestion', [ProductsController::class, "index"])->name("api.products.gestion");
-    Route::get('/product/{id}', [ProductsController::class, "show"])->name("api.product.show");
     Route::post('/product/add', [ProductsController::class, "create"])->name("api.products.add");
     Route::post('/product/{id}', [ProductsController::class, "update"])->name("api.products.update");
     Route::put('/product/{id}/stock', [ProductsController::class, "stock"])->name("api.products.stock");
@@ -118,11 +118,11 @@ Route::middleware(['auth:api', 'isProducer'])->group(function(){
 */
 
 Route::middleware('auth:api')->group(function () {
-    Route::get('/shoppingcart', [ShoppingcartProductsController::class, 'index'])->name('api.shoppingcart');
-    Route::post('/shoppingcart/save', [ShoppingcartProductsController::class, 'saveCart'])->name('api.shoppingcart.add');
-    Route::put('/shoppingcart/{id}', [ShoppingcartProductsController::class, 'updateOne'])->name('api.shoppingcart.update');
-    Route::delete('/shoppingcart/{id}', [ShoppingcartProductsController::class, 'deleteOne'])->name('api.shoppingcart.deleteone');
-    Route::delete('/shoppingcart', [ShoppingcartProductsController::class, 'destroy'])->name('api.shoppingcart.destroy');
+    Route::get('/shoppingcart', [ShoppingCartController::class, 'index'])->name('api.shoppingcart');
+    Route::post('/shoppingcart/save', [ShoppingCartController::class, 'saveCart'])->name('api.shoppingcart.add');
+    Route::put('/shoppingcart/{id}', [ShoppingCartController::class, 'updateOne'])->name('api.shoppingcart.update');
+    Route::delete('/shoppingcart/{id}', [ShoppingCartController::class, 'deleteOne'])->name('api.shoppingcart.deleteone');
+    Route::delete('/shoppingcart', [ShoppingCartController::class, 'destroy'])->name('api.shoppingcart.destroy');
     
     Route::post('/shoppingcart/confirm', [OrderController::class, 'confirmShoppingcart'])->name('api.shoppingcart.confirm');
     Route::post('/shoppingcart/direct', [OrderController::class, 'directOrder'])->name('api.shoppingcart.confirm');

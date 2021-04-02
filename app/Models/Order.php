@@ -19,20 +19,22 @@ class Order extends Model
         'delivery',
         'billing',
         'finished_at',
+        'user_id',
+        'producer_id',
     ];
-
-    public function users()
-    {
-        return $this->hasMany('App\Models\UserOrder', 'order_id', 'id');
-    }
-
-    public function products()
-    {
-        return $this->hasMany('App\Models\OrderProduct', 'order_id', 'id');
-    }
 
     public function invoice()
     {
         return $this->hasOne('App\Models\Invoice');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User', 'user_id', 'id');
+    }
+
+    public function producer()
+    {
+        return $this->belongsTo('App\Models\User', 'producer_id', 'id');
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Producer;
 use App\Models\Products;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,13 +26,11 @@ class ProductsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function bestProduct() {
-        $bestProducts = Producer::join("users", "producers.user_id", "=", "users.id")
-            ->join("products", "producers.product_id", "=", "products.id")
-            ->where("quantity", ">", "0")
-            ->orderBy("amountSell", "desc")
-            ->limit(4)
-            ->get();
-        return ProducerResource::collection($bestProducts);
+        $bestProducts = Products::orderBy("amountSell", "desc")
+        ->limit(4)
+        ->get();
+
+        return ProductsResource::collection($bestProducts);
     }
 
     
@@ -55,8 +52,8 @@ class ProductsController extends Controller
      */
     public function showAll()
     {
-        $products = Producer::all();
-        return ProducerResource::collection($products);
+        $products = Products::all();
+        return ProductsResource::collection($products);
     }
 
     /**
@@ -67,8 +64,12 @@ class ProductsController extends Controller
      */
     public function showProducer($id)
     {
-        $product = Producer::where(['user_id' => $id])->get();
-        return ProducerResource::collection($product);
+        $producteur = User::where(['id' => $id])->first();
+        $product = Products::where(['user_id' => $id])->get();
+        return response()->json([
+            'produits'    => ProductsResource::collection($product),
+            'producteur'  => new ProducerResource($producteur)
+        ]);
     }
 
 
@@ -89,10 +90,10 @@ class ProductsController extends Controller
         $loggedUser   = Auth::user();
         $loggedUserId = (int) $loggedUser->id;
 
-        $products = Producer::orderBy('id', 'desc')
+        $products = Products::orderBy('id', 'desc')
             ->where(['user_id' => $loggedUserId])
             ->get();
-        return ProducerResource::collection($products);
+        return ProductsResource::collection($products);
         
     }
 
@@ -167,28 +168,6 @@ class ProductsController extends Controller
 
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Products  $products
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-    
-        $loggedUser   = Auth::user();
-        $loggedUserId = (int) $loggedUser->id;
-
-        if($loggedUser->role_id == 2){
-            $product = Producer::where(["product_id" => $id])->first();
-            return new ProducerResource($product);
-        }
-
-        $product = Producer::where(['user_id' => $loggedUserId, "product_id" => $id])->first();
-        return new ProducerResource($product);
-    }
-
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -224,15 +203,7 @@ class ProductsController extends Controller
         $name           = $validator->validated()['name'];
         $price          = $validator->validated()['price'];
 
-        $producer = Producer::where(['user_id' => $loggedUserId, "product_id" => $id])->first();
-        if(!$producer) {
-            return response()->json([
-                'success' => false,
-                'message' => "Action impossible"
-            ], 401);
-        }
-
-        $product = Products::whereId($id)->first();
+        $product = Products::where(['id' => $id, 'user_id' => $loggedUserId])->first();
         if(!$product) {
             return response()->json([
                 'success' => false,
@@ -298,15 +269,7 @@ class ProductsController extends Controller
         $loggedUserId   = (int) $loggedUser->id;
         $quantity       = $validator->validated()['quantity'];
 
-        $producer = Producer::where(['user_id' => $loggedUserId, "product_id" => $id])->first();
-        if (!$producer) {
-            return response()->json([
-                'success' => false,
-                'message' => "Action impossible"
-            ], 401);
-        }
-
-        $product = Products::whereId($id)->first();
+        $product = Products::where(['id' => $id, 'user_id' => $loggedUserId])->first();
         if (!$product) {
             return response()->json([
                 'success' => false,
@@ -334,7 +297,7 @@ class ProductsController extends Controller
     {
         $loggedUser   = Auth::user();
         $loggedUserId = (int) $loggedUser->id;
-        $producer = Producer::where(['user_id' => $loggedUserId, "product_id" => $id])->first();
+        $producer = Products::where(['user_id' => $loggedUserId])->first();
         if (!$producer) {
             return response()->json([
                 'success' => false,

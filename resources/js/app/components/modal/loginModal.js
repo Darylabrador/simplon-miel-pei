@@ -49,11 +49,12 @@ export default {
                 const shoppingCartReq = await apiService.get(`${location.origin}/api/shoppingcart`);
                 const shoppingcartData = shoppingCartReq.data.data;
                 shoppingcartData.forEach(element => {
-                    element.productInfo.amountDefault = element.quantity;
-                    defaultData.push(element.productInfo)
+                    element.product.amountDefault = element.quantity;
+                    defaultData.push(element.product)
                 });
                 this.$store.commit('addToCartInfo', defaultData);
                 EventBus.$emit('defaultData', true);
+                EventBus.$emit('refreshCart', true);
             } catch (error) {
                 console.error(error)
             }
@@ -75,7 +76,7 @@ export default {
                         this.password = "";
                         this.$store.commit('connect', loginData);
                         EventBus.$emit('updateNavbar', true);
-                        if (this.$store.state.userRole == 2) {
+                        if (loginData.role == 2) {
                             this.contentShoppingCart();
                         }
                         this.close();

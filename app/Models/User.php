@@ -43,7 +43,7 @@ class User extends Authenticatable
 
     public function products() 
     {
-        return $this->hasMany('App\Models\Producer');
+        return $this->hasMany('App\Models\Products');
     }
 
     public function exploitations() 
@@ -51,14 +51,20 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Exploitation');
     }
 
+
     public function shoppingcart()
-     {
-        return $this->hasOne('App\Models\Shoppingcart');
+    {
+        return $this->hasMany('App\Models\Shoppingcart');
     }
 
-    public function orders() 
+    public function clientOrders() 
     {
-        return $this->hasMany('App\Models\UserOrder', 'user_id', 'id');
+        return $this->hasMany('App\Models\Order', 'user_id', 'id');
+    }
+
+    public function producerOrders()
+    {
+        return $this->hasMany('App\Models\Order', 'producer_id', 'id');
     }
 
     public function isAdmin() 

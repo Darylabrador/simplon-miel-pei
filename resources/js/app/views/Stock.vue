@@ -125,8 +125,8 @@
                 <v-row no-gutters class="pl-8 ml-6 my-5"  v-if="editedItem != null">
                     <v-col xs="10" sm="10" md="10" lg="10" xl="10">
                         <v-text-field
-                        v-model="editedItem.produit.name"
-                        :value="editedItem.produit.name"
+                        v-model="editedItem.name"
+                        :value="editedItem.name"
                         flat
                         hide-no-data
                         hide-details
@@ -140,8 +140,8 @@
                     <v-col xs="10" sm="10" md="10" lg="10" xl="10">
                         <v-text-field
                         type="number"
-                        v-model="editedItem.produit.price"
-                        :value="editedItem.produit.price"
+                        v-model="editedItem.price"
+                        :value="editedItem.price"
                         flat
                         hide-no-data
                         hide-details
@@ -199,8 +199,8 @@
                         <v-text-field
                         v-if="editedItem != null"
                         type="number"
-                        v-model="editedItem.produit.quantity"
-                        :value="editedItem.produit.quantity"
+                        v-model="editedItem.quantity"
+                        :value="editedItem.quantity"
                         flat
                         hide-no-data
                         hide-details
@@ -254,21 +254,21 @@
             :loading="!isLoading"
             loading-text="chargement en cours..."
             >
-                <template v-slot:item.produit.image="{ item }">
-                    <v-img max-height="100" max-width="100" :src="getImageUrl(item.produit.image)" class="my-2"></v-img>
+                <template v-slot:item.image="{ item }">
+                    <v-img max-height="100" max-width="100" :src="getImageUrl(item.image)" class="my-2"></v-img>
                 </template>
 
-                <template v-slot:item.produit.price="{ item }">
-                    {{ item.produit.price }} €
+                <template v-slot:item.price="{ item }">
+                    {{ item.price }} €
                 </template>
 
-                <template v-slot:item.produit.quantity="{ item }">
+                <template v-slot:item.quantity="{ item }">
                     <v-chip
-                        v-if="inStock(item.produit.quantity)"
+                        v-if="inStock(item.quantity)"
                         color="blue"
                         dark
                     >
-                        {{ item.produit.quantity }}
+                        {{ item.quantity }}
                     </v-chip>
 
                     <v-chip

@@ -20,7 +20,6 @@ class UserResource extends JsonResource
             "email"     => $this->email,
             "suspended" => $this->suspended,
             "role"      => new RoleRessource($this->role),
-            "exploitations" => ExploitationResource::collection($this->exploitations)
         ];
     }
 }

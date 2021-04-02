@@ -20,6 +20,7 @@ class CreateProductsTable extends Migration
             $table->integer('quantity')->default(1);
             $table->string('image')->default('default.png');
             $table->integer('amountSell')->default(0);
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

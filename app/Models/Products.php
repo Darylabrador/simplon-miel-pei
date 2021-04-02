@@ -19,21 +19,23 @@ class Products extends Model
         'price',
         'quantity',
         'image',
-        'amountSell'
+        'amountSell',
+        'user_id'
     ];
 
-    public function user()
+    public function producer()
     {
-        return $this->hasMany('App\Models\Producer');
+        return $this->belongsTo('App\Models\User', 'user_id', 'id');
     }
 
-    public function shoppingcartRow()
-    {
-        return $this->hasMany('App\Models\ShoppingcartProducts');
-    }
 
     public function orderRow() 
     {
         return $this->hasMany('App\Models\OrderProduct');
+    }
+
+    public function shoppingCart()
+    {
+        return $this->hasMany('App\Models\Shoppingcart');
     }
 }

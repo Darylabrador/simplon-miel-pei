@@ -16,7 +16,9 @@ class ShoppingcartResource extends JsonResource
     {
         return [
             "id"        => $this->id,
-            "confirmed" => $this->confirmed,
+            "quantity"  => $this->quantity,
+            "product"   => new ProductsResource($this->product),
+            // "user"      => new ProducerResource($this->user),
         ];
     }
 }

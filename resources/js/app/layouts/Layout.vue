@@ -39,7 +39,7 @@
                 </v-list>
               </v-menu>
 
-              <v-menu offset-y left v-if="userRole === 3">
+              <v-menu offset-y left v-if="userRole === 3" style="z-index: 500 !important;">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn small text color="white" v-bind="attrs" v-on="on"> 
                     <v-icon class="mr-1">mdi-clipboard-list</v-icon>
