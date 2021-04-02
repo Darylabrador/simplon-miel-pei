@@ -53,6 +53,7 @@ class OrderController extends Controller
         $newOrder = Order::create([
             "billing"  => $billing,
             "delivery" => $delivery,
+            "user_id"  => $loggedUserId
         ]);
 
         $shoppingcartRow = Shoppingcart::where(['user_id' => $loggedUserId])->get();
@@ -107,4 +108,19 @@ class OrderController extends Controller
     }
 
 
+    /**
+     * Confirm shoppingcart product and create order info with it row
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function listCommandes() {
+
+        $loggedUser     = Auth::user();
+        $loggedUserId = $loggedUser->id;
+
+        if($loggedUser->role_id == 2) {
+            $listCommandes = Order::where(["user_id" => $loggedUserId])->get();
+            return OrderResource::collection($listCommandes);
+        }
+    }
 }

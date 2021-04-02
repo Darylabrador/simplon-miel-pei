@@ -14,6 +14,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\ShoppingcartProductsController;
 use App\Http\Controllers\UserController;
+use FontLib\Table\Type\name;
 
 /*
 |--------------------------------------------------------------------------
@@ -111,6 +112,7 @@ Route::middleware(['auth:api', 'isProducer'])->group(function(){
     Route::get('/orders/{id}/producer', [OrderController::class, 'producerOrderDetails'])->name('api.orders.producers.show');
 });
 
+
 /*
 |--------------------------------------------------------------------------
 | Client's routes
@@ -123,13 +125,19 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/shoppingcart/{id}', [ShoppingCartController::class, 'updateOne'])->name('api.shoppingcart.update');
     Route::delete('/shoppingcart/{id}', [ShoppingCartController::class, 'deleteOne'])->name('api.shoppingcart.deleteone');
     Route::delete('/shoppingcart', [ShoppingCartController::class, 'destroy'])->name('api.shoppingcart.destroy');
-    
     Route::post('/shoppingcart/confirm', [OrderController::class, 'confirmShoppingcart'])->name('api.shoppingcart.confirm');
-
-
     Route::get('/order/{id}/pdf', [PDFcontroller::class, 'generateInvoice'])->name('api.invoice.pdf');
 });
 
+
+/*
+|--------------------------------------------------------------------------
+| Commades's routes
+|--------------------------------------------------------------------------
+*/
+Route::middleware('auth:api')->group(function () {
+    Route::get('/commandes', [OrderController::class, 'listCommandes'])->name('api.commandes.liste');
+});
 
 /**
  * Producer routes
