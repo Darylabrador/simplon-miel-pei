@@ -25,4 +25,4 @@
     </v-container>
 </template>
 
-<script src="./producteur.js"></script>
+<script src="./js/producteur.js"></script>

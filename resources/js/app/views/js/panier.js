@@ -1,8 +1,8 @@
-import { apiService } from '../services/apiService.js';
-import DeleteFromCart from '../components/DeleteFromCart.vue';
-import LoginModal from '../components/modal/LoginModal.vue';
-import RegisterModal from '../components/modal/RegisterModal.vue';
-import EventBus from '../evt-bus.js';
+import { apiService } from '../../services/apiService.js';
+import DeleteFromCart from '../../components/DeleteFromCart.vue';
+import LoginModal from '../../components/modal/LoginModal.vue';
+import RegisterModal from '../../components/modal/RegisterModal.vue';
+import EventBus from '../../evt-bus.js';
 
 export default {
     components: {

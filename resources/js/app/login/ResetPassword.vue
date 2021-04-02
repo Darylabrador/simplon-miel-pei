@@ -40,4 +40,4 @@
     </v-container>
 </template>
 
-<script src="./resetPassword.js"></script>
+<script src="./js/resetPassword.js"></script>

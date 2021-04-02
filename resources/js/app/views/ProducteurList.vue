@@ -23,4 +23,4 @@
     </v-container>
 </template>
 
-<script src="./producteurList.js"></script>
+<script src="./js/producteurList.js"></script>

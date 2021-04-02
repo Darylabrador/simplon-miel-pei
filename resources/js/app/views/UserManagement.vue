@@ -192,4 +192,4 @@
     </v-container>
 </template>
 
-<script src="./userManagement.js"></script>
+<script src="./js/userManagement.js"></script>

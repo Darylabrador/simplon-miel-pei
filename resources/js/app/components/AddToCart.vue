@@ -7,4 +7,4 @@
     </div>
 </template>
 
-<script src="./addToCart.js"></script>
+<script src="./js/addToCart.js"></script>

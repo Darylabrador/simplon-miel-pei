@@ -1,4 +1,4 @@
-import { apiService } from '../services/apiService.js';
+import { apiService } from '../../services/apiService.js';
 import Password from 'vue-password-strength-meter';
 
 export default {

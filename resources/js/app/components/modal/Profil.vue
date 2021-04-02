@@ -44,4 +44,4 @@
     </v-dialog>
 </template>
 
-<script src="./profil.js"></script>
+<script src="./js/profil.js"></script>

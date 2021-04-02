@@ -47,4 +47,4 @@
     </v-dialog>
 </template>
 
-<script src="./passwordChange.js"></script>
+<script src="./js/passwordChange.js"></script>

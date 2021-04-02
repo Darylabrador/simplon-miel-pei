@@ -34,4 +34,4 @@
     </v-container>
 </template>
 
-<script src="./register.js"></script>
+<script src="./js/register.js"></script>

@@ -53,4 +53,4 @@
     </v-container>
 </template>
 
-<script src="./accueil.js"></script>
+<script src="./js/accueil.js"></script>

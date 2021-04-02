@@ -2,4 +2,4 @@
  
 </template>
 
-<script src="./commandes.js"></script>
+<script src="./js/commandes.js"></script>

@@ -1,5 +1,5 @@
-import { apiService } from '../../services/apiService.js';
-import EventBus from '../../evt-bus.js';
+import { apiService } from '../../../services/apiService.js';
+import EventBus from '../../../evt-bus.js';
 
 export default {
     components: {

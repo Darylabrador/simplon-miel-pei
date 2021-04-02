@@ -26,4 +26,4 @@
     </v-dialog>
 </template>
 
-<script src="./deleteFromCart.js"></script>
+<script src="./js/deleteFromCart.js"></script>

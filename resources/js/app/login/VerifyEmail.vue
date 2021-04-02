@@ -12,4 +12,4 @@
     </v-container>
 </template>
 
-<script src="./verifyEmail.js"></script>
+<script src="./js/verifyEmail.js"></script>

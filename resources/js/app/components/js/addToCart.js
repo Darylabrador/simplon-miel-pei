@@ -1,4 +1,4 @@
-import EventBus from '../evt-bus.js';
+import EventBus from '../../evt-bus.js';
 
 export default {
     components: {

@@ -59,4 +59,4 @@
     </v-dialog>
 </template>
 
-<script src="./registerModal.js"></script>
+<script src="./js/registerModal.js"></script>

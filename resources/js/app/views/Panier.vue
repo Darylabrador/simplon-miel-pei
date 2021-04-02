@@ -78,4 +78,4 @@
     </v-container>
 </template>
 
-<script src="./panier.js"></script>
+<script src="./js/panier.js"></script>

@@ -49,4 +49,4 @@
     </v-dialog>
 </template>
 
-<script src="./loginModal.js"></script>
+<script src="./js/loginModal.js"></script>

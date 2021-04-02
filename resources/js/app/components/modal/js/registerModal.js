@@ -1,8 +1,14 @@
-import { apiService } from '../services/apiService.js';
+import { apiService } from '../../../services/apiService.js';
+import EventBus from '../../../evt-bus.js';
 import Password from 'vue-password-strength-meter';
 
 export default {
     components: { Password },
+    
+    props: {
+        dialog: {}
+    },
+
     data() {
         return {
             valid: false,
@@ -29,10 +35,13 @@ export default {
             passwordConfirmRules: [
                 v => !!v || 'Mot de passe requis',
                 v => v.length > 5 || '6 caractères minimuns',
-                v => v == this.password  || "Mot de passe n'est pas identique",
+                v => v == this.password || "Mot de passe n'est pas identique",
             ],
-            loginPath: '/connexion'
         }
+    },
+
+    watch: {
+
     },
 
     created() {
@@ -40,6 +49,9 @@ export default {
     },
 
     methods: {
+        close() {
+            this.$emit('update:dialog', false);
+        },
         async getSelectRole() {
             try {
                 const requestRoles = await apiService.get(`${location.origin}/api/roles`);
@@ -66,17 +78,17 @@ export default {
 
                     const registerReq = await apiService.post(`${location.origin}/api/register`, dataSend);
                     const registerData = registerReq.data;
-                    if(registerData.success) {
-                        this.identity        = ''
-                        this.email           = ''
-                        this.role            = ''
-                        this.password        = ''
+                    if (registerData.success) {
+                        this.identity = ''
+                        this.email = ''
+                        this.role = ''
+                        this.password = ''
                         this.passwordConfirm = ''
+                        this.close();
                         this.flashMessage.success({
                             title: registerData.message,
                             time: 8000,
                         })
-                        this.$router.push(this.loginPath)
                     } else {
                         this.flashMessage.error({
                             title: registerData.message,
@@ -94,7 +106,7 @@ export default {
             }
         },
         showScore(score) {
-            if(score >= 3) {
+            if (score >= 3) {
                 this.passwordValid = true;
             } else {
                 this.passwordValid = false;

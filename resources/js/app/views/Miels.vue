@@ -26,4 +26,4 @@
     </v-container>
 </template>
 
-<script src="./miels.js"></script>
+<script src="./js/miels.js"></script>

@@ -305,4 +305,4 @@
     </v-container>
 </template>
 
-<script src="./stock.js"></script>
+<script src="./js/stock.js"></script>

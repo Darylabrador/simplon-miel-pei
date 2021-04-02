@@ -1,42 +1,60 @@
-import { apiService } from '../services/apiService.js';
-import EventBus from '../evt-bus.js';
+import { apiService } from '../../../services/apiService.js';
+import EventBus from '../../../evt-bus.js';
 
 export default {
-    data: () => ({
-        valid: false,
-        password: '',
-        passwordRules: [
-            v => !!v || 'Mot de passe requis',
-        ],
-        email: '',
-        emailRules: [
-            v => !!v || 'Adresse e-mail requise',
-            v => /.+@.+\..+/.test(v) || 'Adresse e-mail est invalide',
-        ],
-        forgottenPath: "/reinitialisation",
-        registerPath: "/inscription"
-    }),
+    components: {
 
-    created() {
-        if (localStorage.getItem('mielTok')) {
-            return this.$router.push('/')
+    },
+
+    props: {
+        dialog: {}
+    },
+
+    data() {
+        return {
+            valid: true,
+            email: null,
+            password: null,
+            emailRules: [
+                v => !!v || 'Adresse e-mail requise',
+                v => /.+@.+\..+/.test(v) || 'Adresse e-mail est invalide',
+            ],
+            passwordRules: [
+                v => !!v || 'Mot de passe requis',
+            ],
         }
     },
 
+    watch: {
+
+    },
+
+    created() {
+
+    },
+
     methods: {
+        close() {
+            this.$emit('update:dialog', false);
+            this.email    = null;
+            this.password = null;
+            this.$refs.form.resetValidation();
+        },
+        openRegister(){
+            this.$emit('openRegister', true)
+        },
         async contentShoppingCart() {
             try {
                 let defaultData = [];
                 const shoppingCartReq = await apiService.get(`${location.origin}/api/shoppingcart`);
                 const shoppingcartData = shoppingCartReq.data.data;
-                if (shoppingcartData.length != 0) {
-                    shoppingcartData.forEach(element => {
-                        element.product.amountDefault = element.quantity;
-                        defaultData.push(element.product)
-                    });
-                    this.$store.commit('addToCartInfo', defaultData);
-                    EventBus.$emit('defaultData', true);
-                }
+                shoppingcartData.forEach(element => {
+                    element.product.amountDefault = element.quantity;
+                    defaultData.push(element.product)
+                });
+                this.$store.commit('addToCartInfo', defaultData);
+                EventBus.$emit('defaultData', true);
+                EventBus.$emit('refreshCart', true);
             } catch (error) {
                 console.error(error)
             }
@@ -52,16 +70,16 @@ export default {
                     const loginReq = await apiService.post(`${location.origin}/api/login`, dataSend);
                     const loginData = loginReq.data;
 
-                    if(loginData.success) {
+                    if (loginData.success) {
                         localStorage.setItem('mielTok', loginData.token);
-                        this.email      = "";
-                        this.password   = "";
+                        this.email    = "";
+                        this.password = "";
                         this.$store.commit('connect', loginData);
-                        this.$emit('updateNavbar', true);
+                        EventBus.$emit('updateNavbar', true);
                         if (loginData.role == 2) {
                             this.contentShoppingCart();
                         }
-                        this.$router.push('/');
+                        this.close();
                     } else {
                         this.flashMessage.error({
                             title: loginData.message,
@@ -75,6 +93,6 @@ export default {
                     time: 8000,
                 })
             }
-        },
+        }
     }
 }
