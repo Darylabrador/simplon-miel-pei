@@ -20,7 +20,6 @@ class Order extends Model
         'billing',
         'finished_at',
         'user_id',
-        'producer_id',
     ];
 
     public function invoice()
@@ -31,10 +30,5 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo('App\Models\User', 'user_id', 'id');
-    }
-
-    public function producer()
-    {
-        return $this->belongsTo('App\Models\User', 'producer_id', 'id');
     }
 }

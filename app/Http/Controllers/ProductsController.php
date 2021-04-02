@@ -135,31 +135,27 @@ class ProductsController extends Controller
         $quantity       = $validator->validated()['quantity'];
         $imageUploaded  = $validator->validated()['image'];
     
-        $product = Products::create([
-            "name"     => $name,
-            "price"    => $price,
-            "quantity" => $quantity
-        ]);
-       
         if($imageUploaded != null) {
             $extension      = $imageUploaded->getClientOriginalExtension();
             $image          = time() . rand() . '.' . $extension;
             $imageUploaded->move(public_path('images'), $image);
 
-            $product = Products::create([
+            Products::create([
                 "name"     => $name,
                 "price"    => $price,
                 "quantity" => $quantity,
-                "image"    => $image
+                "image"    => $image,
+                "user_id" => $loggedUserId
+            ]);
+        } else {
+            Products::create([
+                "name"     => $name,
+                "price"    => $price,
+                "quantity" => $quantity,
+                "user_id" => $loggedUserId
             ]);
         }
-
-        $producer = new Producer([
-            "user_id" => $loggedUserId,
-            "product_id" => $product->id
-        ]);
         
-        $producer->save();
         return response()->json([
             'success' => true,
             'message' => "Produit ajouté avec succès"

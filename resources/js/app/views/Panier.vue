@@ -21,14 +21,14 @@
                             >
                                 <v-row no-gutters>
                                     <v-col cols="5">
-                                        <v-img  max-height="150" max-width="250"  :src="getImageUrl(prod.image)" class="p-2"> </v-img>
+                                        <v-img height="150px" max-height="150" max-width="250"  :src="getImageUrl(prod.image)" class="p-2"> </v-img>
                                     </v-col>
                                     <v-col>
                                         <v-row no-gutters class="mt-5 d-flex align-center">
-                                            <v-col class="text-center font-weight-bold" cols="10">
+                                            <v-col class="text-center font-weight-bold" cols="10" >
                                                 {{ prod.name }} 
                                             </v-col>
-                                            <v-col class="text-left">
+                                            <v-col cols="1" class="text-left">
                                                 <deleteFromCart :mielInfo="prod" />
                                             </v-col>
                                         </v-row>

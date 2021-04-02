@@ -125,13 +125,7 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('/shoppingcart', [ShoppingCartController::class, 'destroy'])->name('api.shoppingcart.destroy');
     
     Route::post('/shoppingcart/confirm', [OrderController::class, 'confirmShoppingcart'])->name('api.shoppingcart.confirm');
-    Route::post('/shoppingcart/direct', [OrderController::class, 'directOrder'])->name('api.shoppingcart.confirm');
 
-    // Route::get('/orders', [OrderController::class, 'clientOrders'])->name('api.orders');
-    Route::get('/orders/waiting', [OrderController::class, 'waiting'])->name('api.orders.waiting');
-    Route::get('/orders/inprogress', [OrderController::class, 'inprogress'])->name('api.orders.inprogress');
-    Route::get('/orders/finished', [OrderController::class, 'finished'])->name('api.orders.finished');
-    Route::get('/order/{id}', [OrderController::class, 'clientOrderDetail'])->name('api.orders.show');
 
     Route::get('/order/{id}/pdf', [PDFcontroller::class, 'generateInvoice'])->name('api.invoice.pdf');
 });
