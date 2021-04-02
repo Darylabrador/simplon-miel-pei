@@ -4,6 +4,19 @@
         <loginModal :dialog.sync="loginDialog" @openRegister="openRegister" />
         <registerModal :dialog.sync="registerDialog" />
 
+        <v-dialog v-model="confirmationDialog" max-width="600">
+            <v-card class="py-5">
+                <div class="title mb-8">
+                    <h5 class="text-center"> Votre commande a été confirmée !</h5>
+                </div>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn small class="teal darken-1 white--text"  @click="confirmationDialog = false"> Fermer</v-btn>
+                    <v-spacer></v-spacer>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
         <section class="mt-10">
             <h3 class="text-center"> Mon panier </h3>
             <v-divider light class="mx-auto mt-2 dividerStyle"></v-divider>

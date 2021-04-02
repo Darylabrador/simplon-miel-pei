@@ -57,6 +57,7 @@ export default {
             productArray: [],
             billing: null,
             delivery: null,
+            confirmationDialog: false,
             billingRules: [
                 v => !!v || 'Adresse de facturation requise',
             ],
@@ -145,6 +146,7 @@ export default {
                         this.delivery = null;
                         this.totalTTC = 0;
                         this.valid = false;
+                        this.confirmationDialog = true;
                     }
                 }
             } catch (error) {
