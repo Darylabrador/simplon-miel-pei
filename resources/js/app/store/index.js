@@ -73,7 +73,7 @@ export default new Vuex.Store({
 
         updateIdentity(state, payload){
             state.identity = payload;
-        }
+        },
     },
 
     actions: {

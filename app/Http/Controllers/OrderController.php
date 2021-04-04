@@ -124,7 +124,12 @@ class OrderController extends Controller
             $listCommandes = Order::orderBy('id','desc')->where(["user_id" => $loggedUserId])->get();
             return OrderResource::collection($listCommandes);
         } else {
-            $listCommandes = OrderProduct::orderBy('id', 'desc')->where(["user_id" => $loggedUserId])->get();
+            $listCommandes = OrderProduct::orderBy('id', 'desc')
+                ->join('orders', 'order_products.order_id', '=', 'orders.id')
+                ->join('products', 'order_products.product_id', '=', 'products.id')
+                ->where(["products.user_id" => $loggedUserId])
+                ->select('order_products.*')
+                ->get();
             return OrderProductProducerResource::collection($listCommandes);
         }
     }

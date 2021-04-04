@@ -19,7 +19,6 @@ class CreateOrderProductsTable extends Migration
             $table->boolean('confirmed')->default(0);
             $table->foreignId('order_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade');
-            $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
         });
     }
 
