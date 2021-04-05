@@ -36,8 +36,8 @@
                         <th class="text-left">
                             Quantités
                         </th>
-                        <th class="text-left">
-                            Actions
+                        <th class="text-left">  
+                          Actions
                         </th>
                         </tr>
                     </thead>
