@@ -43,7 +43,6 @@ export default {
                 const commandesData = commandesReq.data.data;
                 this.listCommands   = commandesData;
                 this.isLoaded       = true;
-                console.log(commandesData);
             } catch (error) {
                 this.flashMessage.error({
                     title: "Une erreur est survenue",
