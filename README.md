@@ -60,3 +60,5 @@ En mode développment vous devez utiliser les commandes suivantes :
 En mode production la commande suivante doit être actif en permanence :
 
 - php artisan queue:work
+
+L'extension php gd doit être actif

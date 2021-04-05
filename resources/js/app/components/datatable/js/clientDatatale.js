@@ -1,5 +1,6 @@
 import { apiService } from "../../../services/apiService.js";
 import EventBus from "../../../evt-bus.js";
+import axios from "axios";
 
 export default {
     components: {
@@ -64,10 +65,18 @@ export default {
         },
         async getInvoice(item) {
             try {
-                const invoiceReq = await apiService.get(`${location.origin}/api/order/${item.id}/pdf`);
+                let headers = {
+                    responseType: 'arraybuffer',
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + localStorage.getItem('mielTok')
+                    }
+                }
+                const invoiceReq = await axios.get(`${location.origin}/api/order/${item.id}/pdf`, headers);
                 const invoiceData = invoiceReq.data;
                 await this.downloadPDF(invoiceData, item.invoice.filename);
             } catch (error) {
+                console.log(error)
                 this.flashMessage.error({
                     title: "PDF error",
                     time: 8000,

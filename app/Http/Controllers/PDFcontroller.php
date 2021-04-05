@@ -10,19 +10,21 @@ use App\Models\Invoice;
 use App\Models\Invoicelines;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
 
 class PDFcontroller extends Controller
 {
     public function generateInvoice($id) {
         $order = Order::whereId($id)->first();
         $invoice = Invoice::where(['order_id' => $order->id])->first();
-        $invoicelines = Invoicelines::where(["invoice_id" => $invoice->id])->get();
         
-        $orderData = new OrderResource($order);
-        $invoiceData = new InvoiceResource($invoice);
-        $invoicelineData = InvoicelineResource::collection($invoicelines);
+        $orderData    = new OrderResource($order);
+        $invoiceData  = new InvoiceResource($invoice);
+        $invoicelines = $invoiceData->lines;
+        $total        = $invoiceData->total;
 
-        $pdf = PDF::loadView('pdf.facture', compact("orderData", "invoiceData", "invoicelineData"));
+        $pdf = PDF::loadView('pdf.facture', compact("orderData", "invoiceData", "invoicelines", "total"));
         return $pdf->stream();
     }
 }
