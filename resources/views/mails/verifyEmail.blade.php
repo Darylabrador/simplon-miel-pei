@@ -7,9 +7,9 @@
     <title>Notification inscription</title>
 </head>
 <body>
-    <h4 style="text-align: center; width: 100%;">
+    <h2>
         Bienvenue {{ $identity }}
-    </h4>
+    </h2>
     <p> 
         Nous sommes heureux de vous accueillir parmi nous !
     </p>
