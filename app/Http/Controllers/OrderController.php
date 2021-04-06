@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\OrderProductProducerResource;
 use App\Http\Resources\OrderProductResource;
 use App\Http\Resources\OrderResource;
+use App\Mail\OrderConfirmedMail;
 use App\Models\Invoice;
 use App\Models\Invoicelines;
 use App\Models\Order;
@@ -14,7 +15,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Shoppingcart;
+use App\Models\User;
 use DateTime;
+use Illuminate\Support\Facades\Mail;
+
 
 class OrderController extends Controller
 {
@@ -178,11 +182,14 @@ class OrderController extends Controller
 
         $counter      = OrderProduct::where(['order_id' => $id, "confirmed" => 0])->get()->count();
         $order        = Order::where(['id' => $id])->first();
-
+        
         if ($counter == 0) {
             $order->state     = 'termine';
             $order->finished_at = now();
             $order->save();
+
+            $userOrder    = User::where(['id' => $order->user_id])->first();
+            Mail::to($userOrder->email)->send(new OrderConfirmedMail());
         } else {
             $order->state       = 'en cours';
             $order->save();
