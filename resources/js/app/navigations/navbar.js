@@ -47,7 +47,7 @@ export default {
     },
 
     created() {
-  
+        this.verifyToken();
     },
 
     methods: {
@@ -115,6 +115,17 @@ export default {
             if (this.$router.history.current.name != 'stock') {
                 this.$router.push('/stock');
             }
-        }
+        },
+        async verifyToken() {
+            try {
+                const verifyReq = await apiService.get(`${location.origin}/api/verify`);
+                const verifyData = verifyReq.data.data;
+                if (verifyData != null) {
+                   this.disconnect();
+                }
+            } catch (error) {
+                this.disconnect();
+            }
+        },
     }
 }
