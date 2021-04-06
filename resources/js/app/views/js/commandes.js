@@ -15,6 +15,7 @@ export default {
 
     mounted() {
         EventBus.$on('refreshCommand', (payload) => {
+            this.isLoaded = false;
             this.getCommandes();
         })
     },

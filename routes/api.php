@@ -110,6 +110,7 @@ Route::middleware(['auth:api', 'isProducer'])->group(function(){
 
     Route::get('/orders/producer', [OrderController::class, 'producerOrders'])->name('api.orders.producers');
     Route::get('/orders/{id}/producer', [OrderController::class, 'producerOrderDetails'])->name('api.orders.producers.show');
+    Route::post('/order/confirm', [OrderController::class, 'producerConfirm'])->name('api.order.confirm');
 });
 
 

@@ -133,4 +133,64 @@ class OrderController extends Controller
             return OrderProductProducerResource::collection($listCommandes);
         }
     }
+
+
+    /**
+     * Confirm command from producer account
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function producerConfirm(Request $request){
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'orderRowId.*'      => 'required',
+            ],
+            [
+                'required'  => 'Le champ :attribute est requis',
+            ]
+        );
+
+        $errors = $validator->errors();
+        if (count($errors) != 0) {
+            return response()->json([
+                'success' => false,
+                'message' => $errors->first()
+            ]);
+        }
+
+        $loggedUser     = Auth::user();
+        $loggedUserId   = $loggedUser->id;
+        $orderRowId     = $validator->validated()['orderRowId'];
+
+        $id = "";
+
+        foreach ($orderRowId as $rowInfo) {
+            $orderRow     = OrderProduct::where(['id' => $rowInfo])->first();
+            $productOwner = Products::where(['id' => $orderRow->product_id, 'user_id' => $loggedUserId])->first();
+            $id = $orderRow->order_id;
+
+            if($productOwner && $orderRow) {
+                $orderRow->confirmed = 1;
+                $orderRow->save();
+            }
+        }
+
+        $counter      = OrderProduct::where(['order_id' => $id, "confirmed" => 0])->get()->count();
+        $order        = Order::where(['id' => $id])->first();
+
+        if ($counter == 0) {
+            $order->state     = 'termine';
+            $order->finished_at = now();
+            $order->save();
+        } else {
+            $order->state       = 'en cours';
+            $order->save();
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => "Commande confirmer"
+        ]);
+    }
 }

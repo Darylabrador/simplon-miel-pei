@@ -22,7 +22,7 @@ export default {
         return {
             search: '',
             detailDialog: false,
-            selectItem: null,
+            confirmDialog: false,
             headers: [
                 { text: 'Créer le', value: 'order.created_at', align: 'start', },
                 {
@@ -33,7 +33,8 @@ export default {
                 { text: 'Adresse de livraison', value: 'order.delivery' },
                 { text: 'Actions', value: 'actions', sortable: false },
             ],
-            orders: []
+            orders: [],
+            selectItem: null,
         }
     },
 
@@ -48,9 +49,16 @@ export default {
     methods: {
         refresh() {
             EventBus.$emit('refreshCommand')
+            this.confirmDialog = false;
+            this.detailDialog = false;
+            this.selectItem = null;
         },
         closeDetail() {
             this.detailDialog = false;
+            this.selectItem = null;
+        },
+        closeConfirm() {
+            this.confirmDialog = false;
             this.selectItem = null;
         },
         getImageUrl(image) {
@@ -69,7 +77,6 @@ export default {
             let ordersOrdered = _.orderBy(orders, ['order.id'], ['desc']);
             let ordersUnique  = _.uniqBy(ordersOrdered, 'order.id');
             this.orders = ordersUnique;
-            console.log(this.orders)
         },
         orderDateFormat(date) {
             return dateFormat(date, "paddedShortDate")
@@ -78,7 +85,26 @@ export default {
             this.detailDialog = true;
             let filtered = this.commands.filter(element => element.order.id == item.order.id)
             this.selectItem = filtered;
-            console.log(filtered)
+        },
+        openConfirm(item) {
+            this.confirmDialog = true;
+            let filtered = this.commands.filter(element => element.order.id == item.order.id)
+            this.selectItem = filtered;
+        },
+        async confirmManagement(){
+            try {
+                let orderRowId = [];
+                this.selectItem.forEach(element => {
+                    orderRowId.push(element.id)
+                })
+                await apiService.post(`${location.origin}/api/order/confirm`, { orderRowId });
+                await this.refresh();
+            } catch (error) {
+                this.flashMessage.error({
+                    title: "Order confirm error",
+                    time: 8000,
+                })
+            }
         }
     }
 }

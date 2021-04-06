@@ -76,7 +76,6 @@ export default {
                 const invoiceData = invoiceReq.data;
                 await this.downloadPDF(invoiceData, item.invoice.filename);
             } catch (error) {
-                console.log(error)
                 this.flashMessage.error({
                     title: "PDF error",
                     time: 8000,

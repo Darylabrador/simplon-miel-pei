@@ -1,5 +1,20 @@
 <template>
     <v-card elevation="6" outlined class="my-10" style="background-color: rgba(255, 255, 255, 0.8);">
+        <v-dialog v-model="confirmDialog" max-width="600">
+            <v-card class="py-5">
+                <div class="title mb-8">
+                    <h5 class="text-center"> Avez-vous pris en charge la commande et expédier les produits ? </h5>
+                </div>
+        
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn small class="grey darken-1 mr-3 white--text"  @click="closeConfirm">Non</v-btn>
+                    <v-btn small class="teal darken-1 white--text"  @click="confirmManagement">Oui</v-btn>
+                    <v-spacer></v-spacer>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+        
         <v-dialog v-model="detailDialog" max-width="600" v-if="selectItem != null">
             <v-card class="py-2" height="500">
                 <v-card-title class="headline mb-1">
@@ -27,18 +42,15 @@
                     <template v-slot:default>
                     <thead>
                         <tr>
-                        <th class="text-left">
-                            Impages
-                        </th>
-                        <th class="text-left">
-                            Noms
-                        </th>
-                        <th class="text-left">
-                            Quantités
-                        </th>
-                        <th class="text-left">  
-                          Actions
-                        </th>
+                            <th class="text-left">
+                                Images
+                            </th>
+                            <th class="text-left">
+                                Noms
+                            </th>
+                            <th class="text-left">
+                                Quantités
+                            </th>
                         </tr>
                     </thead>
                     <tbody v-if="selectItem != null">
@@ -49,7 +61,6 @@
                         <td><v-img class="my-2" width="50" height="50" :src="getImageUrl(item.product.image)"></v-img></td>
                         <td>{{ item.product.name }}</td>
                         <td>{{ item.quantity }}</td>
-                        <td> actions </td>
                         </tr>
                     </tbody>
                     </template>
@@ -90,6 +101,11 @@
                 <v-btn icon small class="transparent blue--text mr-1">
                     <v-icon @click="detailCommand(item)">
                         mdi-eye
+                    </v-icon>
+                </v-btn>
+                <v-btn icon small class="transparent green--text mr-1" :disabled="item.isOrderConfirm == 1">
+                    <v-icon @click="openConfirm(item)">
+                        mdi-check
                     </v-icon>
                 </v-btn>
             </template>
