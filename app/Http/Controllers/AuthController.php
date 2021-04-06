@@ -187,13 +187,6 @@ class AuthController extends Controller
         $user->confirmToken = $confirmToken;
         $user->save();
 
-        if($role == 2) {
-            Shoppingcart::create([
-                "confirmed" => false,
-                "user_id"   => $user->id,
-            ]);
-        }
-
         $url = request()->getSchemeAndHttpHost() . "/email/verification/" . $confirmToken;
         Mail::to($user->email)->send(new VerifyEmail($user->identity, $url));
 
