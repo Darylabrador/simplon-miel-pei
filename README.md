@@ -10,15 +10,30 @@ J'utilise ici :
 ## Compte de test :
 
 Identifiant admin : 
+
 - login : admin@gmail.com
 - mot de passe : password
 
 Identifiant d'un client :
+
 - login : client@gmail.com
 - mot de passe : password
 
-Identifiant d'un producteur
+Identifiant d'un producteur :
+
 - login : producteur@gmail.com
+- mot de passe : password
+
+- login : producteur2@gmail.com
+- mot de passe : password
+
+- login : producteur3@gmail.com
+- mot de passe : password
+
+- login : producteur4@gmail.com
+- mot de passe : password
+
+- login : producteur5@gmail.com
 - mot de passe : password
 
 ## Initialisation du projet
