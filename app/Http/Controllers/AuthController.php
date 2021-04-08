@@ -73,16 +73,14 @@ class AuthController extends Controller
         }
 
         $oldTentative = $userExist->tentatives;
-
         switch ($oldTentative) {
             case 3:
                 $userExist->tentatives = 4;
                 $userExist->save();
-
                 Mail::to($userExist->email)->later(now()->addMinutes(30), new NotificationUnlockedAccount());
                 $resetJob = (new ResetTentatives($userExist->id, $userExist->email))->delay(Carbon::now()->addMinutes(30));
                 dispatch($resetJob);
-
+                
                 $ip  = $_SERVER['REMOTE_ADDR'];
                 openlog('TEMAAS_AUTH', LOG_NDELAY, LOG_USER);
                 syslog(LOG_INFO, "L'utilisateur {$userExist->email} à atteint son nombre maximal de tentative de connexion depuis l'adresse IP {$ip} ! ");
@@ -103,13 +101,11 @@ class AuthController extends Controller
                 if (Hash::check($password, $userExist->password)) {
                     $userExist->tentatives = 0;
                     $userExist->save();
-                    
-                    // information about connection (security notification mail)
+                
                     $ip  = $_SERVER['REMOTE_ADDR'];
                     $now = now()->toDateString();
                     $datenow = new DateTime($now);
                     $datenowFormat = $datenow->format('d-m-Y');
-                    
                     Mail::to($userExist->email)->send(new LoginNotification($userExist->identity, $ip, $datenowFormat));
                     $token = $userExist->createToken('AuthToken')->accessToken;
             

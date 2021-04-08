@@ -170,7 +170,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // adding product to shoppingcart
-        for ($i = 0; $i < count($imageProd); $i++) {
+        for ($i = 0; $i < 2; $i++) {
             $index = $i + 1;
             Shoppingcart::create([
                 "quantity"     => $faker->numberBetween(1, 15),
