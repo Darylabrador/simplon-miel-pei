@@ -1,5 +1,9 @@
 <template>
   <v-toolbar color="grey darken-1" class="white--text" dark>
+
+    <passwordChange :dialog.sync="passwordChangeDialog" />,
+    <profil :dialog.sync="profilDialog" />
+
     <v-toolbar-title class="font-weight-bold d-flex align-center">
       <div>Miel Péi</div>
       <v-btn
