@@ -1,11 +1,11 @@
 <template>
   <v-toolbar color="grey darken-1" class="white--text" dark>
 
-    <passwordChange :dialog.sync="passwordChangeDialog" />,
+    <passwordChange :dialog.sync="passwordChangeDialog" />
     <profil :dialog.sync="profilDialog" />
 
-    <v-toolbar-title class="font-weight-bold d-flex align-center">
-      <div>Miel Péi</div>
+    <v-toolbar-title class="font-weight-medium d-flex align-center">
+      <div class="font-weight-medium"> Miel Péi</div>
       <v-btn
         icon
         class="mr-2"
@@ -23,7 +23,7 @@
       <v-btn
         small
         text
-        class="mr-2 hidden-sm-and-down"
+        class="mr-2 hidden-sm-and-down font-weight-medium"
         color="white"
         :to="produitsPath"
       >
@@ -32,7 +32,7 @@
       <v-btn
         small
         text
-        class="mr-2 hidden-sm-and-down"
+        class="mr-2 hidden-sm-and-down font-weight-medium"
         color="white"
         :to="producersPath"
       >
@@ -49,7 +49,7 @@
       >
         <v-badge
           :content="number"
-          class="dark--text font-weight-bold mr-4"
+          class="dark--text font-weight-medium mr-4"
           color="grey"
           v-if="number != 0"
         ></v-badge>
@@ -65,7 +65,7 @@
             </v-btn>
           </template>
           <v-list dense>
-            <v-list-item dense class="font-weight-bold" @click="goToManagement">
+            <v-list-item dense class="font-weight-medium" @click="goToManagement">
               Gestions comptes
             </v-list-item>
           </v-list>
@@ -78,7 +78,7 @@
           style="z-index: 500 !important"
         >
           <template v-slot:activator="{ on, attrs }">
-            <v-btn small text color="white" v-bind="attrs" v-on="on">
+            <v-btn small text color="white" v-bind="attrs" v-on="on"  class="font-weight-medium">
               <v-icon class="mr-1">mdi-clipboard-list</v-icon>
               Administrations
             </v-btn>
@@ -86,15 +86,15 @@
           <v-list dense>
             <v-list-item
               dense
-              class="font-weight-bold"
+              class="font-weight-medium"
               @click="goToExploitation"
             >
               Gestion exploitations
             </v-list-item>
-            <v-list-item dense class="font-weight-bold" @click="goToCommande">
+            <v-list-item dense class="font-weight-medium" @click="goToCommande">
               Gestion commandes
             </v-list-item>
-            <v-list-item dense class="font-weight-bold" @click="goToStock">
+            <v-list-item dense class="font-weight-medium" @click="goToStock">
               Gestion stock
             </v-list-item>
           </v-list>
@@ -104,25 +104,25 @@
       <div class="text-center hidden-sm-and-down">
         <v-menu offset-y left>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn small text color="white" v-bind="attrs" v-on="on">
+            <v-btn small text color="white" v-bind="attrs" v-on="on" class="font-weight-medium">
               <v-icon class="mr-1">mdi-clipboard-list</v-icon>
               espace client
             </v-btn>
           </template>
           <v-list dense>
-            <v-list-item dense class="font-weight-bold" @click="openProfil">
+            <v-list-item dense class="font-weight-medium" @click="openProfil">
               Profils
             </v-list-item>
             <v-list-item
               dense
-              class="font-weight-bold"
+              class="font-weight-medium"
               @click="openPasswordChange"
             >
               Mot de passe
             </v-list-item>
             <v-list-item
               dense
-              class="font-weight-bold"
+              class="font-weight-medium"
               @click="goToCommande"
               v-if="userRole === 2"
             >
@@ -152,27 +152,27 @@
             </v-btn>
           </template>
           <v-list dense>
-            <v-list-item dense class="font-weight-bold" :to="produitsPath">
+            <v-list-item dense class="font-weight-medium" :to="produitsPath">
               <v-icon class="mr-1">mdi-beehive-outline</v-icon> Nos miels
             </v-list-item>
-            <v-list-item dense class="font-weight-bold" :to="producersPath">
+            <v-list-item dense class="font-weight-medium" :to="producersPath">
               <v-icon class="mr-1">mdi-clipboard-list</v-icon> Nos producteurs
             </v-list-item>
             <v-list-item
               dense
-              class="font-weight-bold"
+              class="font-weight-medium"
               :to="panierPath"
               v-if="userRole == 2"
             >
               <v-badge
                 :content="number"
-                class="dark--text font-weight-bold mr-4"
+                class="dark--text font-weight-medium mr-4"
                 color="grey"
                 v-if="number != 0"
               ></v-badge>
               <v-icon class="mr-1">mdi-cart</v-icon> Mon panier
             </v-list-item>
-            <v-list-item dense class="font-weight-bold">
+            <v-list-item dense class="font-weight-medium">
               <v-menu offset-x left v-if="userRole === 1">
                 <template v-slot:activator="{ on, attrs }">
                   <span text v-bind="attrs" v-on="on">
@@ -183,7 +183,7 @@
                 <v-list dense>
                   <v-list-item
                     dense
-                    class="font-weight-bold"
+                    class="font-weight-medium"
                     @click="goToManagement"
                   >
                     Gestions comptes
@@ -192,7 +192,7 @@
               </v-menu>
 
               <v-menu offset-x left v-if="userRole === 3">
-                <template v-slot:activator="{ on, attrs }">
+                <template v-slot:activator="{ on, attrs }" class="font-weight-medium">
                   <span text v-bind="attrs" v-on="on">
                     <v-icon class="mr-1">mdi-clipboard-list</v-icon>
                     Administrations
@@ -201,21 +201,21 @@
                 <v-list dense>
                   <v-list-item
                     dense
-                    class="font-weight-bold"
+                    class="font-weight-medium"
                     @click="goToExploitation"
                   >
                     Gestion exploitations
                   </v-list-item>
                   <v-list-item
                     dense
-                    class="font-weight-bold"
+                    class="font-weight-medium"
                     @click="goToCommande"
                   >
                     Gestion commandes
                   </v-list-item>
                   <v-list-item
                     dense
-                    class="font-weight-bold"
+                    class="font-weight-medium"
                     @click="goToStock"
                   >
                     Gestion stock
@@ -223,7 +223,7 @@
                 </v-list>
               </v-menu>
             </v-list-item>
-            <v-list-item dense class="font-weight-bold" @click="disconnect">
+            <v-list-item dense class="font-weight-medium" @click="disconnect">
               <v-icon class="mr-1">mdi-exit-to-app</v-icon> Deconnexion
             </v-list-item>
           </v-list>
@@ -237,7 +237,7 @@
       <v-btn
         small
         text
-        class="mr-2 hidden-sm-and-down"
+        class="mr-2 hidden-sm-and-down font-weight-medium"
         color="white"
         :to="produitsPath"
       >
@@ -246,7 +246,7 @@
       <v-btn
         small
         text
-        class="mr-2 hidden-sm-and-down"
+        class="mr-2 hidden-sm-and-down font-weight-medium"
         color="white"
         :to="producersPath"
       >
@@ -255,13 +255,13 @@
       <v-btn
         small
         text
-        class="mr-2 hidden-sm-and-down"
+        class="mr-2 hidden-sm-and-down font-weight-medium"
         color="white"
         :to="panierPath"
       >
         <v-badge
           :content="number"
-          class="dark--text font-weight-bold mr-4"
+          class="dark--text font-weight-medium mr-4"
           color="grey"
           v-if="number != 0"
         ></v-badge>
@@ -270,7 +270,7 @@
       <v-btn
         small
         text
-        class="mr-2 hidden-sm-and-down"
+        class="mr-2 hidden-sm-and-down font-weight-medium"
         color="white"
         :to="loginPath"
       >
@@ -287,22 +287,22 @@
             </v-btn>
           </template>
           <v-list dense>
-            <v-list-item dense class="font-weight-bold" :to="produitsPath">
+            <v-list-item dense class="font-weight-medium" :to="produitsPath">
               <v-icon class="mr-1">mdi-beehive-outline</v-icon> Nos miels
             </v-list-item>
-            <v-list-item dense class="font-weight-bold" :to="producersPath">
+            <v-list-item dense class="font-weight-medium" :to="producersPath">
               <v-icon class="mr-1">mdi-clipboard-list</v-icon> Nos producteurs
             </v-list-item>
-            <v-list-item dense class="font-weight-bold" :to="panierPath">
+            <v-list-item dense class="font-weight-medium" :to="panierPath">
               <v-badge
                 :content="number"
-                class="dark--text font-weight-bold mr-4"
+                class="dark--text font-weight-medium mr-4"
                 color="grey"
                 v-if="number != 0"
               ></v-badge>
               <v-icon class="mr-1">mdi-cart</v-icon> Mon panier
             </v-list-item>
-            <v-list-item dense class="font-weight-bold" :to="loginPath">
+            <v-list-item dense class="font-weight-medium" :to="loginPath">
               <v-icon class="mr-1">mdi-account</v-icon> Connexion
             </v-list-item>
           </v-list>

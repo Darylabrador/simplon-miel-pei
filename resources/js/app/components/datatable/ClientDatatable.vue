@@ -22,13 +22,13 @@
                     <template v-slot:default>
                     <thead>
                         <tr>
-                        <th class="text-left">
+                        <th class="text-left font-weight-medium">
                             Noms
                         </th>
-                        <th class="text-left">
+                        <th class="text-left font-weight-medium">
                             Prix
                         </th>
-                        <th class="text-left">
+                        <th class="text-left font-weight-medium">
                             Quantités
                         </th>
                         </tr>
@@ -38,9 +38,9 @@
                         v-for="item in selectItem.invoice.lines"
                         :key="item.id"
                         >
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.price }}</td>
-                        <td>{{ item.quantity }}</td>
+                        <td class="font-weight-medium">{{ item.name }}</td>
+                        <td class="font-weight-medium">{{ item.price }}</td>
+                        <td class="font-weight-medium">{{ item.quantity }}</td>
                         </tr>
                     </tbody>
                     </template>
@@ -50,7 +50,7 @@
 
         <v-row  no-gutters class="pt-8">
             <v-col cols="11" class="d-flex justify-center">
-                <h2 class="title font-weight-bold "> Mes commandes </h2>
+                <h2 class="font-weight-medium"> Mes commandes </h2>
             </v-col>
             <v-col class="d-flex justify-center">
                 <v-btn icon small class="transparent blue--text">

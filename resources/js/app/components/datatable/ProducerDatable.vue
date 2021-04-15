@@ -2,14 +2,14 @@
     <v-card elevation="6" outlined class="my-10" style="background-color: rgba(255, 255, 255, 0.8);">
         <v-dialog v-model="confirmDialog" max-width="600">
             <v-card class="py-5">
-                <div class="title mb-8">
-                    <h5 class="text-center"> Avez-vous pris en charge la commande et expédier les produits ? </h5>
+                <div class="mb-8">
+                    <h5 class="text-center font-weight-medium"> Avez-vous pris en charge la commande et expédier les produits ? </h5>
                 </div>
         
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn small class="grey darken-1 mr-3 white--text"  @click="closeConfirm">Non</v-btn>
-                    <v-btn small class="teal darken-1 white--text"  @click="confirmManagement">Oui</v-btn>
+                    <v-btn small class="grey darken-1 mr-3 white--text font-weight-medium"  @click="closeConfirm">Non</v-btn>
+                    <v-btn small class="teal darken-1 white--text font-weight-medium"  @click="confirmManagement">Oui</v-btn>
                     <v-spacer></v-spacer>
                 </v-card-actions>
             </v-card>
@@ -20,7 +20,7 @@
                 <v-card-title class="headline mb-1">
                     <v-row no-gutters class="pl-8 mt-1 ml-6">
                         <v-col xs="10" sm="10" md="10" lg="10" xl="10">
-                            <h5 class="text-center">Confirmez les produits  </h5>
+                            <h5 class="text-center font-weight-medium">Confirmez les produits  </h5>
                         </v-col>
                         <v-col class="d-flex justify-end align-center">
                         <v-btn icon @click="closeDetail"> 
@@ -31,8 +31,8 @@
                 </v-card-title>
 
                 <div class="pl-2 my-4">
-                    <h6> Adresse de livraison : <span class="font-weight-light"> {{ selectItem[0].order.delivery }} </span>  </h6>
-                    <h6> Adresse de facturation : <span class="font-weight-light">  {{ selectItem[0].order.billing }} </span> </h6>
+                    <h6 class="font-weight-medium"> Adresse de livraison : <span class="font-weight-light"> {{ selectItem[0].order.delivery }} </span>  </h6>
+                    <h6 class="font-weight-medium"> Adresse de facturation : <span class="font-weight-light">  {{ selectItem[0].order.billing }} </span> </h6>
                 </div>
 
                 <v-simple-table
@@ -42,13 +42,13 @@
                     <template v-slot:default>
                     <thead>
                         <tr>
-                            <th class="text-left">
+                            <th class="text-left font-weight-light">
                                 Images
                             </th>
-                            <th class="text-left">
+                            <th class="text-left font-weight-light">
                                 Noms
                             </th>
-                            <th class="text-left">
+                            <th class="text-left font-weight-light">
                                 Quantités
                             </th>
                         </tr>
@@ -71,7 +71,7 @@
        
         <v-row  no-gutters class="pt-8">
             <v-col cols="11" class="d-flex justify-center">
-                <h2 class="title font-weight-bold "> Mes commandes </h2>
+                <h2 class="font-weight-medium"> Mes commandes </h2>
             </v-col>
             <v-col class="d-flex justify-center">
                 <v-btn icon small class="transparent blue--text">

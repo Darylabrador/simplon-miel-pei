@@ -8,8 +8,8 @@
         
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn small class="grey darken-1 mr-3 white--text"  @click="closeDelete">Annuler</v-btn>
-                    <v-btn small class="red white--text" @click="deleteProd">Supprimer</v-btn>
+                    <v-btn small class="grey darken-1 mr-3 white--text font-weight-medium"  @click="closeDelete">Annuler</v-btn>
+                    <v-btn small class="red white--text font-weight-medium" @click="deleteProd">Supprimer</v-btn>
                     <v-spacer></v-spacer>
                 </v-card-actions>
             </v-card>
@@ -20,7 +20,7 @@
                 <v-card-title class="headline mb-1">
                     <v-row no-gutters class="pl-8 mt-1 ml-6">
                         <v-col xs="10" sm="10" md="10" lg="10" xl="10">
-                            <h5 class="text-center"> Ajout d'un produit </h5>
+                            <h4 class="text-center font-weight-medium"> Ajout d'un produit </h4>
                         </v-col>
                         <v-col class="d-flex justify-end align-center">
                         <v-btn icon @click="closeAddProd"> 
@@ -92,8 +92,8 @@
               
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn small class="grey darken-1 mr-3 white--text"  @click="closeAddProd">Annuler</v-btn>
-                    <v-btn small class="teal darken-1 white--text"  @click="addProduct">Ajouter</v-btn>
+                    <v-btn small class="grey darken-1 mr-3 white--text font-weight-medium"  @click="closeAddProd">Annuler</v-btn>
+                    <v-btn small class="teal darken-1 white--text font-weight-medium"  @click="addProduct">Ajouter</v-btn>
                     <v-spacer></v-spacer>
                 </v-card-actions>
             </v-card>
@@ -106,7 +106,7 @@
                 <v-card-title class="headline mb-1">
                     <v-row no-gutters class="pl-8 mt-1 ml-6">
                         <v-col xs="10" sm="10" md="10" lg="10" xl="10">
-                            <h5 class="text-center"> Modification d'un produit </h5>
+                            <h4 class="text-center font-weight-medium"> Modification d'un produit </h4>
                         </v-col>
                         <v-col class="d-flex justify-end align-center">
                         <v-btn icon @click="closeEditProd"> 
@@ -166,8 +166,8 @@
               
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn small class="grey darken-1 mr-3 white--text"  @click="closeEditProd">Annuler</v-btn>
-                    <v-btn small class="teal darken-1 white--text"  @click="editProd">Modifier</v-btn>
+                    <v-btn small class="grey darken-1 mr-3 white--text font-weight-medium"  @click="closeEditProd">Annuler</v-btn>
+                    <v-btn small class="teal darken-1 white--text font-weight-medium"  @click="editProd">Modifier</v-btn>
                     <v-spacer></v-spacer>
                 </v-card-actions>
             </v-card>
@@ -178,7 +178,7 @@
                 <v-card-title class="headline mb-1">
                     <v-row no-gutters class="pl-8 mt-1 ml-6">
                         <v-col xs="10" sm="10" md="10" lg="10" xl="10">
-                            <h5 class="text-center"> Modification du stock </h5>
+                            <h4 class="text-center font-weight-medium"> Modification du stock </h4>
                         </v-col>
                         <v-col class="d-flex justify-end align-center">
                             <v-btn icon @click="closeEditStok"> 
@@ -211,8 +211,8 @@
 
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn small class="grey darken-1 mr-3 white--text"  @click="closeEditStok">Annuler</v-btn>
-                    <v-btn small class="teal darken-1 white--text"  @click="editStock">Modifier</v-btn>
+                    <v-btn small class="grey darken-1 mr-3 white--text font-weight-medium"  @click="closeEditStok">Annuler</v-btn>
+                    <v-btn small class="teal darken-1 white--text font-weight-medium"  @click="editStock">Modifier</v-btn>
                     <v-spacer></v-spacer>
                 </v-card-actions>
             </v-card>
@@ -221,7 +221,7 @@
         <v-card elevation="6" outlined class="my-10" style="background-color: rgba(255, 255, 255, 0.8);">
             <v-row  no-gutters class="pt-8">
                 <v-col cols="11" class="d-flex justify-center">
-                    <h2 class="title font-weight-bold "> Gestion stock </h2>
+                    <h2 class="font-weight-medium "> Gestion stock </h2>
                 </v-col>
                 <v-col class="d-flex justify-center">
                     <v-btn icon small class="transparent green--text mr-2" @click="openAdd()">
@@ -259,7 +259,9 @@
                 </template>
 
                 <template v-slot:item.price="{ item }">
-                    {{ item.price }} €
+                    <span class="font-weight-light">
+                        {{ item.price }} €
+                    </span>
                 </template>
 
                 <template v-slot:item.quantity="{ item }">
@@ -267,6 +269,7 @@
                         v-if="inStock(item.quantity)"
                         color="blue"
                         dark
+                        class="font-weight-light"
                     >
                         {{ item.quantity }}
                     </v-chip>
@@ -275,6 +278,7 @@
                         v-else
                         color="red"
                         dark
+                        class="font-weight-light"
                     >
                         Stock épuisé
                     </v-chip>

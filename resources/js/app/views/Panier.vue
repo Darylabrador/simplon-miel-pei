@@ -18,7 +18,7 @@
         </v-dialog>
 
         <section class="mt-10">
-            <h3 class="text-center"> Mon panier </h3>
+            <h2 class="text-center font-weight-medium"> Mon panier </h2>
             <v-divider light class="mx-auto mt-2 dividerStyle"></v-divider>
         </section>
 
@@ -38,7 +38,7 @@
                                     </v-col>
                                     <v-col>
                                         <v-row no-gutters class="mt-5 d-flex align-center">
-                                            <v-col class="text-center font-weight-bold" cols="10" >
+                                            <v-col class="text-center font-weight-light fontShadow2" cols="10" >
                                                 {{ prod.name }} 
                                             </v-col>
                                             <v-col cols="1" class="text-left">
@@ -46,13 +46,13 @@
                                             </v-col>
                                         </v-row>
                                         <v-row no-gutters class="mt-10 mr-4">
-                                            <v-col class="text-center mt-2">
+                                            <v-col class="text-center mt-2 font-weight-medium">
                                                 Prix : {{ prod.price }} €
                                             </v-col>
                                             <v-col cols="4" class="text-left" v-if="inStock(prod.maxQuantity)">
                                                 <v-text-field v-model="prod.amountDefault" required type="number" label="Quantité" dense outlined :value="prod.amountDefault" :max="prod.maxQuantity" min="0" @input="changeQuantity()"> </v-text-field>
                                             </v-col>
-                                             <v-col class="text-left red--text font-weight-bold" v-else>
+                                             <v-col class="text-left red--text font-weight-medium mt-2" v-else>
                                                Stock épuisé
                                             </v-col>
                                         </v-row>
@@ -85,7 +85,7 @@
                 </v-col>
             </v-row>
             <div v-else>
-                <h3 class="text-center headline font-weight-medium text-uppercase"> Votre panier est vide !</h3>
+                <h3 class="text-center fontShadow font-weight-medium text-uppercase"> Votre panier est vide !</h3>
             </div>
         </section>
     </v-container>

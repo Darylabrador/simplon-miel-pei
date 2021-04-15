@@ -10,7 +10,7 @@
 
       <v-footer dark padless>
       <v-card class="flex grey darken-1" flat tile>
-        <v-card-text class="py-2 white--text text-center">
+        <v-card-text class="py-2 white--text text-center font-weight-light">
            © Copyright {{ new Date().getFullYear() }} — <strong>Daryl ABRADOR</strong>
         </v-card-text>
       </v-card>
