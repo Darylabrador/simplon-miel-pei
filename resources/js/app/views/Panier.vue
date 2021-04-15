@@ -69,17 +69,17 @@
                         max-width="344"
                     >
                         <v-card-text class="mb-5">
-                            <h2 class="font-weight-bold text-center">Commandes</h2>
+                            <h2 class="font-weight-medium text-center">Commandes</h2>
                         </v-card-text>
                         <div class="px-3">
-                            <v-text-field outlined clearable v-model="billing" :rules="billingRules"  label="Adresse de livraison" required class="mb-2"></v-text-field>
-                            <v-text-field outlined clearable v-model="delivery" :rules="deliveryRules"  label="Adresse de facturation" required></v-text-field>
+                            <v-text-field outlined clearable v-model="billing" :rules="billingRules" color="yellow darken-3" label="Adresse de livraison" required class="mb-2"></v-text-field>
+                            <v-text-field outlined clearable v-model="delivery" :rules="deliveryRules" color="yellow darken-3" label="Adresse de facturation" required></v-text-field>
                         </div>
                         
-                        <h4 class="text-center mb-5 font-weight-bold"> Total TTC : {{ totalTTC }} € </h4>
+                        <h4 class="text-center mb-5 font-weight-medium"> Total TTC : {{ totalTTC }} € </h4>
                         
                         <div  class="d-flex justify-center pb-4">
-                            <v-btn color="grey darken-1" class="white--text" @click="validate" :disabled="!valid"> Passer commande </v-btn>
+                            <v-btn class="btnColor" @click="validate" :disabled="!valid"> Passer commande </v-btn>
                         </div>
                     </v-card>
                 </v-col>

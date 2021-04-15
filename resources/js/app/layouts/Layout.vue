@@ -8,8 +8,8 @@
       <router-view></router-view>
     </v-main>
 
-      <v-footer dark padless>
-      <v-card class="flex grey darken-1" flat tile>
+      <v-footer padless>
+      <v-card class="flex navColor" flat tile>
         <v-card-text class="py-2 white--text text-center font-weight-light">
            © Copyright {{ new Date().getFullYear() }} — <strong>Daryl ABRADOR</strong>
         </v-card-text>

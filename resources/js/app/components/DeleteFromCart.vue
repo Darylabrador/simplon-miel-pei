@@ -13,7 +13,7 @@
       </template>
 
       <v-card>
-        <h4 class="text-center py-5">Voulez-vous vraiment supprimer ce produit de votre panier ?</h4>
+        <h4 class="text-center py-5 font-weight-medium">Voulez-vous vraiment supprimer ce produit de votre panier ?</h4>
         <div class="d-flex justify-center mt-5 pb-5">
             <v-btn color="grey darken-1 white--text mx-5" @click="dialog = false">
                 Annuler

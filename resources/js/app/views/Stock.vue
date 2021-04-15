@@ -45,6 +45,7 @@
                         hide-details
                         label="Nom du produit"
                         :rules="prodNameRules"
+                        color="yellow darken-3"
                         ></v-text-field>
                     </v-col>
                 </v-row>
@@ -60,6 +61,7 @@
                         min="0"
                         label="Prix"
                         :rules="prodPriceRules"
+                        color="yellow darken-3"
                         ></v-text-field>
                     </v-col>
                 </v-row>
@@ -74,6 +76,7 @@
                         hide-details
                         min="0"
                         label="Quantité"
+                        color="yellow darken-3"
                         ></v-text-field>
                     </v-col>
                 </v-row>
@@ -86,6 +89,7 @@
                             accept="image/png, image/jpeg, image/jpg"
                             label="Selectionner votre image"
                             clearable
+                            color="yellow darken-3"
                         ></v-file-input>
                     </v-col>
                 </v-row>
@@ -132,6 +136,7 @@
                         hide-details
                         label="Nom du produit"
                         :rules="prodNameRules"
+                        color="yellow darken-3"
                         ></v-text-field>
                     </v-col>
                 </v-row>
@@ -148,6 +153,7 @@
                         min="0"
                         label="Prix"
                         :rules="prodPriceRules"
+                        color="yellow darken-3"
                         ></v-text-field>
                     </v-col>
                 </v-row>
@@ -160,6 +166,7 @@
                             accept="image/png, image/jpeg, image/jpg"
                             label="Selectionner votre image"
                             clearable
+                            color="yellow darken-3"
                         ></v-file-input>
                     </v-col>
                 </v-row>
@@ -205,6 +212,7 @@
                         hide-no-data
                         hide-details
                         min="0"
+                        color="yellow darken-3"
                         ></v-text-field>
                     </v-col>
                 </v-row>
@@ -244,6 +252,7 @@
                     label="Search"
                     single-line
                     hide-details
+                    color="yellow darken-3"
                 ></v-text-field>
             </v-card-title>
             <v-data-table

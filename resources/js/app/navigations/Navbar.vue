@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar color="grey darken-1" class="white--text" dark>
+  <v-toolbar class="white--text navColor" dark>
 
     <passwordChange :dialog.sync="passwordChangeDialog" />
     <profil :dialog.sync="profilDialog" />
@@ -50,7 +50,7 @@
         <v-badge
           :content="number"
           class="dark--text font-weight-medium mr-4"
-          color="grey"
+          color="yellow darken-2"
           v-if="number != 0"
         ></v-badge>
         <v-icon class="mr-1">mdi-cart</v-icon> mon panier
@@ -167,7 +167,7 @@
               <v-badge
                 :content="number"
                 class="dark--text font-weight-medium mr-4"
-                color="grey"
+                 color="yellow darken-2"
                 v-if="number != 0"
               ></v-badge>
               <v-icon class="mr-1">mdi-cart</v-icon> Mon panier
@@ -262,7 +262,7 @@
         <v-badge
           :content="number"
           class="dark--text font-weight-medium mr-4"
-          color="grey"
+          color="yellow darken-2"
           v-if="number != 0"
         ></v-badge>
         <v-icon class="mr-1">mdi-cart</v-icon> mon panier
@@ -297,7 +297,7 @@
               <v-badge
                 :content="number"
                 class="dark--text font-weight-medium mr-4"
-                color="grey"
+                color="yellow darken-2"
                 v-if="number != 0"
               ></v-badge>
               <v-icon class="mr-1">mdi-cart</v-icon> Mon panier

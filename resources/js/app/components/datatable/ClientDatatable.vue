@@ -68,6 +68,7 @@
                 label="Search"
                 single-line
                 hide-details
+                color="yellow darken-3"
             ></v-text-field>
         </v-card-title>
             <v-data-table

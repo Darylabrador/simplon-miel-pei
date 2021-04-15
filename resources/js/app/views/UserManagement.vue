@@ -52,6 +52,7 @@
                             item-text="label"
                             item-value="id"
                             :value="editedItem.role.id"
+                            color="yellow darken-3"
                         ></v-select>
                     </v-col>
                 </v-row>
@@ -98,6 +99,7 @@
                             hide-no-data
                             hide-details
                             :rules="emailRules"
+                            color="yellow darken-3"
                         ></v-text-field>
                         </v-form>
                     </v-col>

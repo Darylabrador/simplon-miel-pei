@@ -20,7 +20,7 @@
                                         <div> Description: <br> {{ producteur.exploitations[0].description }} </div>
                                     </v-card-text>
                                     <div class="d-flex justify-center align-center pb-5 font-weight-light" style="position: absolute; bottom: 0; left: 50%; right: 50%;">
-                                        <v-btn class="font-weight-light" small color="primary" dark :to="'/producteur/' + producteur.id"> Voir les produits </v-btn>
+                                        <v-btn class="font-weight-normal btnColor" small :to="'/producteur/' + producteur.id"> Voir les produits </v-btn>
                                     </div>
                                 </v-card>
                             </v-col>
