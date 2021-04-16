@@ -16,6 +16,7 @@
                                     {{ product.price }} €
                                 </div>
                             </v-card-text>
+                            <addToCart :mielInfo="miel" v-if="userRole == 2 || userRole == null" />
                         </v-card>
                     </v-col>
                 </v-row>

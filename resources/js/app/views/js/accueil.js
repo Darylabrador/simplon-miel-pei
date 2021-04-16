@@ -1,3 +1,4 @@
+import AddToCart from '../../components/AddToCart.vue';
 import { apiService } from '../../services/apiService.js';
 import { latLng, Icon } from "leaflet";
 import { LMap, LTileLayer, LMarker, LControl, LPopup, LTooltip, LIcon } from 'vue2-leaflet';
@@ -19,6 +20,7 @@ export default {
         LPopup,
         LTooltip,
         LIcon,
+        AddToCart
     },
 
     props: {

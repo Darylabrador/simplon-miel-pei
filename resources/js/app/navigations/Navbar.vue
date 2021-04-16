@@ -279,7 +279,7 @@
       <!-- end desktop menu -->
 
       <!-- start mobile menu -->
-      <div class="hidden-sm-and-up">
+      <div class="hidden-md-and-up">
         <v-menu offset-y left>
           <template v-slot:activator="{ on, attrs }">
             <v-btn text color="white" v-bind="attrs" v-on="on">
