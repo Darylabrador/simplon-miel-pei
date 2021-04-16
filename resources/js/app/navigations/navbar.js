@@ -38,7 +38,10 @@ export default {
             number: _.uniqBy(this.$store.state.cart, 'id').length,
             userRole: this.$store.state.userRole,
             profilDialog: false,
-            passwordChangeDialog: false
+            passwordChangeDialog: false,
+            totalTTC: 0,
+            miels: [],
+            productArray: [],
         }
     },
 
@@ -51,10 +54,63 @@ export default {
     },
 
     methods: {
+        startingData() {
+            let cartInfo = this.$store.state.cart;
+            let cartOrderById = _.orderBy(cartInfo, ['id'], ['asc']);
+            let cartUniq = _.uniqBy(cartOrderById, 'id');
+            this.productArray = cartUniq;
+
+            let total = 0;
+            cartUniq.forEach(prod => {
+                total += (prod.amountDefault * prod.price);
+            });
+
+            this.totalTTC = total;
+        },
+        compareStock() {
+            this.miels.forEach(prod => {
+                let sameElement = this.productArray.find(element => element.id == prod.id);
+                if (sameElement) {
+                    sameElement.inStock = true;
+                    sameElement.maxQuantity = prod.quantity;
+                    if (sameElement.amountDefault >= prod.quantity) {
+                        sameElement.amountDefault = prod.quantity;
+                    }
+
+                    if (prod.quantity == 0) {
+                        sameElement.inStock = false;
+                    }
+                }
+            });
+        },
+        async getProds() {
+            try {
+                const prodReq = await apiService.get(`${location.origin}/api/miels`);
+                const mielData = prodReq.data.data;
+                this.miels = mielData;
+                await this.compareStock();
+            } catch (error) {
+                this.flashMessage.error({
+                    title: error.msg,
+                    time: 8000,
+                })
+            }
+        },
+        async saveCart() {
+            try {
+                if (this.productArray.length != 0) {
+                    await apiService.post(`${location.origin}/api/shoppingcart/save`, { cart: this.productArray });
+                }
+            } catch (error) {
+                console.error(error)
+            }
+        },
         async disconnect() {
             try {
                 if(this.userRole == 2) {
-                    await EventBus.$emit('dataShopping');
+                    await this.startingData();
+                    await this.getProds();
+                    await this.saveCart();
                 }
 
                 const disconnectReq = await apiService.get(`${location.origin}/api/logout`);

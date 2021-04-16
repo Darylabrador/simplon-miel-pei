@@ -25,12 +25,6 @@ export default {
                 }
             });
         }
-
-        EventBus.$on('dataShopping', (payload) => {
-            this.startingData();
-            this.getProds();
-            this.saveCart();
-        })
         
         EventBus.$on('refreshCart', (payload) => {
             this.startingData();
