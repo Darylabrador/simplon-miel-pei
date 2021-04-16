@@ -53,13 +53,17 @@ export default {
     methods: {
         async disconnect() {
             try {
+                if(this.userRole == 2) {
+                    await EventBus.$emit('dataShopping');
+                }
+
                 const disconnectReq = await apiService.get(`${location.origin}/api/logout`);
                 const disconnectData = disconnectReq.data;
                 if (disconnectData.success) {
-                    this.$store.commit('disconnect');
-                    localStorage.removeItem('mielTok');
-                    EventBus.$emit('updateNavbar', false);
-                    EventBus.$emit('defaultData', true);
+                    await EventBus.$emit('defaultData', true);
+                    await EventBus.$emit('updateNavbar', false);
+                    await this.$store.commit('disconnect');
+                    await localStorage.removeItem('mielTok');
                     this.connected = false;
                     this.userRole = null;
                     this.number = _.uniqBy(this.$store.state.cart, 'id').length;
@@ -69,10 +73,10 @@ export default {
                     }
                 }
             } catch (error) {
-                this.$store.commit('disconnect');
-                localStorage.removeItem('mielTok');
-                EventBus.$emit('updateNavbar', false);
-                EventBus.$emit('defaultData', true);
+                await EventBus.$emit('defaultData', true);
+                await EventBus.$emit('updateNavbar', false);
+                await this.$store.commit('disconnect');
+                await localStorage.removeItem('mielTok');
                 this.connected = false;
                 this.userRole = null;
                 this.number = _.uniqBy(this.$store.state.cart, 'id').length;
