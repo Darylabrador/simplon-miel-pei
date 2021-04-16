@@ -35,7 +35,8 @@ export default {
             markers: [],
             bestProds: [],
             loading: false,
-            defaultOrigin: location.origin
+            defaultOrigin: location.origin,
+            userRole: this.$store.state.userRole
         }
     },
 
