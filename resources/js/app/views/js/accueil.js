@@ -18,7 +18,7 @@ export default {
         LControl, 
         LPopup,
         LTooltip,
-        LIcon
+        LIcon,
     },
 
     props: {
